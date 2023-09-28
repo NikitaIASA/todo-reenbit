@@ -1,25 +1,18 @@
-import React, { useState } from "react";
-
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { addTodo } from "@/redux/actions/todoAction";
-import { getCurrentDate, getEndDate } from "@/helpers/getDate";
+import { FC } from "react";
 
 import "./TodoInput.scss";
 
-export const TodoInput: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const [title, setTitle] = useState("");
-  const [startDate, setStartDate] = useState(getCurrentDate());
-  const [endDate, setEndDate] = useState(getEndDate());
+interface TodoInputProps {
+  title: string;
+  setTitle: (title: string) => void;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+}
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      dispatch(addTodo({ id: 5, title, startDate, endDate }));
-      setTitle("");
-      setStartDate(getCurrentDate());
-      setEndDate(getEndDate());
-    }
-  };
+export const TodoInput: FC<TodoInputProps> = ({
+  title,
+  setTitle,
+  handleKeyDown,
+}) => {
 
   return (
     <input
