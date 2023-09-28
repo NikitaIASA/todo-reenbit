@@ -12,7 +12,7 @@ interface ToDoDashboardProps {
 export const ToDoDashboard: FC<ToDoDashboardProps> = ({ items }) => {
   return (
     <div className="todo-dashboard">
-      {items && items.map((item) => <TodoItem item={item} />)}
+      {items && items.map((item) => <TodoItem key={item.id} item={item} />)}
     </div>
   );
 };
