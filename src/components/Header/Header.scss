@@ -1,0 +1,21 @@
+@import "@/scss/index.scss";
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  color: $white;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  &__text {
+    font-size: 40px;
+    font-weight: 400;
+  }
+}
