@@ -1,0 +1,16 @@
+@import "@/scss/index.scss";
+
+.todo-input {
+  width: 50%;
+  padding: 1rem;
+  max-height: 2.5rem;
+  min-width: 15rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #e1ebfd;
+
+  &::placeholder {
+    font-size: 1.25rem;
+  }
+  
+}
