@@ -3,13 +3,9 @@
 .todo-input {
   width: 760px;
   padding: 1rem;
-  max-height: 2.5rem;
+  max-height: 3rem;
   border: none;
   border-radius: 5px;
   background-color: #e1ebfd;
-
-  &::placeholder {
-    font-size: 1.25rem;
-  }
-  
+  font-size: 1.25rem;  
 }
