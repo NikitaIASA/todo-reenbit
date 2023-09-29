@@ -24,7 +24,7 @@ export const Home: FC = () => {
   const todoItems = useSelector(selectTodoItems);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && title.trim() !== "") {
       dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate }));
       setTitle("");
       setStartDate(getCurrentDate())
