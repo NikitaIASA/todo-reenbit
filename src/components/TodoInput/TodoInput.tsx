@@ -22,6 +22,7 @@ export const TodoInput: FC<TodoInputProps> = ({
       value={title}
       onChange={(e) => setTitle(e.target.value)}
       onKeyDown={handleKeyDown}
+      maxLength={75}
     />
   );
 };
