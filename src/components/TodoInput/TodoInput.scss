@@ -7,5 +7,13 @@
   border: none;
   border-radius: 5px;
   background-color: #e1ebfd;
-  font-size: 1.25rem;  
+  font-size: 1.25rem;
+
+  @include onBig-tablet {
+    width: 500px;
+  }
+
+  @include onMobile {
+    width: 300px;
+  }
 }

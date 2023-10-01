@@ -18,4 +18,9 @@
     font-size: 40px;
     font-weight: 400;
   }
+
+  @include onMobile {
+    flex-direction: column;
+  }
+  
 }
