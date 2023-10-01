@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import { useSelector } from "react-redux";
 
 import Container from "../Container";
 import Header from "../Header";
@@ -10,7 +9,9 @@ import AddTodoModal from "../AddTodoModal";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
 import { getUniqueId } from "@/helpers/getUniqueId";
+import { isValid } from "@/helpers/isValid";
 import { addTodo } from "@/redux/actions/todoAction";
 
 import "./Home.scss";
@@ -18,46 +19,79 @@ import "./Home.scss";
 export const Home: FC = () => {
   const dispatch = useAppDispatch();
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [validationMessage, setValidationMessage] = useState("");
+  const [modalValidationMessage, setModalValidationMessage] = useState("");
   const [title, setTitle] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
   const [startDate, setStartDate] = useState(getCurrentDate());
   const [endDate, setEndDate] = useState(getEndDate());
-  const todoItems = useSelector(selectTodoItems);
+  const todoItems = useAppSelector(selectTodoItems);
+
+  const resetData = () => {
+    setTitle("");
+    setStartDate(getCurrentDate());
+    setEndDate(getEndDate());
+    setValidationMessage("");
+    setModalValidationMessage("");
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && title.trim() !== "") {
-      dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate }));
-      setTitle("");
-      setStartDate(getCurrentDate())
-      setEndDate(getEndDate());
+      if (isValid(title)) {
+        dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate }));
+        resetData();
+      } else {
+        setValidationMessage("No special symbols allowed");
+      }
     }
   };
 
   const handleSave = () => {
-    dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate }));
+    if (isValid(modalTitle)) {
+      const title = modalTitle;
+      dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate }));
+      setIsOpenModal(false);
+      resetData();
+    } else {
+      setModalValidationMessage("No special symbols allowed");
+    }
+  };
+
+  const handleClose = () => {
     setIsOpenModal(false);
-    setTitle("");
+    resetData();
   };
 
   return (
     <Container>
       <Header />
       <main className="main">
-        <div className="input-container">
-          <TodoInput
-            title={title}
-            setTitle={setTitle}
-            handleKeyDown={handleKeyDown}
-          />
-          <AddTodoButton onAddTodoButtonClick={() => setIsOpenModal(true)} />
+        <div className="enter-block">
+          <div className="input-container">
+            <TodoInput
+              title={title}
+              setTitle={setTitle}
+              handleKeyDown={handleKeyDown}
+            />
+            <AddTodoButton onAddTodoButtonClick={() => {
+              setIsOpenModal(true);
+              setModalTitle(title);
+            }} />
+          </div>
+          {validationMessage && (
+            <p className="validation-message">{validationMessage}</p>
+          )}
         </div>
         <ToDoDashboard items={todoItems} />
       </main>
       {isOpenModal && (
         <AddTodoModal
-          title={title}
-          setTitle={setTitle}
+          title={modalTitle}
+          validationMessage={modalValidationMessage}
+          setTitle={setModalTitle}
           setEndDate={setEndDate}
-          onClose={() => setIsOpenModal(false)}
+          setValidationMessage={setModalValidationMessage}
+          onClose={handleClose}
           onSave={handleSave}
         />
       )}
