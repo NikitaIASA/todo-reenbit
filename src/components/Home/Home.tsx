@@ -57,7 +57,12 @@ export const Home: FC = () => {
     }
   };
 
-  const handleClose = () => {
+  const handleModalOpen = () => {
+    setIsOpenModal(true);
+    setModalTitle(title);
+  };
+
+  const handleModalClose = () => {
     setIsOpenModal(false);
     resetData();
   };
@@ -73,10 +78,7 @@ export const Home: FC = () => {
               setTitle={setTitle}
               handleKeyDown={handleKeyDown}
             />
-            <AddTodoButton onAddTodoButtonClick={() => {
-              setIsOpenModal(true);
-              setModalTitle(title);
-            }} />
+            <AddTodoButton onAddTodoButtonClick={handleModalOpen} />
           </div>
           {validationMessage && (
             <p className="validation-message">{validationMessage}</p>
@@ -91,7 +93,7 @@ export const Home: FC = () => {
           setTitle={setModalTitle}
           setEndDate={setEndDate}
           setValidationMessage={setModalValidationMessage}
-          onClose={handleClose}
+          onClose={handleModalClose}
           onSave={handleSave}
         />
       )}
