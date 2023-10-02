@@ -12,12 +12,11 @@ interface ToDoDashboardProps {
 export const ToDoDashboard: FC<ToDoDashboardProps> = ({ items }) => {
   return (
     <ul className="todo-dashboard">
-      {items &&
-        items.map((item) => (
-          <li>
-            <TodoItem key={item.id} item={item} />
-          </li>
-        ))}
+      {items?.map((item) => (
+        <li>
+          <TodoItem key={item.id} item={item} />
+        </li>
+      ))}
     </ul>
   );
 };
