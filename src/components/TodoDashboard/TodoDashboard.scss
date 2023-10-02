@@ -1,0 +1,18 @@
+@import "@/scss/index.scss";
+
+.todo-dashboard {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  @include onBig-tablet {
+    align-items: center;
+  }
+
+  @include onMobile {
+    flex-direction: column;
+  }
+  
+}

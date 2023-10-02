@@ -1,11 +1,7 @@
 import { FC } from "react";
 
-interface AppProps {}
+import Home from "./components/Home";
 
-export const App: FC<AppProps> = () => {
-  return (
-    <div>
-      <p>Hello world!</p>
-    </div>
-  );
+export const App: FC = () => {
+  return <Home />;
 };

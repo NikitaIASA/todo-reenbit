@@ -1,0 +1,14 @@
+@mixin font-face($font-family, $url, $weight, $style) {
+  @font-face {
+    font-family: "#{$font-family}";
+    src: url("../fonts/#{$url}.woff") format("woff");
+    font-weight: #{$weight};
+    font-display: swap;
+    font-style: $style;
+  }
+}
+
+@include font-face("BrutalType", "BrutalType", 400, normal);
+@include font-face("BrutalType", "BrutalType-Bold", 700, bold);
+@include font-face("BrutalType", "BrutalType-Medium", 500, normal);
+@include font-face("BrutalType", "BrutalType-Light", 300, normal);
