@@ -1,5 +1,7 @@
 import { FC } from "react";
 
+import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
+
 import "./TodoInput.scss";
 
 interface TodoInputProps {
@@ -13,7 +15,6 @@ export const TodoInput: FC<TodoInputProps> = ({
   setTitle,
   handleKeyDown,
 }) => {
-
   return (
     <input
       className="todo-input"
@@ -22,7 +23,7 @@ export const TodoInput: FC<TodoInputProps> = ({
       value={title}
       onChange={(e) => setTitle(e.target.value)}
       onKeyDown={handleKeyDown}
-      maxLength={75}
+      maxLength={MAX_INPUT_LENGTH}
     />
   );
 };

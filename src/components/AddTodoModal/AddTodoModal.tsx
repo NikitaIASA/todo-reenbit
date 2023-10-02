@@ -4,6 +4,7 @@ import { format, addMinutes } from "date-fns";
 import { getCurrentDate } from "@/helpers/getDate";
 import { DATE_FORMAT, MIN_DATE_FORMAT } from "@/consts/dateFormats";
 import { ADD_FIVE_MINUTES } from "@/consts/timeFrames";
+import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 
 import "./AddTodoModal.scss";
 
@@ -59,6 +60,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            maxLength={MAX_INPUT_LENGTH}
             required
           />
           <label className="modal__label">Current Date</label>
