@@ -38,7 +38,7 @@ export const Home: FC = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && title.trim()) {
       if (isValid(title)) {
-        dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate }));
+        dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate, done: false, }));
         resetData();
       } else {
         setValidationMessage("No special symbols allowed");
@@ -49,7 +49,7 @@ export const Home: FC = () => {
   const handleSave = () => {
     if (isValid(modalTitle)) {
       const title = modalTitle;
-      dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate }));
+      dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate, done: false, }));
       setIsOpenModal(false);
       resetData();
     } else {
