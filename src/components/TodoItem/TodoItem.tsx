@@ -4,6 +4,8 @@ import clsx from "clsx";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { toggleDone } from "@/redux/actions/todoAction";
+import { deleteToDo } from "@/redux/actions/todoAction";
+import trash from "@/assets/images/trash.svg";
 
 import "./TodoItem.scss";
 
@@ -18,6 +20,10 @@ export const TodoItem: FC<TodoItemProps> = ({
 
   const handleToggleDone = () => {
     dispatch(toggleDone(id));
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteToDo(id));
   };
 
   const titleClass = clsx("todo-item__title", { done });
@@ -37,6 +43,9 @@ export const TodoItem: FC<TodoItemProps> = ({
           onChange={handleToggleDone}
           className="todo-item__checkbox"
         />
+        <button className="todo-item__button" onClick={handleDelete}>
+          <img src={trash} alt="trash icon" />
+        </button>
       </div>
     </div>
   );

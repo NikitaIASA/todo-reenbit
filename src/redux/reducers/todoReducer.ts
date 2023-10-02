@@ -24,6 +24,10 @@ const todoReducer = (state = initialState, { type, payload }: ITodoListAction): 
                     todo.id === payload.id ? { ...todo, done: !todo.done } : todo
                 ))
             };
+        case actionTypes.DELETE_ITEM:
+            return {
+                todos: state.todos.filter((todo: ITodoItem) => todo.id !== payload.id)
+            }
         default:
             return state;
     }
