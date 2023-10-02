@@ -2,7 +2,8 @@ import { FC } from "react";
 import { format, addMinutes } from "date-fns";
 
 import { getCurrentDate } from "@/helpers/getDate";
-import { dateFormat, minDateFormat } from "@/consts/dateFormats";
+import { DATE_FORMAT, MIN_DATE_FORMAT } from "@/consts/dateFormats";
+import { ADD_FIVE_MINUTES } from "@/consts/timeFrames";
 
 import "./AddTodoModal.scss";
 
@@ -26,7 +27,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   onSave,
 }) => {
   const currentDate = new Date();
-  const minDate = addMinutes(currentDate, 5);
+  const minDate = addMinutes(currentDate, ADD_FIVE_MINUTES);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 
   const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const endDay = new Date(e.target.value);
-    setEndDate(format(endDay, dateFormat));
+    setEndDate(format(endDay, DATE_FORMAT));
   };
 
   return (
@@ -67,7 +68,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             className="modal__input"
             type="datetime-local"
             onChange={handleEndDateChange}
-            min={format(minDate, minDateFormat)}
+            min={format(minDate, MIN_DATE_FORMAT)}
             required
           />
           <div className="modal__buttons">
