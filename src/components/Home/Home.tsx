@@ -36,7 +36,7 @@ export const Home: FC = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && title.trim() !== "") {
+    if (e.key === "Enter" && title.trim()) {
       if (isValid(title)) {
         dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate }));
         resetData();

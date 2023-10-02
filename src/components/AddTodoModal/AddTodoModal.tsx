@@ -29,7 +29,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (title.trim() === "") {
+    if (title.trim()) {
       setValidationMessage("Title cannot be empty or contain only spaces");
     } else {
       onSave();
