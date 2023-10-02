@@ -29,6 +29,11 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   const currentDate = new Date();
   const minDate = addMinutes(currentDate, ADD_FIVE_MINUTES);
 
+  // Prevent click propagation within the modal (to close modal when user clicks outside it)
+  const handleModalClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (title.trim()) {
@@ -44,8 +49,8 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={handleModalClick}>
         <h2 className="modal__title">Add New Task</h2>
         <form onSubmit={handleSubmit}>
           <label className="modal__label">Title</label>

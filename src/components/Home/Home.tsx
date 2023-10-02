@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 
 import Container from "../Container";
 import Header from "../Header";
@@ -66,6 +66,12 @@ export const Home: FC = () => {
     setIsOpenModal(false);
     resetData();
   };
+
+  // Prevent page scrolling while the modal is open.
+  useEffect(() => {
+    isOpenModal && document.body.classList.add("modal-open");
+    !isOpenModal && document.body.classList.remove("modal-open");
+  }, [isOpenModal]);
 
   return (
     <Container>
