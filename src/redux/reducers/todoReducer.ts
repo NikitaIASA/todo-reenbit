@@ -9,18 +9,13 @@ const initialState: TodoState = {
     todos: [],
 };
 
-const todoReducer = (state = initialState, action: ITodoListAction): TodoState => {
-    switch (action.type) {
+const todoReducer = (state = initialState, { type, payload }: ITodoListAction): TodoState => {
+    switch (type) {
         case actionTypes.ADD_ITEM:
             return {
                 todos: [
                     ...state.todos,
-                    {
-                        id: action.payload.id,
-                        title: action.payload.title,
-                        startDate: action.payload.startDate,
-                        endDate: action.payload.endDate,
-                    },
+                    payload
                 ],
             };
         default:
