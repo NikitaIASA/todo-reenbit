@@ -14,6 +14,13 @@
   position: relative;
   overflow-y: hidden;
 
+  &__title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
   &__title {
     display: inline-block;
     max-width: 100%;
@@ -31,11 +38,9 @@
   }
 
   &__date {
-
     &.done {
       text-decoration: line-through;
     }
-
   }
 
   &__buttons {
@@ -47,8 +52,9 @@
   }
 
   &__checkbox {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
   }
   
 }

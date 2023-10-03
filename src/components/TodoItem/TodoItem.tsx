@@ -25,12 +25,8 @@ export const TodoItem: FC<TodoItemProps> = ({
 
   return (
     <div className="todo-item">
-      <h3 className={titleClass}>{title}</h3>
-      <p className="todo-item__dates">
-        <span className={dateClass}>{startDate}</span>-
-        <span className={dateClass}>{endDate}</span>
-      </p>
-      <div className="todo-item__buttons">
+      <div className="todo-item__title-container">
+        <h3 className={titleClass}>{title}</h3>
         <input
           type="checkbox"
           checked={done}
@@ -38,6 +34,11 @@ export const TodoItem: FC<TodoItemProps> = ({
           className="todo-item__checkbox"
         />
       </div>
+      <p className="todo-item__dates">
+        <span className={dateClass}>{startDate}</span>-
+        <span className={dateClass}>{endDate}</span>
+      </p>
+      <div className="todo-item__buttons"></div>
     </div>
   );
 };
