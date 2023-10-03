@@ -3,6 +3,7 @@ export interface ITodoItem {
     title: string;
     startDate: string;
     endDate: string;
+    done: boolean;
 }
 
 export interface ITodoListAction {

@@ -18,6 +18,12 @@ const todoReducer = (state = initialState, { type, payload }: ITodoListAction): 
                     payload
                 ],
             };
+        case actionTypes.TOGGLE_DONE:
+            return {
+                todos: state.todos.map((todo: ITodoItem) => (
+                    todo.id === payload.id ? { ...todo, done: !todo.done } : todo
+                ))
+            };
         default:
             return state;
     }
