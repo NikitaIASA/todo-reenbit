@@ -23,7 +23,9 @@ export const TodoItem: FC<TodoItemProps> = ({
   };
 
   const handleDelete = () => {
-    dispatch(deleteToDo(id));
+    if (window.confirm("Are you sure that you want to delete this task?")) {
+      dispatch(deleteToDo(id));
+    }
   };
 
   const titleClass = clsx("todo-item__title", { done });
@@ -46,7 +48,11 @@ export const TodoItem: FC<TodoItemProps> = ({
       </p>
       <div className="todo-item__buttons">
         <button className="todo-item__button" onClick={handleDelete}>
-          <img src={trash} alt="trash icon" />
+          <img
+            className="todo-item__button-image"
+            src={trash}
+            alt="trash icon"
+          />
         </button>
       </div>
     </div>
