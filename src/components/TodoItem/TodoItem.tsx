@@ -4,6 +4,8 @@ import clsx from "clsx";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { toggleDone } from "@/redux/actions/todoAction";
+import { deleteToDo } from "@/redux/actions/todoAction";
+import trash from "@/assets/images/trash.svg";
 
 import "./TodoItem.scss";
 
@@ -20,25 +22,41 @@ export const TodoItem: FC<TodoItemProps> = ({
     dispatch(toggleDone(id));
   };
 
+  const handleDelete = () => {
+    if (
+      window.confirm(`Are you sure that you want to delete task "${title}"?`)
+    ) {
+      dispatch(deleteToDo(id));
+    }
+  };
+
   const titleClass = clsx("todo-item__title", { done });
   const dateClass = clsx("todo-item__date", { done });
 
   return (
     <div className="todo-item">
       <div className="todo-item__title-container">
-        <h3 className={titleClass}>{title}</h3>
         <input
           type="checkbox"
           checked={done}
           onChange={handleToggleDone}
           className="todo-item__checkbox"
         />
+        <h3 className={titleClass}>{title}</h3>
       </div>
       <p className="todo-item__dates">
         <span className={dateClass}>{startDate}</span>-
         <span className={dateClass}>{endDate}</span>
       </p>
-      <div className="todo-item__buttons"></div>
+      <div className="todo-item__buttons">
+        <button className="todo-item__button" onClick={handleDelete}>
+          <img
+            className="todo-item__button-image"
+            src={trash}
+            alt="trash icon"
+          />
+        </button>
+      </div>
     </div>
   );
 };

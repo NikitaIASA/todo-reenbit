@@ -10,3 +10,8 @@ export const toggleDone = (todoId: string) => ({
     type: actionTypes.TOGGLE_DONE,
     payload: { id: todoId },
 });
+
+export const deleteToDo = (todoId: string) => ({
+    type: actionTypes.DELETE_ITEM,
+    payload: { id: todoId },
+});
