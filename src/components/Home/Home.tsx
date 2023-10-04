@@ -13,6 +13,8 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import { getUniqueId } from "@/helpers/getUniqueId";
 import { isValid } from "@/helpers/isValid";
 import { addTodo } from "@/redux/actions/todoAction";
+import { editTodo } from "@/redux/actions/todoAction";
+import { ITodoItem } from "@/types/todoItemDto";
 
 import "./Home.scss";
 
@@ -25,6 +27,8 @@ export const Home: FC = () => {
   const [modalTitle, setModalTitle] = useState("");
   const [startDate, setStartDate] = useState(getCurrentDate());
   const [endDate, setEndDate] = useState(getEndDate());
+  const [editItem, setEditItem] = useState<ITodoItem | null>(null);
+
   const todoItems = useAppSelector(selectTodoItems);
 
   const resetData = () => {
@@ -38,7 +42,9 @@ export const Home: FC = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && title.trim()) {
       if (isValid(title)) {
-        dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate, done: false, }));
+        dispatch(
+          addTodo({ id: getUniqueId(), title, startDate, endDate, done: false })
+        );
         resetData();
       } else {
         setValidationMessage("No special symbols allowed");
@@ -48,8 +54,18 @@ export const Home: FC = () => {
 
   const handleSave = () => {
     if (isValid(modalTitle)) {
-      const title = modalTitle;
-      dispatch(addTodo({ id: getUniqueId(), title, startDate, endDate, done: false, }));
+      const newTodo = {
+        id: editItem ? editItem.id : getUniqueId(), 
+        title: modalTitle,
+        startDate,
+        endDate,
+        done: false,
+      };
+      if (editItem) {
+        dispatch(editTodo(newTodo)); 
+      } else {
+        dispatch(addTodo(newTodo)); 
+      }
       setIsOpenModal(false);
       resetData();
     } else {
@@ -58,13 +74,24 @@ export const Home: FC = () => {
   };
 
   const handleModalOpen = () => {
+    setEditItem(null);
     setIsOpenModal(true);
     setModalTitle(title);
+    setStartDate(getCurrentDate());
+    setEndDate("");
   };
 
   const handleModalClose = () => {
     setIsOpenModal(false);
     resetData();
+  };
+
+  const handleOpenEditModal = (item: ITodoItem) => {
+    setEditItem(item);
+    setIsOpenModal(true);
+    setModalTitle(item.title);
+    setEndDate(item.endDate);
+    setStartDate(item.startDate);
   };
 
   // Prevent page scrolling while the modal is open.
@@ -90,17 +117,23 @@ export const Home: FC = () => {
             <p className="validation-message">{validationMessage}</p>
           )}
         </div>
-        <ToDoDashboard items={todoItems} />
+        <ToDoDashboard
+          items={todoItems}
+          handleOpenEditModal={handleOpenEditModal}
+        />
       </main>
       {isOpenModal && (
         <AddTodoModal
           title={modalTitle}
+          endDate={endDate}
+          startDate={startDate}
           validationMessage={modalValidationMessage}
           setTitle={setModalTitle}
           setEndDate={setEndDate}
           setValidationMessage={setModalValidationMessage}
           onClose={handleModalClose}
           onSave={handleSave}
+          isEditMode={!!(editItem)}
         />
       )}
     </Container>

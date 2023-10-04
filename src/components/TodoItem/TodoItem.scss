@@ -30,7 +30,6 @@
     &.done {
       text-decoration: line-through;
     }
-    
   }
 
   &__dates {
@@ -43,7 +42,7 @@
     &.done {
       text-decoration: line-through;
     }
-    
+
   }
 
   &__buttons {
@@ -52,13 +51,23 @@
     right: 10px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 20px;
   }
 
   &__button {
     background-color: initial;
     border: none;
     cursor: pointer;
+
+    &.disabled {
+      opacity: 0.3;
+    }
+    
+  }
+
+  &__button-image {
+    width: 24px;
+    height: 24px;
   }
 
   &__checkbox {
@@ -66,5 +75,4 @@
     height: 24px;
     cursor: pointer;
   }
-
 }

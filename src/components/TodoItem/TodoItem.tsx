@@ -5,16 +5,19 @@ import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { toggleDone } from "@/redux/actions/todoAction";
 import { deleteToDo } from "@/redux/actions/todoAction";
-import trash from "@/assets/images/trash.svg";
+import trashIcon from "@/assets/images/trash.svg";
+import editIcon from "@/assets/images/edit.svg";
 
 import "./TodoItem.scss";
 
 export interface TodoItemProps {
   item: ITodoItem;
+  handleOpenEditModal: (item: ITodoItem) => void;
 }
 
 export const TodoItem: FC<TodoItemProps> = ({
   item: { id, title, startDate, endDate, done },
+  handleOpenEditModal,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -32,6 +35,7 @@ export const TodoItem: FC<TodoItemProps> = ({
 
   const titleClass = clsx("todo-item__title", { done });
   const dateClass = clsx("todo-item__date", { done });
+  const editButtonClass = clsx("todo-item__button", { disabled: done });
 
   return (
     <div className="todo-item">
@@ -49,10 +53,23 @@ export const TodoItem: FC<TodoItemProps> = ({
         <span className={dateClass}>{endDate}</span>
       </p>
       <div className="todo-item__buttons">
+        <button
+          className={editButtonClass}
+          disabled={done}
+          onClick={() =>
+            handleOpenEditModal({ id, title, startDate, endDate, done })
+          }
+        >
+          <img
+            className="todo-item__button-image"
+            src={editIcon}
+            alt="edit icon"
+          />
+        </button>
         <button className="todo-item__button" onClick={handleDelete}>
           <img
             className="todo-item__button-image"
-            src={trash}
+            src={trashIcon}
             alt="trash icon"
           />
         </button>

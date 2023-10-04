@@ -7,14 +7,15 @@ import "./TodoDashboard.scss";
 
 interface ToDoDashboardProps {
   items: ITodoItem[];
+  handleOpenEditModal: (item: ITodoItem) => void;
 }
 
-export const ToDoDashboard: FC<ToDoDashboardProps> = ({ items }) => {
+export const ToDoDashboard: FC<ToDoDashboardProps> = ({ items, handleOpenEditModal }) => {
   return (
     <ul className="todo-dashboard">
       {items?.map((item) => (
-        <li>
-          <TodoItem key={item.id} item={item} />
+        <li key={item.id}>
+          <TodoItem item={item} handleOpenEditModal={handleOpenEditModal}/>
         </li>
       ))}
     </ul>

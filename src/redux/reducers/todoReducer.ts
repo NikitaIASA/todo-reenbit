@@ -28,6 +28,12 @@ const todoReducer = (state = initialState, { type, payload }: ITodoListAction): 
             return {
                 todos: state.todos.filter((todo: ITodoItem) => todo.id !== payload.id)
             }
+        case actionTypes.EDIT_ITEM:
+            return {
+                todos: state.todos.map((todo: ITodoItem) =>
+                    todo.id === payload.id ? { ...todo, ...payload } : todo
+                ),
+            };
         default:
             return state;
     }

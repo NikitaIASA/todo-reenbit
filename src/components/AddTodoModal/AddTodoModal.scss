@@ -32,12 +32,26 @@
     font-weight: bold;
   }
 
+  .react-datepicker__view-calendar-icon input {
+    padding: 0.75rem;
+  }
+
   &__input {
     width: 100%;
     padding: 0.75rem;
     margin-bottom: 1.2rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+  }
+
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+
+  .react-datepicker__calendar-icon {
+    top: 12px;
+    right: 12px;
+    padding: 0;
   }
 
   &__buttons {
@@ -56,7 +70,7 @@
   }
 
   &__button.cancel {
-    background-color: #ccc;
+    background-color: $light-grey;
   }
 
 }
