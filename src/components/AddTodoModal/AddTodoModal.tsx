@@ -2,7 +2,7 @@ import { FC } from "react";
 import { format, parse } from "date-fns";
 import DatePicker from "react-datepicker";
 
-import { DATE_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
+import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
 
@@ -55,7 +55,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   };
 
   const expirationDate = endDate
-    ? parse(endDate, "dd.MM.yyyy HH:mm", new Date())
+    ? parse(endDate, DATE_FORMAT, new Date())
     : null;
 
   return (
@@ -91,8 +91,8 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
               setEndDate(date ? format(date, DATE_FORMAT) : "")
             }
             todayButton="Today"
-            timeFormat="HH:mm"
-            dateFormat="dd.MM.yyyy HH:mm"
+            timeFormat={TIME_FORMAT}
+            dateFormat={DATE_FORMAT}
             timeIntervals={TIME_INTERVAL}
             placeholderText="Select expiration date"
             showTimeSelect

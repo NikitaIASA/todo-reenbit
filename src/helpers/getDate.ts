@@ -1,7 +1,6 @@
 import { format, addHours, addMinutes, startOfDay, isSameDay, addDays, endOfDay } from "date-fns";
 import { DATE_FORMAT } from "@/consts/dateFormats";
-import { ADD_ONE_DAY } from "@/consts/timeFrames";
-import { ADD_FIVE_MINUTES } from "@/consts/timeFrames";
+import { ADD_ONE_DAY, ADD_FIVE_MINUTES } from "@/consts/timeFrames";
 
 export const getCurrentDate = () => {
     const currentDate = new Date();
