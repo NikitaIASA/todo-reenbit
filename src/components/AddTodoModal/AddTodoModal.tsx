@@ -39,6 +39,12 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     event.stopPropagation();
   };
 
+  const preventKeyDownSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (title.trim()) {
@@ -55,7 +61,9 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={handleModalClick}>
-      <h2 className="modal__title">{isEditMode ? "Edit Task" : "Add New Task"}</h2>
+        <h2 className="modal__title">
+          {isEditMode ? "Edit Task" : "Add New Task"}
+        </h2>
         <form onSubmit={handleSubmit}>
           <label className="modal__label">Title</label>
           <input
@@ -63,6 +71,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            onKeyDown={preventKeyDownSubmit}
             maxLength={MAX_INPUT_LENGTH}
             required
           />
@@ -78,7 +87,9 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             className="modal__input"
             showIcon
             selected={expirationDate}
-            onChange={(date) => setEndDate(date ? format(date, DATE_FORMAT) : "")}
+            onChange={(date) =>
+              setEndDate(date ? format(date, DATE_FORMAT) : "")
+            }
             todayButton="Today"
             timeFormat="HH:mm"
             dateFormat="dd.MM.yyyy HH:mm"
