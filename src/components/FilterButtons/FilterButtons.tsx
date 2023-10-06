@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectFilter } from "@/redux/selectors/filterSelectors";
 import { setFilter } from "@/redux/actions/filterActions";
-import { FILTER_TYPES } from "@/consts/filterTypes";
+import { FILTER_TYPES } from "@/consts/filterOptions";
 import { deleteCompletedTodos } from "@/redux/actions/todoActions";
 import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 

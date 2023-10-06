@@ -1,7 +1,7 @@
 import { actionTypes } from "@/types/actionTypes";
-import { IfilterAction } from "@/types/filterDto";
+import { IFilterAction } from "@/types/filterDto";
 
-export const setFilter = (filter: string): IfilterAction => ({
+export const setFilter = (filter: string): IFilterAction => ({
     type: actionTypes.SET_FILTER,
     payload: filter
 });

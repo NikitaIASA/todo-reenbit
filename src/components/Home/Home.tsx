@@ -18,6 +18,7 @@ import { ITodoItem } from "@/types/todoItemDto";
 import { setFilter } from "@/redux/actions/filterActions";
 import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 import { selectFilter } from "@/redux/selectors/filterSelectors";
+import { FILTER_OPTIONS } from "@/consts/filterOptions";
 
 import "./Home.scss";
 
@@ -37,8 +38,8 @@ export const Home: FC = () => {
   const currentFilter = useAppSelector(selectFilter);
 
   const checkAndSwitchFilter = () => {
-    if (currentFilter === "COMPLETED" && !completedTasks.length) {
-      dispatch(setFilter("ALL"));
+    if (currentFilter === FILTER_OPTIONS.COMPLETED && !completedTasks.length) {
+      dispatch(setFilter(FILTER_OPTIONS.ALL));
     }
   };
 

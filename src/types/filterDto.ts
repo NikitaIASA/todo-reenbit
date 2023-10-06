@@ -1,6 +1,6 @@
 import { actionTypes } from "./actionTypes";
 
-export interface IfilterAction {
+export interface IFilterAction {
     type: actionTypes.SET_FILTER;
     payload: string;
 }
