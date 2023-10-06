@@ -3,4 +3,3 @@ export const FILTER_TYPES = [
     { key: "ACTIVE", label: "Active" },
     { key: "COMPLETED", label: "Completed" }
 ];
-

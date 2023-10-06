@@ -28,4 +28,8 @@ export interface IEditItemAction {
     payload: ITodoItem;
 }
 
-export type ITodoListAction = IAddItemAction | IToggleDoneAction | IDeleteItemAction | IEditItemAction;
+export interface IDeleteCoompletedAction {
+    type: actionTypes.DELETE_COMPLETED;
+}
+
+export type ITodoListAction = IAddItemAction | IToggleDoneAction | IDeleteItemAction | IEditItemAction | IDeleteCoompletedAction;

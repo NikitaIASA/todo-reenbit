@@ -4,5 +4,6 @@ export enum actionTypes {
     DELETE_ITEM = "DELETE_ITEM",
     EDIT_ITEM = "EDIT_ITEM",
     SET_FILTER = "SET_FILTER",
+    DELETE_COMPLETED = "DELETE_COMPLETED",
 }
 

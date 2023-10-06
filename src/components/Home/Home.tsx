@@ -15,6 +15,9 @@ import { getUniqueId } from "@/helpers/getUniqueId";
 import { isValid } from "@/helpers/isValid";
 import { addTodo, editTodo } from "@/redux/actions/todoActions";
 import { ITodoItem } from "@/types/todoItemDto";
+import { setFilter } from "@/redux/actions/filterActions";
+import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
+import { selectFilter } from "@/redux/selectors/filterSelectors";
 
 import "./Home.scss";
 
@@ -30,6 +33,14 @@ export const Home: FC = () => {
   const [editItem, setEditItem] = useState<ITodoItem | null>(null);
 
   const todoItems = useAppSelector(selectTodoItems);
+  const completedTasks = useAppSelector(selectCompletedTodos);
+  const currentFilter = useAppSelector(selectFilter);
+
+  const checkAndSwitchFilter = () => {
+    if (currentFilter === "COMPLETED" && !completedTasks.length) {
+      dispatch(setFilter("ALL"));
+    }
+  };
 
   const resetData = () => {
     setTitle("");
@@ -45,6 +56,7 @@ export const Home: FC = () => {
         dispatch(
           addTodo({ id: getUniqueId(), title, startDate, endDate, done: false })
         );
+        checkAndSwitchFilter();
         resetData();
       } else {
         setValidationMessage("No special symbols allowed");
@@ -66,6 +78,7 @@ export const Home: FC = () => {
       } else {
         dispatch(addTodo(newTodo));
       }
+      checkAndSwitchFilter();
       setIsOpenModal(false);
       resetData();
     } else {

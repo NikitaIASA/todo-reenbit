@@ -1,4 +1,4 @@
-import { ITodoItem } from "@/types/todoItemDto";
+import { IDeleteCoompletedAction, ITodoItem } from "@/types/todoItemDto";
 import { actionTypes } from "@/types/actionTypes";
 import { IAddItemAction, IToggleDoneAction, IDeleteItemAction, IEditItemAction } from "@/types/todoItemDto";
 
@@ -20,4 +20,8 @@ export const deleteToDo = (todoId: string): IDeleteItemAction => ({
 export const editTodo = (todo: ITodoItem): IEditItemAction => ({
     type: actionTypes.EDIT_ITEM,
     payload: todo,
+});
+
+export const deleteCompletedTodos = (): IDeleteCoompletedAction => ({
+    type: actionTypes.DELETE_COMPLETED
 });

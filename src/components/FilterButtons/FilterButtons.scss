@@ -2,6 +2,7 @@
 
 .filter-buttons {
   display: flex;
+  justify-content: center;
   gap: 10px;
   margin-top: 20px;
 
@@ -11,5 +12,21 @@
     border-radius: 5px;
     border: none;
     cursor: pointer;
+
+    &:disabled {
+      color: $black;
+      border: 2px solid black;
+    }
+
+    &.clear-completed {
+      background: $light-grey;
+
+      &:disabled {
+        border: none;
+        cursor: default;
+        opacity: 0.7;
+      }
+
+    }
   }
 }
