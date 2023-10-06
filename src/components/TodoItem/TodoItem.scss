@@ -1,3 +1,5 @@
+@import "@/scss/colors.scss";
+
 .todo-item {
   position: relative;
   display: flex;
@@ -7,11 +9,8 @@
   width: 340px;
   height: 200px;
   padding: 10px;
-  background: radial-gradient(
-    circle,
-    rgba(180, 182, 218, 0.9) 0,
-    rgba(226, 236, 253, 0.9) 100%
-  );
+  background: $circle-grey-gradient;
+
 
   &__title-container {
     display: flex;

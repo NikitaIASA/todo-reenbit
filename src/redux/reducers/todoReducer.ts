@@ -21,12 +21,12 @@ const todoReducer = (state = initialState, { type, payload }: ITodoListAction): 
         case actionTypes.TOGGLE_DONE:
             return {
                 todos: state.todos.map((todo: ITodoItem) => (
-                    todo.id === payload.id ? { ...todo, done: !todo.done } : todo
+                    todo.id === payload ? { ...todo, done: !todo.done } : todo
                 ))
             };
         case actionTypes.DELETE_ITEM:
             return {
-                todos: state.todos.filter((todo: ITodoItem) => todo.id !== payload.id)
+                todos: state.todos.filter((todo: ITodoItem) => todo.id !== payload)
             }
         case actionTypes.EDIT_ITEM:
             return {

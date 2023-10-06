@@ -5,3 +5,12 @@ $light-green: rgb(84, 173, 172);
 $error: #a63232;
 $light-blue: #e1ebfd;
 $light-grey: #ccc;
+$circle-grey-gradient: radial-gradient(
+  circle,
+  rgba(180, 182, 218, 0.9) 0,
+  rgba(226, 236, 253, 0.9) 100%
+);
+$linear-grey-gradient: linear-gradient(
+  rgba(180, 182, 218, 0.9) 100%,
+  rgba(226, 236, 253, 0.9) 100%
+);

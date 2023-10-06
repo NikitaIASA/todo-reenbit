@@ -3,8 +3,7 @@ import clsx from "clsx";
 
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { toggleDone } from "@/redux/actions/todoAction";
-import { deleteToDo } from "@/redux/actions/todoAction";
+import { toggleDone, deleteToDo } from "@/redux/actions/todoActions";
 import trashIcon from "@/assets/images/trash.svg";
 import editIcon from "@/assets/images/edit.svg";
 

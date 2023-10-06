@@ -6,14 +6,14 @@ import TodoInput from "../TodoInput";
 import ToDoDashboard from "../TodoDashboard";
 import AddTodoButton from "../AddTodoButton";
 import AddTodoModal from "../AddTodoModal";
+import FilterButtons from "../FilterButtons";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { getUniqueId } from "@/helpers/getUniqueId";
 import { isValid } from "@/helpers/isValid";
-import { addTodo } from "@/redux/actions/todoAction";
-import { editTodo } from "@/redux/actions/todoAction";
+import { addTodo, editTodo } from "@/redux/actions/todoActions";
 import { ITodoItem } from "@/types/todoItemDto";
 
 import "./Home.scss";
@@ -55,16 +55,16 @@ export const Home: FC = () => {
   const handleSave = () => {
     if (isValid(modalTitle)) {
       const newTodo = {
-        id: editItem ? editItem.id : getUniqueId(), 
+        id: editItem ? editItem.id : getUniqueId(),
         title: modalTitle,
         startDate,
         endDate,
         done: false,
       };
       if (editItem) {
-        dispatch(editTodo(newTodo)); 
+        dispatch(editTodo(newTodo));
       } else {
-        dispatch(addTodo(newTodo)); 
+        dispatch(addTodo(newTodo));
       }
       setIsOpenModal(false);
       resetData();
@@ -117,6 +117,7 @@ export const Home: FC = () => {
             <p className="validation-message">{validationMessage}</p>
           )}
         </div>
+        <FilterButtons />
         <ToDoDashboard
           items={todoItems}
           handleOpenEditModal={handleOpenEditModal}
@@ -133,7 +134,7 @@ export const Home: FC = () => {
           setValidationMessage={setModalValidationMessage}
           onClose={handleModalClose}
           onSave={handleSave}
-          isEditMode={!!(editItem)}
+          isEditMode={!!editItem}
         />
       )}
     </Container>
