@@ -1,20 +1,41 @@
 @import "@/scss/index.scss";
 
-.search-input {
-  width: 820px;
-  padding: 1rem;
-  max-height: 3rem;
-  border: none;
-  border-radius: 5px;
-  background-color: $light-blue;
-  font-size: 1.25rem;
-  margin-top: 10px;
+.search {
+  position: relative;
 
-  @include onBig-tablet {
-    width: 560px;
+  &__input {
+    width: 820px;
+    padding: 1rem;
+    max-height: 3rem;
+    border: none;
+    border-radius: 5px;
+    background-color: $light-blue;
+    font-size: 1.25rem;
+    margin-top: 10px;
+
+    @include onBig-tablet {
+      width: 560px;
+    }
+
+    @include onMobile {
+      width: 360px;
+    }
+
   }
 
-  @include onMobile {
-    width: 360px;
+  &__clear-icon {
+    position: absolute;
+    right: 15px;
+    top: 25px;
+    opacity: 0.3;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
   }
+
 }
