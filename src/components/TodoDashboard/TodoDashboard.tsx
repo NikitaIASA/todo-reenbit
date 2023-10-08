@@ -8,15 +8,17 @@ import { useFilteredItems } from "@/hooks/useFilteredTodos";
 import "./TodoDashboard.scss";
 
 interface ToDoDashboardProps {
+  searchQuery: string;
   items: ITodoItem[];
   handleOpenEditModal: (item: ITodoItem) => void;
 }
 
 export const ToDoDashboard: FC<ToDoDashboardProps> = ({
+  searchQuery,
   items,
   handleOpenEditModal,
 }) => {
-  const filteredItems = useFilteredItems(items);
+  const filteredItems = useFilteredItems(items, searchQuery);
 
   return (
     <ul className="todo-dashboard">
@@ -25,7 +27,12 @@ export const ToDoDashboard: FC<ToDoDashboardProps> = ({
           <TodoItem item={item} handleOpenEditModal={handleOpenEditModal} />
         </li>
       ))}
-      {!filteredItems.length && <NoTodoFound />}
+      {!filteredItems.length &&
+        (searchQuery ? (
+          <p className="nothing-found-message">Nothing found for "{searchQuery}"</p>
+        ) : (
+          <NoTodoFound />
+        ))}
     </ul>
   );
 };

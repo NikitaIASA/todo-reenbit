@@ -7,6 +7,12 @@
   justify-content: center;
 }
 
+.enter-block {
+  padding: 20px;
+  border: 2px solid $black;
+  border-radius: 15px;
+}
+
 .input-container {
   display: flex;
   align-items: center;
@@ -17,4 +23,3 @@
   margin-top: 5px;
   color: $error;
 }
-

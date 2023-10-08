@@ -1,10 +1,15 @@
 @import "@/scss/index.scss";
 
+.filter-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
 .filter-buttons {
   display: flex;
-  justify-content: center;
   gap: 10px;
-  margin-top: 20px;
 
   &__item {
     background: $linear-grey-gradient;
@@ -15,7 +20,7 @@
 
     &:disabled {
       color: $black;
-      border: 2px solid $black;
+      background: lighten($light-green, 30%);
     }
 
     &.clear-completed {
@@ -26,7 +31,6 @@
         cursor: default;
         opacity: 0.7;
       }
-
     }
   }
 }

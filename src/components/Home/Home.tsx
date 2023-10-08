@@ -7,6 +7,7 @@ import ToDoDashboard from "../TodoDashboard";
 import AddTodoButton from "../AddTodoButton";
 import AddTodoModal from "../AddTodoModal";
 import FilterButtons from "../FilterButtons";
+import SearchInput from "../SearchInput";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
@@ -19,6 +20,7 @@ import { setFilter } from "@/redux/actions/filterActions";
 import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 import { selectFilter } from "@/redux/selectors/filterSelectors";
 import { FILTER_OPTIONS } from "@/consts/filterOptions";
+import { useSearch } from "@/hooks/useSearch";
 
 import "./Home.scss";
 
@@ -32,6 +34,7 @@ export const Home: FC = () => {
   const [startDate, setStartDate] = useState(getCurrentDate());
   const [endDate, setEndDate] = useState(getEndDate());
   const [editItem, setEditItem] = useState<ITodoItem | null>(null);
+  const { query, setQuery } = useSearch();
 
   const todoItems = useAppSelector(selectTodoItems);
   const completedTasks = useAppSelector(selectCompletedTodos);
@@ -130,9 +133,11 @@ export const Home: FC = () => {
           {validationMessage && (
             <p className="validation-message">{validationMessage}</p>
           )}
+          <SearchInput value={query} onChange={setQuery} />
+          <FilterButtons />
         </div>
-        <FilterButtons />
         <ToDoDashboard
+          searchQuery={query}
           items={todoItems}
           handleOpenEditModal={handleOpenEditModal}
         />
