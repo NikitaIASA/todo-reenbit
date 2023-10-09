@@ -30,20 +30,28 @@ export const FilterButtons: FC = () => {
   };
 
   return (
-    <div className="filter-buttons">
-      {FILTER_TYPES.map(({ key, label }) => (
+    <div className="filter-container">
+      <div className="filter-buttons">
+        {FILTER_TYPES.map(({ key, label }) => (
+          <button
+            className="filter-buttons__item"
+            key={key}
+            onClick={() => handleFilterClick(key)}
+            disabled={currentFilter === key}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+      <div className="clear-buttons">
         <button
-          className="filter-buttons__item"
-          key={key}
-          onClick={() => handleFilterClick(key)}
-          disabled={currentFilter === key}
+          className="filter-buttons__item clear-completed"
+          onClick={handleDeleteCompleted}
+          disabled={!completedTasks.length}
         >
-          {label}
+          Clear сompleted
         </button>
-      ))}
-      <button className="filter-buttons__item clear-completed" onClick={handleDeleteCompleted} disabled={!completedTasks.length}>
-        Clear сompleted
-      </button>
+      </div>
     </div>
   );
 };

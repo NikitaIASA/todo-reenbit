@@ -19,7 +19,7 @@ export const TodoInput: FC<TodoInputProps> = ({
     <input
       className="todo-input"
       type="text"
-      placeholder="Add new task"
+      placeholder="Add new task..."
       value={title}
       onChange={(e) => setTitle(e.target.value)}
       onKeyDown={handleKeyDown}
