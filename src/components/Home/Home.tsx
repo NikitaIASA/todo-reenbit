@@ -6,15 +6,19 @@ import TodoInput from "../TodoInput";
 import ToDoDashboard from "../TodoDashboard";
 import AddTodoButton from "../AddTodoButton";
 import AddTodoModal from "../AddTodoModal";
+import FilterButtons from "../FilterButtons";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { getUniqueId } from "@/helpers/getUniqueId";
 import { isValid } from "@/helpers/isValid";
-import { addTodo } from "@/redux/actions/todoAction";
-import { editTodo } from "@/redux/actions/todoAction";
+import { addTodo, editTodo } from "@/redux/actions/todoActions";
 import { ITodoItem } from "@/types/todoItemDto";
+import { setFilter } from "@/redux/actions/filterActions";
+import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
+import { selectFilter } from "@/redux/selectors/filterSelectors";
+import { FILTER_OPTIONS } from "@/consts/filterOptions";
 
 import "./Home.scss";
 
@@ -30,6 +34,14 @@ export const Home: FC = () => {
   const [editItem, setEditItem] = useState<ITodoItem | null>(null);
 
   const todoItems = useAppSelector(selectTodoItems);
+  const completedTasks = useAppSelector(selectCompletedTodos);
+  const currentFilter = useAppSelector(selectFilter);
+
+  const checkAndSwitchFilter = () => {
+    if (currentFilter === FILTER_OPTIONS.COMPLETED && !completedTasks.length) {
+      dispatch(setFilter(FILTER_OPTIONS.ALL));
+    }
+  };
 
   const resetData = () => {
     setTitle("");
@@ -45,6 +57,7 @@ export const Home: FC = () => {
         dispatch(
           addTodo({ id: getUniqueId(), title, startDate, endDate, done: false })
         );
+        checkAndSwitchFilter();
         resetData();
       } else {
         setValidationMessage("No special symbols allowed");
@@ -55,17 +68,18 @@ export const Home: FC = () => {
   const handleSave = () => {
     if (isValid(modalTitle)) {
       const newTodo = {
-        id: editItem ? editItem.id : getUniqueId(), 
+        id: editItem ? editItem.id : getUniqueId(),
         title: modalTitle,
         startDate,
         endDate,
         done: false,
       };
       if (editItem) {
-        dispatch(editTodo(newTodo)); 
+        dispatch(editTodo(newTodo));
       } else {
-        dispatch(addTodo(newTodo)); 
+        dispatch(addTodo(newTodo));
       }
+      checkAndSwitchFilter();
       setIsOpenModal(false);
       resetData();
     } else {
@@ -117,6 +131,7 @@ export const Home: FC = () => {
             <p className="validation-message">{validationMessage}</p>
           )}
         </div>
+        <FilterButtons />
         <ToDoDashboard
           items={todoItems}
           handleOpenEditModal={handleOpenEditModal}
@@ -133,7 +148,7 @@ export const Home: FC = () => {
           setValidationMessage={setModalValidationMessage}
           onClose={handleModalClose}
           onSave={handleSave}
-          isEditMode={!!(editItem)}
+          isEditMode={!!editItem}
         />
       )}
     </Container>

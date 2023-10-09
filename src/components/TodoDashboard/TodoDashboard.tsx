@@ -1,7 +1,9 @@
 import { FC } from "react";
 
-import { ITodoItem } from "@/types/todoItemDto";
 import TodoItem from "../TodoItem";
+import NoTodoFound from "../NoTodoFound";
+import { ITodoItem } from "@/types/todoItemDto";
+import { useFilteredItems } from "@/hooks/useFilteredTodos";
 
 import "./TodoDashboard.scss";
 
@@ -10,14 +12,20 @@ interface ToDoDashboardProps {
   handleOpenEditModal: (item: ITodoItem) => void;
 }
 
-export const ToDoDashboard: FC<ToDoDashboardProps> = ({ items, handleOpenEditModal }) => {
+export const ToDoDashboard: FC<ToDoDashboardProps> = ({
+  items,
+  handleOpenEditModal,
+}) => {
+  const filteredItems = useFilteredItems(items);
+
   return (
     <ul className="todo-dashboard">
-      {items?.map((item) => (
+      {filteredItems?.map((item) => (
         <li key={item.id}>
-          <TodoItem item={item} handleOpenEditModal={handleOpenEditModal}/>
+          <TodoItem item={item} handleOpenEditModal={handleOpenEditModal} />
         </li>
       ))}
+      {!filteredItems.length && <NoTodoFound />}
     </ul>
   );
 };

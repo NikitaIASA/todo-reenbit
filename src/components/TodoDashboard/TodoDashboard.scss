@@ -1,10 +1,10 @@
 @import "@/scss/index.scss";
 
 .todo-dashboard {
-  margin: 20px 0;
-  padding: 0 10px;
   display: flex;
   flex-wrap: wrap;
+  margin: 20px 0;
+  padding: 0 10px;
   gap: 20px;
 
   @include onBig-tablet {
@@ -14,5 +14,4 @@
   @include onMobile {
     flex-direction: column;
   }
-  
 }
