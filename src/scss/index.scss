@@ -2,7 +2,16 @@
 @import "./fonts.scss";
 @import "./colors.scss";
 @import "breakpoints.scss";
+@import "theme.scss";
 
 .modal-open {
   overflow: hidden;
+}
+
+.light {
+  @include light-theme;
+}
+
+.dark{
+  @include dark-theme;
 }

@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: center;
   background-color: darken($green, 10%);
-  border: 2px solid $white;
-  color: $white;
+  border: 2px solid var(--border-primary);
+  color: $black;
   font-size: 1.5rem;
   height: 3.2rem;
   width: 3.2rem;

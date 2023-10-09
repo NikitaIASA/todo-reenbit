@@ -1,0 +1,29 @@
+@import "./colors.scss";
+
+// for light theme
+@mixin light-theme {
+    --background-primary: #{$green};
+    --background-secondary: #{$linear-grey-gradient};
+    --input-background: #{$light-blue};
+    --border-primary: #{$light-grey};
+    --button-primary: #{$green};
+    --button-secondary: #{$light-grey};
+    --button-active: #{$light-green};
+    --border-primary: #{$light-grey};
+    --text-primary: #{$black};
+    --text-secondary: #{$light-blue};
+}
+
+// for dark theme
+@mixin dark-theme {
+    --background-primary: #{$dark-grey};
+    --background-secondary: #{$medium-grey};
+    --input-background: #{$medium-grey};
+    --border-primary: #{$dark-grey};
+    --button-primary: #{$green};
+    --button-secondary: #{$light-grey};
+    --button-active: #{$light-green};
+    --border-primary: #{$black};
+    --text-primary: #{$light-grey};
+    --text-secondary: #{$light-blue};
+}

@@ -4,9 +4,9 @@
   width: 760px;
   padding: 1rem;
   max-height: 3rem;
-  border: none;
+  border: 2px solid var(--border-primary);
   border-radius: 5px;
-  background-color: $light-blue;
+  background-color: var(--input-background);
   font-size: 1.25rem;
 
   @include onBig-tablet {

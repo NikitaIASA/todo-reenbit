@@ -1,4 +1,5 @@
 @import "./colors.scss";
+@import "./theme.scss";
 
 * {
   margin: 0;
@@ -21,7 +22,12 @@ html {
 
 body {
   font-family: BrutalType;
-  background: linear-gradient(to right, $green, $light-green);
+  background: var(--background-primary);
+  color: var(--text-primary);
   font-style: normal;
   line-height: normal;
+}
+
+input:focus {
+  outline: none;
 }

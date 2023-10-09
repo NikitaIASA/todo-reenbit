@@ -1,16 +1,18 @@
 $white: #fff;
 $black: #000;
 $green: rgb(64, 153, 152);
-$light-green: rgb(84, 173, 172);
+$light-green: lighten(rgb(84, 173, 172), 40%);
 $error: #a63232;
 $light-blue: #e1ebfd;
-$light-grey: #ccc;
+$light-grey: #d8d8d8;
 $circle-grey-gradient: radial-gradient(
   circle,
-  rgba(180, 182, 218, 0.9) 0,
-  rgba(226, 236, 253, 0.9) 100%
+  rgba(180, 182, 218, 1) 0,
+  rgba(226, 236, 253, 1) 100%
 );
 $linear-grey-gradient: linear-gradient(
-  rgba(180, 182, 218, 0.9) 100%,
-  rgba(226, 236, 253, 0.9) 100%
+  rgba(180, 182, 218, 1) 100%,
+  rgba(226, 236, 253, 1) 100%
 );
+$dark-grey: #1a1a1a;
+$medium-grey: #262626;
