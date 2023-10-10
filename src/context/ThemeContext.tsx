@@ -20,7 +20,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   ).matches;
 
   const initialTheme =
-    (localStorage.getItem("theme") as Theme) ||
+    (localStorage.getItem(Theme.KEY) as Theme) ||
     (prefersDarkScheme ? Theme.DARK : Theme.LIGHT);
 
   const [theme, setTheme] = useState<Theme>(initialTheme);
@@ -33,12 +33,12 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (theme === Theme.DARK) {
-      document.body.classList.add("dark");
+      document.body.classList.add(Theme.DARK);
     } else {
-      document.body.classList.remove("dark");
+      document.body.classList.remove(Theme.DARK);
     }
 
-    localStorage.setItem("theme", theme);
+    localStorage.setItem(Theme.KEY, theme);
   }, [theme]);
 
   return (

@@ -1,3 +1,4 @@
+// Main Colors
 $white: #fff;
 $black: #000;
 $green: rgb(64, 153, 152);
@@ -16,3 +17,16 @@ $linear-grey-gradient: linear-gradient(
 );
 $dark-grey: #1a1a1a;
 $medium-grey: #262626;
+
+// ThemeSwitcher colors
+$switcher-bg-light: #ebebeb;
+$switcher-bg-dark: #242424;
+$switcher-shadow-light: rgba(0, 0, 0, 0.4);
+$switcher-shadow-white: rgba(255, 255, 255, 0.4);
+$switcher-toggle-gradient-light-start: #ffcc89;
+$switcher-toggle-gradient-light-end: #d8860b;
+$switcher-toggle-shadow: rgba(0, 0, 0, 0.2);
+$icon-sun-color: #fff;
+$icon-moon-color: #7e7e7e;
+$switcher-toggle-gradient-dark-start: #777;
+$switcher-toggle-gradient-dark-end: #3a3a3a;
