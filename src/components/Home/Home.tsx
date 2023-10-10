@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 
 import Container from "../Container";
 import Header from "../Header";
@@ -22,12 +22,15 @@ import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 import { selectFilter } from "@/redux/selectors/filterSelectors";
 import { FILTER_OPTIONS } from "@/consts/filterOptions";
 import { useSearch } from "@/hooks/useSearch";
+import { useModal } from "@/hooks/useModal";
 
 import "./Home.scss";
 
 export const Home: FC = () => {
   const dispatch = useAppDispatch();
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const { query, setQuery } = useSearch();
+
   const [validationMessage, setValidationMessage] = useState("");
   const [modalValidationMessage, setModalValidationMessage] = useState("");
   const [title, setTitle] = useState("");
@@ -35,7 +38,6 @@ export const Home: FC = () => {
   const [startDate, setStartDate] = useState(getCurrentDate());
   const [endDate, setEndDate] = useState(getEndDate());
   const [editItem, setEditItem] = useState<ITodoItem | null>(null);
-  const { query, setQuery } = useSearch();
 
   const todoItems = useAppSelector(selectTodoItems);
   const completedTasks = useAppSelector(selectCompletedTodos);
@@ -84,7 +86,7 @@ export const Home: FC = () => {
         dispatch(addTodo(newTodo));
       }
       checkAndSwitchFilter();
-      setIsOpenModal(false);
+      openModal();
       resetData();
     } else {
       setModalValidationMessage("No special symbols allowed");
@@ -93,30 +95,24 @@ export const Home: FC = () => {
 
   const handleModalOpen = () => {
     setEditItem(null);
-    setIsOpenModal(true);
+    openModal();
     setModalTitle(title);
     setStartDate(getCurrentDate());
     setEndDate("");
   };
 
   const handleModalClose = () => {
-    setIsOpenModal(false);
+    closeModal();
     resetData();
   };
 
   const handleOpenEditModal = (item: ITodoItem) => {
     setEditItem(item);
-    setIsOpenModal(true);
+    openModal();
     setModalTitle(item.title);
     setEndDate(item.endDate);
     setStartDate(item.startDate);
   };
-
-  // Prevent page scrolling while the modal is open.
-  useEffect(() => {
-    isOpenModal && document.body.classList.add("modal-open");
-    !isOpenModal && document.body.classList.remove("modal-open");
-  }, [isOpenModal]);
 
   return (
     <Container>
@@ -144,7 +140,7 @@ export const Home: FC = () => {
           handleOpenEditModal={handleOpenEditModal}
         />
       </main>
-      {isOpenModal && (
+      {isModalOpen && (
         <AddTodoModal
           title={modalTitle}
           endDate={endDate}
