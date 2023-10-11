@@ -2,10 +2,10 @@ import { FC } from "react";
 
 import Container from "../Container";
 import Header from "../Header";
-import TodoInput from "../TodoInput";
-import ToDoDashboard from "../TodoDashboard";
-import AddTodoButton from "../AddTodoButton";
-import AddTodoModal from "../AddTodoModal";
+import TodoInput from "../TodoComponents/TodoInput";
+import ToDoDashboard from "../TodoComponents/TodoDashboard";
+import AddTodoButton from "../TodoComponents/AddTodoButton";
+import AddTodoModal from "../TodoComponents/AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
 import ThemeSwitcher from "../ThemeSwitcher";

@@ -2,7 +2,7 @@ import { FC } from "react";
 import clsx from "clsx";
 import parse from "date-fns/parse";
 
-import ConfirmationModal from "../ConfirmationModal";
+import ConfirmationModal from "../../ConfirmationModal";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { toggleDone, deleteToDo } from "@/redux/actions/todoActions";

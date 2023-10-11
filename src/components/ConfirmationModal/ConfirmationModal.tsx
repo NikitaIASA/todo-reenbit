@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import CustomButton from "../CustomButton";
+import CustomButton from "../UI/CustomButton";
 
 import "./ConfirmationModal.scss";
 

@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import ConfirmationModal from "../ConfirmationModal";
+import CustomButton from "../UI/CustomButton";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectFilter } from "@/redux/selectors/filterSelectors";
@@ -9,7 +10,6 @@ import { FILTER_TYPES } from "@/consts/filterOptions";
 import { deleteCompletedTodos } from "@/redux/actions/todoActions";
 import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
-import CustomButton from "../CustomButton";
 
 import "./FilterButtons.scss";
 
