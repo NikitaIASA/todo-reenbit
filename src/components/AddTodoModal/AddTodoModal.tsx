@@ -5,35 +5,44 @@ import DatePicker from "react-datepicker";
 import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { getUniqueId } from "@/helpers/getUniqueId";
+import { useTodoContext } from "@/context/TodoContext";
+import { isValid } from "@/helpers/isValid";
+import { editTodo, addTodo } from "@/redux/actions/todoActions";
+import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
 
 interface AddTodoModalProps {
-  title: string;
-  endDate: string;
-  startDate: string;
-  validationMessage: string;
-  isEditMode: boolean;
-  setTitle: (title: string) => void;
-  setEndDate: (endDate: string) => void;
-  setValidationMessage: (validationMessage: string) => void;
-  onSave: () => void;
   onClose: () => void;
 }
 
-export const AddTodoModal: FC<AddTodoModalProps> = ({
-  title,
-  endDate,
-  startDate,
-  validationMessage,
-  isEditMode,
-  setTitle,
-  setEndDate,
-  setValidationMessage,
-  onClose,
-  onSave,
-}) => {
+export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
+  const dispatch = useAppDispatch();
+  const {
+    modalTitle,
+    setModalTitle,
+    startDate,
+    endDate,
+    setEndDate,
+    modalValidationMessage,
+    setModalValidationMessage,
+    editItem,
+    resetData,
+  } = useTodoContext();
+  const { switchCompletedFilter } = useSwitchCompletedFilter();
+
+  console.log(endDate);
+
+
+  const expirationDate = endDate
+    ? parse(endDate, DATE_FORMAT, new Date())
+    : null;
+
+    console.log(expirationDate);
+
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
   const handleModalClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
@@ -47,30 +56,53 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (title.trim()) {
-      onSave();
+    if (modalTitle.trim()) {
+      handleSave();
     } else {
-      setValidationMessage("Title cannot be empty or contain only spaces");
+      setModalValidationMessage("Title cannot be empty or contain only spaces");
     }
   };
 
-  const expirationDate = endDate
-    ? parse(endDate, DATE_FORMAT, new Date())
-    : null;
+  const handleSave = () => {
+    if (isValid(modalTitle)) {
+      const newTodo = {
+        id: editItem ? editItem.id : getUniqueId(),
+        title: modalTitle,
+        startDate,
+        endDate,
+        done: false,
+      };
+      if (editItem) {
+        dispatch(editTodo(newTodo));
+      } else {
+        dispatch(addTodo(newTodo));
+      }
+      switchCompletedFilter();
+      onClose();
+      resetData();
+    } else {
+      setModalValidationMessage("No special symbols allowed");
+    }
+  };
+
+  const handleModalClose = () => {
+    onClose();
+    resetData();
+  };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={handleModalClose}>
       <div className="modal" onClick={handleModalClick}>
         <h2 className="modal__title">
-          {isEditMode ? "Edit Task" : "Add New Task"}
+          {editItem ? "Edit Task" : "Add New Task"}
         </h2>
         <form onSubmit={handleSubmit}>
           <label className="modal__label">Title</label>
           <input
             className="modal__input"
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={modalTitle}
+            onChange={(e) => setModalTitle(e.target.value)}
             onKeyDown={preventKeyDownSubmit}
             maxLength={MAX_INPUT_LENGTH}
             required
@@ -102,15 +134,15 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             required
           />
           <div className="modal__buttons">
-            <button className="modal__button cancel" onClick={onClose}>
+            <button className="modal__button cancel" onClick={handleModalClose}>
               Cancel
             </button>
             <button className="modal__button" type="submit">
               Save
             </button>
           </div>
-          {validationMessage && (
-            <p className="validation-message">{validationMessage}</p>
+          {modalValidationMessage && (
+            <p className="validation-message">{modalValidationMessage}</p>
           )}
         </form>
       </div>
