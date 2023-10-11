@@ -1,3 +1,5 @@
+@import "@/scss/index.scss";
+
 .confirm-modal-overlay {
   position: fixed;
   top: 0;
@@ -21,9 +23,13 @@
   border-radius: 5px;
   padding: 1.2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
+  width: 400px;
   height: 200px;
-  width: 100%;
+
+  @include onMobile {
+    width: 350px;
+  }
+  
 
   &__message {
     font-weight: bold;

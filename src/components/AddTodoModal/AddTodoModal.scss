@@ -17,9 +17,12 @@
   border-radius: 5px;
   padding: 1.2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
+  width: 600px;
   height: 400px;
-  width: 100%;
+
+  @include onMobile {
+    width: 350px;
+  }
 
   &__title {
     text-align: center;
@@ -75,5 +78,4 @@
   &__button.cancel {
     background-color: var(--button-secondary);
   }
-
 }
