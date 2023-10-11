@@ -20,11 +20,14 @@ export const getMinDate = (date: Date | null): Date => {
         return addMinutes(currentDate, ADD_FIVE_MINUTES);
     }
 
+    const currentDayStart = startOfDay(currentDate);
+    const dateDayStart = startOfDay(date);
+
     if (isSameDay(date, currentDate)) {
-        return date > addMinutes(currentDate, ADD_FIVE_MINUTES) ? addMinutes(currentDate, ADD_FIVE_MINUTES) : date;
+        return addMinutes(currentDate, ADD_FIVE_MINUTES);
     }
 
-    if (date > currentDate) {
+    if (dateDayStart > currentDayStart) {
         return startOfDay(date);
     }
 
@@ -32,6 +35,6 @@ export const getMinDate = (date: Date | null): Date => {
 }
 
 export const getMaxDate = (date: Date) => {
-  const nextDay = addDays(date, ADD_ONE_DAY);
-  return endOfDay(nextDay);
+    const nextDay = addDays(date, ADD_ONE_DAY);
+    return endOfDay(nextDay);
 }
