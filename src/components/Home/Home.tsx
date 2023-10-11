@@ -8,6 +8,7 @@ import AddTodoButton from "../AddTodoButton";
 import AddTodoModal from "../AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
+import ThemeSwitcher from "../ThemeSwitcher";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
@@ -119,6 +120,7 @@ export const Home: FC = () => {
 
   return (
     <Container>
+      <ThemeSwitcher/>
       <Header />
       <main className="main">
         <div className="enter-block">

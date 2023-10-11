@@ -1,0 +1,93 @@
+@import "@/scss/index.scss";
+
+.theme-switcher {
+  position: absolute;
+  top: 0;
+  right: 20px;
+
+  @include onMobile {
+    right: 10px;
+    top: -10px;
+  }
+
+  &__label {
+    width: 65px;
+    height: 30px;
+    position: relative;
+    display: block;
+    background: $switcher-bg-light;
+    border-radius: 200px;
+    box-shadow: inset 0px 5px 15px $switcher-shadow-light,
+      inset 0px -5px 15px $switcher-shadow-white;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:after {
+      content: "";
+      width: 25px;
+      height: 25px;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      background: linear-gradient(
+        180deg,
+        $switcher-toggle-gradient-light-start,
+        $switcher-toggle-gradient-light-end
+      );
+      border-radius: 180px;
+      box-shadow: 0px 5px 10px $switcher-toggle-shadow;
+      transition: 0.3s;
+    }
+
+    &:active:after {
+      width: 30px;
+    }
+
+    svg {
+      position: absolute;
+      width: 20px;
+      top: 5px;
+      z-index: 100;
+
+      &.sun {
+        left: 5px;
+        fill: $icon-sun-color;
+        transition: 0.3s;
+      }
+
+      &.moon {
+        left: 40px;
+        fill: $icon-moon-color;
+        transition: 0.3s;
+      }
+    }
+  }
+
+  &__input {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+
+    &:checked + .theme-switcher__label {
+      background: $switcher-bg-dark;
+
+      &:after {
+        left: 62px;
+        transform: translateX(-100%);
+        background: linear-gradient(
+          180deg,
+          $switcher-toggle-gradient-dark-start,
+          $switcher-toggle-gradient-dark-end
+        );
+      }
+
+      svg.sun {
+        fill: $icon-moon-color;
+      }
+
+      svg.moon {
+        fill: $icon-sun-color;
+      }
+    }
+  }
+}

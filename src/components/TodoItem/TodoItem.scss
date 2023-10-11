@@ -9,7 +9,8 @@
   width: 340px;
   height: 200px;
   padding: 10px;
-  background: $circle-grey-gradient;
+  border-radius: 15px;
+  background: var(--background-secondary);
 
 
   &__title-container {
@@ -67,6 +68,7 @@
   &__button-image {
     width: 24px;
     height: 24px;
+    fill: var(--text-primary);
   }
 
   &__checkbox {

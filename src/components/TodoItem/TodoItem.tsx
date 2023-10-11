@@ -4,8 +4,8 @@ import clsx from "clsx";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { toggleDone, deleteToDo } from "@/redux/actions/todoActions";
-import trashIcon from "@/assets/images/trash.svg";
-import editIcon from "@/assets/images/edit.svg";
+import TrashIcon from "@/assets/images/trash.svg?react";
+import EditIcon from "@/assets/images/edit.svg?react";
 
 import "./TodoItem.scss";
 
@@ -59,18 +59,10 @@ export const TodoItem: FC<TodoItemProps> = ({
             handleOpenEditModal({ id, title, startDate, endDate, done })
           }
         >
-          <img
-            className="todo-item__button-image"
-            src={editIcon}
-            alt="edit icon"
-          />
+          <EditIcon className="todo-item__button-image" />
         </button>
         <button className="todo-item__button" onClick={handleDelete}>
-          <img
-            className="todo-item__button-image"
-            src={trashIcon}
-            alt="trash icon"
-          />
+          <TrashIcon className="todo-item__button-image" />
         </button>
       </div>
     </div>

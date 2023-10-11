@@ -8,10 +8,12 @@
   gap: 20px;
 
   @include onBig-tablet {
+    justify-content: center;
     align-items: center;
   }
 
   @include onMobile {
+    justify-content: center;
     flex-direction: column;
   }
 }

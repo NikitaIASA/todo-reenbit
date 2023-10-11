@@ -12,19 +12,19 @@
   gap: 10px;
 
   &__item {
-    background: $linear-grey-gradient;
-    padding: 5px 15px;
+    background: var(--button-primary);
+    padding: 8px 15px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
 
     &:disabled {
       color: $black;
-      background: lighten($light-green, 30%);
+      background: var(--button-active);
     }
 
     &.clear-completed {
-      background: $light-grey;
+      background: var(--button-secondary);
 
       &:disabled {
         border: none;
