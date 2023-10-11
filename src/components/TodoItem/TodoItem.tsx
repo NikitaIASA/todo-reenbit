@@ -33,13 +33,13 @@ export const TodoItem: FC<TodoItemProps> = ({
       dispatch(deleteToDo(id));
     }
   };
+
   const endDateParsed = parse(endDate, DATE_FORMAT, new Date())
-  console.log(endDateParsed);
-  
+
   const titleClass = clsx("todo-item__title", { done });
   const dateClass = clsx("todo-item__date", { done });
   const todoItemClass = clsx("todo-item", {
-    expired: endDateParsed < new Date(),
+    expired: !done && endDateParsed < new Date(),
   });
   const editButtonClass = clsx("todo-item__button", { disabled: done });
 
