@@ -1,11 +1,13 @@
 import { FC } from "react";
 import clsx from "clsx";
 import parse from "date-fns/parse";
-import { DATE_FORMAT } from "@/consts/dateFormats";
 
+import ConfirmationModal from "../ConfirmationModal";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { toggleDone, deleteToDo } from "@/redux/actions/todoActions";
+import { DATE_FORMAT } from "@/consts/dateFormats";
+import { useModal } from "@/hooks/useModal";
 import TrashIcon from "@/assets/images/trash.svg?react";
 import EditIcon from "@/assets/images/edit.svg?react";
 
@@ -22,19 +24,18 @@ export const TodoItem: FC<TodoItemProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const { isModalOpen, openModal, closeModal } = useModal();
+
   const handleToggleDone = () => {
     dispatch(toggleDone(id));
   };
 
-  const handleDelete = () => {
-    if (
-      window.confirm(`Are you sure that you want to delete task "${title}"?`)
-    ) {
-      dispatch(deleteToDo(id));
-    }
+  const handleConfirmDelete = () => {
+    dispatch(deleteToDo(id));
+    closeModal();
   };
 
-  const endDateParsed = parse(endDate, DATE_FORMAT, new Date())
+  const endDateParsed = parse(endDate, DATE_FORMAT, new Date());
 
   const titleClass = clsx("todo-item__title", { done });
   const dateClass = clsx("todo-item__date", { done });
@@ -44,34 +45,43 @@ export const TodoItem: FC<TodoItemProps> = ({
   const editButtonClass = clsx("todo-item__button", { disabled: done });
 
   return (
-    <div className={todoItemClass}>
-      <div className="todo-item__title-container">
-        <input
-          type="checkbox"
-          checked={done}
-          onChange={handleToggleDone}
-          className="todo-item__checkbox"
+    <>
+      <div className={todoItemClass}>
+        <div className="todo-item__title-container">
+          <input
+            type="checkbox"
+            checked={done}
+            onChange={handleToggleDone}
+            className="todo-item__checkbox"
+          />
+          <h3 className={titleClass}>{title}</h3>
+        </div>
+        <p className="todo-item__dates">
+          <span className={dateClass}>{startDate}</span>-
+          <span className={dateClass}>{endDate}</span>
+        </p>
+        <div className="todo-item__buttons">
+          <button
+            className={editButtonClass}
+            disabled={done}
+            onClick={() =>
+              handleOpenEditModal({ id, title, startDate, endDate, done })
+            }
+          >
+            <EditIcon className="todo-item__button-image" />
+          </button>
+          <button className="todo-item__button" onClick={openModal}>
+            <TrashIcon className="todo-item__button-image" />
+          </button>
+        </div>
+      </div>
+      {isModalOpen && (
+        <ConfirmationModal
+          message={`Are you sure that you want to delete task "${title}"?`}
+          onConfirm={handleConfirmDelete}
+          onClose={closeModal}
         />
-        <h3 className={titleClass}>{title}</h3>
-      </div>
-      <p className="todo-item__dates">
-        <span className={dateClass}>{startDate}</span>-
-        <span className={dateClass}>{endDate}</span>
-      </p>
-      <div className="todo-item__buttons">
-        <button
-          className={editButtonClass}
-          disabled={done}
-          onClick={() =>
-            handleOpenEditModal({ id, title, startDate, endDate, done })
-          }
-        >
-          <EditIcon className="todo-item__button-image" />
-        </button>
-        <button className="todo-item__button" onClick={handleDelete}>
-          <TrashIcon className="todo-item__button-image" />
-        </button>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

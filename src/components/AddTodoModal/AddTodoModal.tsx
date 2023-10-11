@@ -2,6 +2,7 @@ import { FC } from "react";
 import { format, parse } from "date-fns";
 import DatePicker from "react-datepicker";
 
+import CustomButton from "../CustomButton";
 import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
@@ -129,12 +130,12 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
             required
           />
           <div className="modal__buttons">
-            <button className="modal__button cancel" onClick={handleModalClose}>
+            <CustomButton variant="secondary" onClick={handleModalClose}>
               Cancel
-            </button>
-            <button className="modal__button" type="submit">
+            </CustomButton>
+            <CustomButton variant="primary" type="submit">
               Save
-            </button>
+            </CustomButton>
           </div>
           {modalValidationMessage && (
             <p className="validation-message">{modalValidationMessage}</p>

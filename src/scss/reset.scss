@@ -4,6 +4,7 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: BrutalType;
   box-sizing: border-box;
 }
 
@@ -21,7 +22,6 @@ html {
 }
 
 body {
-  font-family: BrutalType;
   background: var(--background-primary);
   color: var(--text-primary);
   font-style: normal;

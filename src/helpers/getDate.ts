@@ -1,6 +1,6 @@
 import { format, addHours, addMinutes, startOfDay, isSameDay, addDays, endOfDay } from "date-fns";
 import { DATE_FORMAT } from "@/consts/dateFormats";
-import { ADD_ONE_DAY, ADD_FIVE_MINUTES } from "@/consts/timeFrames";
+import { ADD_ONE_DAY, ADD_FIVE_MINUTES, ADD_24_HOURS } from "@/consts/timeFrames";
 
 export const getCurrentDate = () => {
     const currentDate = new Date();
@@ -9,7 +9,7 @@ export const getCurrentDate = () => {
 
 export const getEndDate = () => {
     const currentDate = new Date();
-    const endDate = addHours(currentDate, ADD_ONE_DAY);
+    const endDate = addHours(currentDate, ADD_24_HOURS);
     return format(endDate, DATE_FORMAT);
 }
 
