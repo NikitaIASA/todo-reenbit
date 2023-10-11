@@ -1,5 +1,7 @@
 import { FC } from "react";
 import clsx from "clsx";
+import parse from "date-fns/parse";
+import { DATE_FORMAT } from "@/consts/dateFormats";
 
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
@@ -31,13 +33,18 @@ export const TodoItem: FC<TodoItemProps> = ({
       dispatch(deleteToDo(id));
     }
   };
-
+  const endDateParsed = parse(endDate, DATE_FORMAT, new Date())
+  console.log(endDateParsed);
+  
   const titleClass = clsx("todo-item__title", { done });
   const dateClass = clsx("todo-item__date", { done });
+  const todoItemClass = clsx("todo-item", {
+    expired: endDateParsed < new Date(),
+  });
   const editButtonClass = clsx("todo-item__button", { disabled: done });
 
   return (
-    <div className="todo-item">
+    <div className={todoItemClass}>
       <div className="todo-item__title-container">
         <input
           type="checkbox"

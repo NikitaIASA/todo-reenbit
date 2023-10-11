@@ -12,6 +12,9 @@
   border-radius: 15px;
   background: var(--background-secondary);
 
+  &.expired {
+    border: 2px solid $error;
+  }
 
   &__title-container {
     display: flex;

@@ -34,14 +34,9 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
   } = useTodoContext();
   const { switchCompletedFilter } = useSwitchCompletedFilter();
 
-  console.log(endDate);
-
-
   const expirationDate = endDate
     ? parse(endDate, DATE_FORMAT, new Date())
     : null;
-
-    console.log(expirationDate);
 
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
   const handleModalClick = (event: React.MouseEvent<HTMLDivElement>) => {
