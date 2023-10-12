@@ -7,7 +7,7 @@ interface CustomButtonProps {
   children: ReactNode;
   isDisabled?: boolean;
   variant?: "primary" | "secondary";
-  type?: "button" | "submit" | "reset"; // Добавляем атрибут type
+  type?: "button" | "submit" | "reset"; 
   className?: string;
   onClick?: () => void;
 }
