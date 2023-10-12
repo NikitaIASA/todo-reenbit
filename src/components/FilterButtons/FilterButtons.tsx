@@ -36,6 +36,7 @@ export const FilterButtons: FC = () => {
           {FILTER_TYPES.map(({ key, label }) => (
             <CustomButton
               key={key}
+              variant="primary"
               onClick={() => handleFilterClick(key)}
               isDisabled={currentFilter === key}
             >
@@ -55,7 +56,7 @@ export const FilterButtons: FC = () => {
       </div>
       {isModalOpen && (
         <ConfirmationModal
-          message={"Are you sure that you want to delete all completed tasks?"}
+          message="Are you sure that you want to delete all completed tasks?"
           onConfirm={handleConfirmDelete}
           onClose={closeModal}
         />
