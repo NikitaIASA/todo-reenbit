@@ -3,40 +3,44 @@ import { format, parse } from "date-fns";
 import DatePicker from "react-datepicker";
 
 import CustomButton from "../../UI/CustomButton";
+import { ITodoItem } from "@/types/todoItemDto";
+import { TodoType } from "@/types/todoItemDto";
 import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { getUniqueId } from "@/helpers/getUniqueId";
-import { useTodoContext } from "@/context/TodoContext";
 import { isValid } from "@/helpers/isValid";
 import { editTodo, addTodo } from "@/redux/actions/todoActions";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
 
 interface AddTodoModalProps {
+  todo: TodoType;
+  updateTodo: (updates: Partial<TodoType>) => void;
+  modalValidationMessage: string;
+  setModalValidationMessage: (message: string) => void;
+  editItem: ITodoItem | null;
+  resetData: () => void;
   onClose: () => void;
 }
 
-export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
+export const AddTodoModal: FC<AddTodoModalProps> = ({
+  todo,
+  updateTodo,
+  modalValidationMessage,
+  setModalValidationMessage,
+  editItem,
+  resetData,
+  onClose,
+}) => {
   const dispatch = useAppDispatch();
-  const {
-    modalTitle,
-    setModalTitle,
-    startDate,
-    endDate,
-    setEndDate,
-    modalValidationMessage,
-    setModalValidationMessage,
-    editItem,
-    resetData,
-  } = useTodoContext();
   const { switchCompletedFilter } = useSwitchCompletedFilter();
 
-  const expirationDate = endDate
-    ? parse(endDate, DATE_FORMAT, new Date())
+  const expirationDate = todo.endDate
+    ? parse(todo.endDate, DATE_FORMAT, new Date())
     : null;
 
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
@@ -52,7 +56,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (modalTitle.trim()) {
+    if (todo.modalTitle.trim()) {
       handleSave();
     } else {
       setModalValidationMessage("Title cannot be empty or contain only spaces");
@@ -60,12 +64,12 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
   };
 
   const handleSave = () => {
-    if (isValid(modalTitle)) {
+    if (isValid(todo.modalTitle)) {
       const newTodo = {
         id: editItem ? editItem.id : getUniqueId(),
-        title: modalTitle,
-        startDate,
-        endDate,
+        title: todo.modalTitle,
+        startDate: todo.startDate,
+        endDate: todo.endDate,
         done: false,
       };
       if (editItem) {
@@ -73,7 +77,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
       } else {
         dispatch(addTodo(newTodo));
       }
-      switchCompletedFilter();  
+      switchCompletedFilter();
       onClose();
       resetData();
     } else {
@@ -86,9 +90,10 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
     resetData();
   };
 
-  const handleRawChange = (e: React.ChangeEvent<HTMLInputElement>) => { // preventing data entry from the keyboard 
+  // preventing data entry from the keyboard
+  const handleRawChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-};
+  };
 
   return (
     <div className="modal-overlay" onClick={handleModalClose}>
@@ -101,8 +106,8 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
           <input
             className="modal__input"
             type="text"
-            value={modalTitle}
-            onChange={(e) => setModalTitle(e.target.value)}
+            value={todo.modalTitle}
+            onChange={(e) => updateTodo({ modalTitle: e.target.value })}
             onKeyDown={preventKeyDownSubmit}
             maxLength={MAX_INPUT_LENGTH}
             required
@@ -111,7 +116,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
           <input
             className="modal__input"
             type="text"
-            value={startDate}
+            value={todo.startDate}
             readOnly
           />
           <label className="modal__label">Expiration date</label>
@@ -120,7 +125,9 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
             showIcon
             selected={expirationDate}
             onChange={(date) =>
-              setEndDate(date ? format(date, DATE_FORMAT) : "")
+              updateTodo({
+                endDate: date ? format(date, DATE_FORMAT) : "",
+              })
             }
             todayButton="Today"
             timeFormat={TIME_FORMAT}
