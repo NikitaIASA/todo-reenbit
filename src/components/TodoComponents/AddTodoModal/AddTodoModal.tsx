@@ -73,7 +73,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
       } else {
         dispatch(addTodo(newTodo));
       }
-      switchCompletedFilter();
+      switchCompletedFilter();  
       onClose();
       resetData();
     } else {
@@ -85,6 +85,10 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
     onClose();
     resetData();
   };
+
+  const handleRawChange = (e: React.ChangeEvent<HTMLInputElement>) => { // preventing data entry from the keyboard 
+    e.preventDefault();
+};
 
   return (
     <div className="modal-overlay" onClick={handleModalClose}>
@@ -126,6 +130,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({ onClose }) => {
             showTimeSelect
             minDate={new Date()}
             minTime={getMinDate(expirationDate)}
+            onChangeRaw={handleRawChange}
             maxTime={getMaxDate(new Date())}
             required
           />
