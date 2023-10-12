@@ -84,7 +84,7 @@ export const Home: FC = () => {
           {validationMessage && (
             <p className="validation-message">{validationMessage}</p>
           )}
-          <SearchInput value={query} onChange={setQuery} />
+          <SearchInput onChange={setQuery} />
           <FilterButtons />
         </div>
         <ToDoDashboard
