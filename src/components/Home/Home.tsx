@@ -24,10 +24,10 @@ export const Home: FC = () => {
   const { query, setQuery } = useSearch();
   const [todo, setTodo] = useState<TodoType>({
     title: "",
-    modalTitle: "",
     startDate: getCurrentDate(),
     endDate: getEndDate(),
   });
+  const [modalTitle, setModalTitle] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
   const [modalValidationMessage, setModalValidationMessage] = useState("");
   const [editItem, setEditItem] = useState<ITodoItem | null>(null);
@@ -40,30 +40,30 @@ export const Home: FC = () => {
   const resetData = () => {
     updateTodo({
       title: "",
-      modalTitle: "",
       startDate: getCurrentDate(),
       endDate: getEndDate(),
     });
+    setModalTitle("");
   };
 
   const handleModalOpen = () => {
     setEditItem(null);
     openModal();
     updateTodo({
-      modalTitle: todo.title,
       startDate: getCurrentDate(),
       endDate: "",
     });
+    setModalTitle(todo.title);
   };
 
   const handleOpenEditModal = (item: ITodoItem) => {
     setEditItem(item);
     openModal();
     updateTodo({
-      modalTitle: item.title,
       startDate: item.startDate,
       endDate: item.endDate,
     });
+    setModalTitle(item.title);
   };
 
   return (
@@ -97,6 +97,8 @@ export const Home: FC = () => {
         <AddTodoModal
           onClose={closeModal}
           todo={todo}
+          modalTitle={modalTitle}
+          setModalTitle={setModalTitle}
           updateTodo={updateTodo}
           modalValidationMessage={modalValidationMessage}
           setModalValidationMessage={setModalValidationMessage}

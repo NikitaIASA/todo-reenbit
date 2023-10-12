@@ -19,26 +19,30 @@ import "./AddTodoModal.scss";
 
 interface AddTodoModalProps {
   todo: TodoType;
-  updateTodo: (updates: Partial<TodoType>) => void;
-  modalValidationMessage: string;
-  setModalValidationMessage: (message: string) => void;
+  modalTitle: string;
   editItem: ITodoItem | null;
+  modalValidationMessage: string;
+  updateTodo: (updates: Partial<TodoType>) => void;
+  setModalValidationMessage: (message: string) => void;
+  setModalTitle: (modalTitle: string) => void;
   resetData: () => void;
   onClose: () => void;
 }
 
 export const AddTodoModal: FC<AddTodoModalProps> = ({
   todo,
+  modalTitle,
   updateTodo,
   modalValidationMessage,
   setModalValidationMessage,
+  setModalTitle,
   editItem,
   resetData,
   onClose,
 }) => {
   const dispatch = useAppDispatch();
   const { switchCompletedFilter } = useSwitchCompletedFilter();
-
+  
   const expirationDate = todo.endDate
     ? parse(todo.endDate, DATE_FORMAT, new Date())
     : null;
@@ -56,7 +60,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (todo.modalTitle.trim()) {
+    if (modalTitle.trim()) {
       handleSave();
     } else {
       setModalValidationMessage("Title cannot be empty or contain only spaces");
@@ -64,10 +68,10 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   };
 
   const handleSave = () => {
-    if (isValid(todo.modalTitle)) {
+    if (isValid(modalTitle)) {
       const newTodo = {
         id: editItem ? editItem.id : getUniqueId(),
-        title: todo.modalTitle,
+        title: modalTitle,
         startDate: todo.startDate,
         endDate: todo.endDate,
         done: false,
@@ -106,8 +110,8 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
           <input
             className="modal__input"
             type="text"
-            value={todo.modalTitle}
-            onChange={(e) => updateTodo({ modalTitle: e.target.value })}
+            value={modalTitle}
+            onChange={(e) => setModalTitle(e.target.value)}
             onKeyDown={preventKeyDownSubmit}
             maxLength={MAX_INPUT_LENGTH}
             required
