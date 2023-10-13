@@ -1,7 +1,9 @@
-import { FC, useRef, useCallback, useState } from "react";
-import { debounce } from "lodash";
+import { FC, useState, useRef, useCallback } from "react";
 
+import { debounce } from "@/helpers/debounce";
+import { SEARCH_DELAY } from "@/consts/debounceDelays";
 import clearIcon from "@/assets/images/clearIcon.svg";
+
 import "./SearchInput.scss";
 
 interface SearchInputProps {
@@ -15,7 +17,7 @@ export const SearchInput: FC<SearchInputProps> = ({ onChange }) => {
   const updateSearchValue = useCallback(
     debounce((str) => {
       onChange(str);
-    }, 250),
+    }, SEARCH_DELAY),
     []
   );
 
