@@ -7,6 +7,7 @@
   border: 2px solid var(--border-primary);
   border-radius: 5px;
   background-color: var(--input-background);
+  color: var(--text-primary);
   font-size: 1.25rem;
 
   @include onBig-tablet {
@@ -14,6 +15,6 @@
   }
 
   @include onMobile {
-    width: 300px;
+    width: 260px;
   }
 }

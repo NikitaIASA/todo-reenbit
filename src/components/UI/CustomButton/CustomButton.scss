@@ -1,0 +1,25 @@
+@import "@/scss/index.scss";
+
+.custom-button {
+  padding: 8px 15px;
+  font-weight: 400;
+  font-size: 14px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.custom-button--primary {
+  background: var(--button-primary);
+  color: $black;
+}
+
+.custom-button--secondary {
+  background: var(--button-secondary);
+  color: $black;
+}
+
+.custom-button--disabled {
+  background: var(--button-active);
+  opacity: 0.7;
+}

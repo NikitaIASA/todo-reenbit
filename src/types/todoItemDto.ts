@@ -1,5 +1,11 @@
 import { actionTypes } from "./actionTypes";
 
+export interface TodoType {
+    title: string;
+    startDate: string;
+    endDate: string;
+}
+
 export interface ITodoItem {
     id: string;
     title: string;

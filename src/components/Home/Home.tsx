@@ -1,141 +1,90 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 
 import Container from "../Container";
 import Header from "../Header";
-import TodoInput from "../TodoInput";
-import ToDoDashboard from "../TodoDashboard";
-import AddTodoButton from "../AddTodoButton";
-import AddTodoModal from "../AddTodoModal";
+import TodoInput from "../TodoComponents/TodoInput";
+import ToDoDashboard from "../TodoComponents/TodoDashboard";
+import AddTodoButton from "../TodoComponents/AddTodoButton";
+import AddTodoModal from "../TodoComponents/AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
 import ThemeSwitcher from "../ThemeSwitcher";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
-import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { getUniqueId } from "@/helpers/getUniqueId";
-import { isValid } from "@/helpers/isValid";
-import { addTodo, editTodo } from "@/redux/actions/todoActions";
 import { ITodoItem } from "@/types/todoItemDto";
-import { setFilter } from "@/redux/actions/filterActions";
-import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
-import { selectFilter } from "@/redux/selectors/filterSelectors";
-import { FILTER_OPTIONS } from "@/consts/filterOptions";
 import { useSearch } from "@/hooks/useSearch";
+import { useModal } from "@/hooks/useModal";
+import { TodoType } from "@/types/todoItemDto";
 
 import "./Home.scss";
 
 export const Home: FC = () => {
-  const dispatch = useAppDispatch();
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const { query, setQuery } = useSearch();
+  const [todo, setTodo] = useState<TodoType>({
+    title: "",
+    startDate: getCurrentDate(),
+    endDate: getEndDate(),
+  });
+  const [modalTitle, setModalTitle] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
   const [modalValidationMessage, setModalValidationMessage] = useState("");
-  const [title, setTitle] = useState("");
-  const [modalTitle, setModalTitle] = useState("");
-  const [startDate, setStartDate] = useState(getCurrentDate());
-  const [endDate, setEndDate] = useState(getEndDate());
   const [editItem, setEditItem] = useState<ITodoItem | null>(null);
-  const { query, setQuery } = useSearch();
-
   const todoItems = useAppSelector(selectTodoItems);
-  const completedTasks = useAppSelector(selectCompletedTodos);
-  const currentFilter = useAppSelector(selectFilter);
 
-  const checkAndSwitchFilter = () => {
-    if (currentFilter === FILTER_OPTIONS.COMPLETED && !completedTasks.length) {
-      dispatch(setFilter(FILTER_OPTIONS.ALL));
-    }
+  const updateTodo = (updates: Partial<typeof todo>) => {
+    setTodo((prevState) => ({ ...prevState, ...updates }));
   };
 
   const resetData = () => {
-    setTitle("");
-    setStartDate(getCurrentDate());
-    setEndDate(getEndDate());
-    setValidationMessage("");
-    setModalValidationMessage("");
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && title.trim()) {
-      if (isValid(title)) {
-        dispatch(
-          addTodo({ id: getUniqueId(), title, startDate, endDate, done: false })
-        );
-        checkAndSwitchFilter();
-        resetData();
-      } else {
-        setValidationMessage("No special symbols allowed");
-      }
-    }
-  };
-
-  const handleSave = () => {
-    if (isValid(modalTitle)) {
-      const newTodo = {
-        id: editItem ? editItem.id : getUniqueId(),
-        title: modalTitle,
-        startDate,
-        endDate,
-        done: false,
-      };
-      if (editItem) {
-        dispatch(editTodo(newTodo));
-      } else {
-        dispatch(addTodo(newTodo));
-      }
-      checkAndSwitchFilter();
-      setIsOpenModal(false);
-      resetData();
-    } else {
-      setModalValidationMessage("No special symbols allowed");
-    }
+    updateTodo({
+      title: "",
+      startDate: getCurrentDate(),
+      endDate: getEndDate(),
+    });
+    setModalTitle("");
   };
 
   const handleModalOpen = () => {
     setEditItem(null);
-    setIsOpenModal(true);
-    setModalTitle(title);
-    setStartDate(getCurrentDate());
-    setEndDate("");
-  };
-
-  const handleModalClose = () => {
-    setIsOpenModal(false);
-    resetData();
+    openModal();
+    updateTodo({
+      startDate: getCurrentDate(),
+      endDate: "",
+    });
+    setModalTitle(todo.title);
   };
 
   const handleOpenEditModal = (item: ITodoItem) => {
     setEditItem(item);
-    setIsOpenModal(true);
+    openModal();
+    updateTodo({
+      startDate: item.startDate,
+      endDate: item.endDate,
+    });
     setModalTitle(item.title);
-    setEndDate(item.endDate);
-    setStartDate(item.startDate);
   };
-
-  // Prevent page scrolling while the modal is open.
-  useEffect(() => {
-    isOpenModal && document.body.classList.add("modal-open");
-    !isOpenModal && document.body.classList.remove("modal-open");
-  }, [isOpenModal]);
 
   return (
     <Container>
-      <ThemeSwitcher/>
+      <ThemeSwitcher />
       <Header />
       <main className="main">
         <div className="enter-block">
           <div className="input-container">
             <TodoInput
-              title={title}
-              setTitle={setTitle}
-              handleKeyDown={handleKeyDown}
+              todo={todo}
+              updateTodo={updateTodo}
+              setValidationMessage={setValidationMessage}
+              resetData={resetData}
             />
             <AddTodoButton onAddTodoButtonClick={handleModalOpen} />
           </div>
           {validationMessage && (
             <p className="validation-message">{validationMessage}</p>
           )}
-          <SearchInput value={query} onChange={setQuery} />
+          <SearchInput onChange={setQuery} />
           <FilterButtons />
         </div>
         <ToDoDashboard
@@ -144,18 +93,17 @@ export const Home: FC = () => {
           handleOpenEditModal={handleOpenEditModal}
         />
       </main>
-      {isOpenModal && (
+      {isModalOpen && (
         <AddTodoModal
-          title={modalTitle}
-          endDate={endDate}
-          startDate={startDate}
-          validationMessage={modalValidationMessage}
-          setTitle={setModalTitle}
-          setEndDate={setEndDate}
-          setValidationMessage={setModalValidationMessage}
-          onClose={handleModalClose}
-          onSave={handleSave}
-          isEditMode={!!editItem}
+          onClose={closeModal}
+          todo={todo}
+          modalTitle={modalTitle}
+          setModalTitle={setModalTitle}
+          updateTodo={updateTodo}
+          modalValidationMessage={modalValidationMessage}
+          setModalValidationMessage={setModalValidationMessage}
+          editItem={editItem}
+          resetData={resetData}
         />
       )}
     </Container>
