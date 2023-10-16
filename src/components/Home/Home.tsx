@@ -44,6 +44,8 @@ export const Home: FC = () => {
       endDate: getEndDate(),
     });
     setModalTitle("");
+    setValidationMessage("");
+    setModalValidationMessage("");
   };
 
   const handleModalOpen = () => {
