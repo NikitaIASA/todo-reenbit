@@ -22,6 +22,7 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 import { ERROR_MESSAGES } from "@/consts/Messages";
 import { KEYS } from "@/consts/keys";
+import { ButtonTypes, ButtonVariants } from "@/types/buttonTypes";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
@@ -172,10 +173,10 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             required
           />
           <div className="modal__buttons">
-            <CustomButton variant="secondary" onClick={handleModalClose}>
+            <CustomButton variant={ButtonVariants.SECONDARY} onClick={handleModalClose}>
               Cancel
             </CustomButton>
-            <CustomButton variant="primary" type="submit">
+            <CustomButton variant={ButtonVariants.PRIMARY} type={ButtonTypes.SUBMIT}>
               Save
             </CustomButton>
           </div>

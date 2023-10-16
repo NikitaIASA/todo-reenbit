@@ -11,6 +11,7 @@ import { deleteCompletedTodos } from "@/redux/actions/todoActions";
 import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
+import { ButtonVariants } from "@/types/buttonTypes";
 
 import "./FilterButtons.scss";
 
@@ -37,7 +38,7 @@ export const FilterButtons: FC = () => {
           {FILTER_TYPES.map(({ key, label }) => (
             <CustomButton
               key={key}
-              variant="primary"
+              variant={ButtonVariants.PRIMARY}
               onClick={() => handleFilterClick(key)}
               isDisabled={currentFilter === key}
             >
@@ -48,7 +49,7 @@ export const FilterButtons: FC = () => {
         <div className="clear-buttons">
           <CustomButton
             onClick={openModal}
-            variant="secondary"
+            variant={ButtonVariants.SECONDARY}
             isDisabled={!completedTasks.length}
           >
             Clear сompleted
