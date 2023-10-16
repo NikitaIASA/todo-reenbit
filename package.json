@@ -13,7 +13,6 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@types/react-redux": "^7.1.27",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
@@ -24,11 +23,11 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
-    "sass": "^1.68.0",
-    "uuid": "^9.0.1",
-    "vite-plugin-svgr": "^4.1.0"
+    "vite-plugin-svgr": "^4.1.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/react-redux": "^7.1.27",
     "@types/react": "^18.2.15",
     "@types/react-datepicker": "^4.15.1",
     "@types/react-dom": "^18.2.7",
@@ -40,6 +39,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "typescript": "^5.0.2",
+    "sass": "^1.68.0",
     "vite": "^4.4.5"
   }
 }
