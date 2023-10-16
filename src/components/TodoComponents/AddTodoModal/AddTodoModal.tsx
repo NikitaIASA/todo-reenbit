@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { format, parse } from "date-fns";
+import { format, parse, isToday, setHours, setMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 
 import CustomButton from "../../UI/CustomButton";
@@ -42,7 +42,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { switchCompletedFilter } = useSwitchCompletedFilter();
-  
+
   const expirationDate = todo.endDate
     ? parse(todo.endDate, DATE_FORMAT, new Date())
     : null;
@@ -65,6 +65,22 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     } else {
       setModalValidationMessage("Title cannot be empty or contain only spaces");
     }
+  };
+
+  const handleDateChange = (date: Date) => {
+    let selectedDate;
+
+    if (isToday(date)) {
+      selectedDate = new Date();
+    } else {
+      selectedDate = date ? setHours(setMinutes(date, 0), 0) : null;
+    }
+
+    const formattedDate = selectedDate ? format(selectedDate, DATE_FORMAT) : "";
+
+    updateTodo({
+      endDate: formattedDate,
+    });
   };
 
   const handleSave = () => {
@@ -128,12 +144,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             className="modal__input"
             showIcon
             selected={expirationDate}
-            onChange={(date) =>
-              updateTodo({
-                endDate: date ? format(date, DATE_FORMAT) : "",
-              })
-            }
-            todayButton="Today"
+            onChange={handleDateChange}
             timeFormat={TIME_FORMAT}
             dateFormat={DATE_FORMAT}
             timeIntervals={TIME_INTERVAL}
