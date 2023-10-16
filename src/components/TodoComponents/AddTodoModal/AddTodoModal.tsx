@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, MouseEvent, KeyboardEvent, FormEvent, ChangeEvent } from "react";
 import { format, parse, isToday, setHours, setMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 
@@ -48,17 +48,17 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     : null;
 
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
-  const handleModalClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleModalClick = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
   };
 
-  const preventKeyDownSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const preventKeyDownSubmit = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (modalTitle.trim()) {
       handleSave();
@@ -111,7 +111,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   };
 
   // preventing data entry from the keyboard
-  const handleRawChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRawChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
   };
 
