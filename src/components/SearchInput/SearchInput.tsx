@@ -2,7 +2,7 @@ import { FC, useState, useRef, useCallback } from "react";
 
 import { debounce } from "@/helpers/debounce";
 import { SEARCH_DELAY } from "@/consts/debounceDelays";
-import clearIcon from "@/assets/images/clearIcon.svg";
+import ClearIcon from "@/assets/images/clearIcon.svg?react";
 
 import "./SearchInput.scss";
 
@@ -43,12 +43,7 @@ export const SearchInput: FC<SearchInputProps> = ({ onChange }) => {
         placeholder="Search..."
       />
       {internalvalue && (
-        <img
-          onClick={onClear}
-          className="search__clear-icon"
-          src={clearIcon}
-          alt="clear icon"
-        />
+        <ClearIcon className="search__clear-icon" onClick={onClear} />
       )}
     </div>
   );
