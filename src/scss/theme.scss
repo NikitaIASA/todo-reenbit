@@ -9,6 +9,8 @@
     --button-primary: #{$green};
     --button-secondary: #{$light-grey};
     --button-active: #{$light-green};
+    --button-primary-hover: #{darken($green, 10%)};
+    --button-secondary-hover: #{darken($light-grey, 10%)};
     --border-primary: #{$light-grey};
     --text-primary: #{$black};
     --text-secondary: #{$light-blue};
@@ -23,6 +25,8 @@
     --button-primary: #{$green};
     --button-secondary: #{$light-grey};
     --button-active: #{$light-green};
+    --button-primary-hover: #{darken($green, 10%)};
+    --button-secondary-hover: #{darken($light-grey, 25%)};
     --border-primary: #{$black};
     --text-primary: #{$light-grey};
     --text-secondary: #{$light-blue};
