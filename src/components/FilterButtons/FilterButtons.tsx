@@ -10,6 +10,7 @@ import { FILTER_TYPES } from "@/consts/filterOptions";
 import { deleteCompletedTodos } from "@/redux/actions/todoActions";
 import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
+import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
 
 import "./FilterButtons.scss";
 
@@ -56,7 +57,7 @@ export const FilterButtons: FC = () => {
       </div>
       {isModalOpen && (
         <ConfirmationModal
-          message="Are you sure that you want to delete all completed tasks?"
+          message={CONFIRMATION_MESSAGES.DELETE_ALL_COMPLETED}
           onConfirm={handleConfirmDelete}
           onClose={closeModal}
         />

@@ -1,8 +1,15 @@
-import { FC, MouseEvent, KeyboardEvent, FormEvent, ChangeEvent } from "react";
-import { format, parse, isToday, setHours, setMinutes } from "date-fns";
+import {
+  FC,
+  MouseEvent,
+  KeyboardEvent,
+  FormEvent,
+  ChangeEvent,
+  useState,
+} from "react";
+import { format, parse, isToday, addMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 
-import CustomButton from "../../UI/CustomButton";
+import CustomButton from "@/components/UI/CustomButton";
 import { ITodoItem } from "@/types/todoItemDto";
 import { TodoType } from "@/types/todoItemDto";
 import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
@@ -13,6 +20,8 @@ import { isValid } from "@/helpers/isValid";
 import { editTodo, addTodo } from "@/redux/actions/todoActions";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
+import { ERROR_MESSAGES } from "@/consts/Messages";
+import { KEYS } from "@/consts/keys";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
@@ -43,6 +52,28 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   const dispatch = useAppDispatch();
   const { switchCompletedFilter } = useSwitchCompletedFilter();
 
+  const [isTodayDateSet, setIsTodayDateSet] = useState<boolean>(false);
+
+  const handleDateChange = (selectedDate: Date | null) => {
+    if (selectedDate && isToday(selectedDate) && !isTodayDateSet) {
+      selectedDate = addMinutes(new Date(), 5); // Setting the current time + 5min only on the first click on today's date
+      setIsTodayDateSet(true);
+    } else if (selectedDate && !isToday(selectedDate)) {
+      setIsTodayDateSet(false);
+    }
+
+    if (selectedDate) {
+      const formattedDate = format(selectedDate, DATE_FORMAT);
+      updateTodo({
+        endDate: formattedDate,
+      });
+    } else {
+      updateTodo({
+        endDate: "",
+      });
+    }
+  };
+
   const expirationDate = todo.endDate
     ? parse(todo.endDate, DATE_FORMAT, new Date())
     : null;
@@ -53,7 +84,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   };
 
   const preventKeyDownSubmit = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === KEYS.ENTER) {
       e.preventDefault();
     }
   };
@@ -63,24 +94,8 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     if (modalTitle.trim()) {
       handleSave();
     } else {
-      setModalValidationMessage("Title cannot be empty or contain only spaces");
+      setModalValidationMessage(ERROR_MESSAGES.EMPTY_TITLE);
     }
-  };
-
-  const handleDateChange = (date: Date) => {
-    let selectedDate;
-
-    if (isToday(date)) {
-      selectedDate = new Date();
-    } else {
-      selectedDate = date ? setHours(setMinutes(date, 0), 0) : null;
-    }
-
-    const formattedDate = selectedDate ? format(selectedDate, DATE_FORMAT) : "";
-
-    updateTodo({
-      endDate: formattedDate,
-    });
   };
 
   const handleSave = () => {
@@ -101,7 +116,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
       onClose();
       resetData();
     } else {
-      setModalValidationMessage("No special symbols allowed");
+      setModalValidationMessage(ERROR_MESSAGES.INVALID_SYMBOLS);
     }
   };
 

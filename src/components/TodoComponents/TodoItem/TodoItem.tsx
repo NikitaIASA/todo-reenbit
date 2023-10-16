@@ -10,6 +10,7 @@ import { DATE_FORMAT } from "@/consts/dateFormats";
 import { useModal } from "@/hooks/useModal";
 import TrashIcon from "@/assets/images/trash.svg?react";
 import EditIcon from "@/assets/images/edit.svg?react";
+import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
 
 import "./TodoItem.scss";
 
@@ -77,7 +78,7 @@ export const TodoItem: FC<TodoItemProps> = ({
       </div>
       {isModalOpen && (
         <ConfirmationModal
-          message={`Are you sure that you want to delete task "${title}"?`}
+          message={`${CONFIRMATION_MESSAGES.DELETE_ONE_TASK} "${title}"?`}
           onConfirm={handleConfirmDelete}
           onClose={closeModal}
         />
