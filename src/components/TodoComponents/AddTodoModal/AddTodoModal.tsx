@@ -56,11 +56,13 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   const [isTodayDateSet, setIsTodayDateSet] = useState<boolean>(false);
 
   const handleDateChange = (selectedDate: Date | null) => {
-    
     if (selectedDate && isToday(selectedDate) && !isTodayDateSet) {
       selectedDate = addMinutes(new Date(), 5); // Setting the current time + 5min only on the first click on today's date
       setIsTodayDateSet(true);
     } 
+    else if (selectedDate && !isToday(selectedDate)) {
+      setIsTodayDateSet(false);
+    }
 
     if (selectedDate) {
       const formattedDate = format(selectedDate, DATE_FORMAT);
