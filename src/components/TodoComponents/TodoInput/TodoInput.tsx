@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, KeyboardEvent } from "react";
 
 import { TodoType } from "@/types/todoItemDto";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
@@ -7,6 +7,8 @@ import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 import { addTodo } from "@/redux/actions/todoActions";
 import { getUniqueId } from "@/helpers/getUniqueId";
 import { isValid } from "@/helpers/isValid";
+import { ERROR_MESSAGES } from "@/consts/Messages";
+import { KEYS } from "@/consts/keys";
 
 import "./TodoInput.scss";
 
@@ -26,8 +28,8 @@ export const TodoInput: FC<TodoInputProps> = ({
   const dispatch = useAppDispatch();
   const { switchCompletedFilter } = useSwitchCompletedFilter();
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && todo.title.trim()) {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === KEYS.ENTER && todo.title.trim()) {
       if (isValid(todo.title)) {
         dispatch(
           addTodo({
@@ -41,7 +43,7 @@ export const TodoInput: FC<TodoInputProps> = ({
         switchCompletedFilter();
         resetData();
       } else {
-        setValidationMessage("No special symbols allowed");
+        setValidationMessage(ERROR_MESSAGES.INVALID_SYMBOLS);
       }
     }
   };

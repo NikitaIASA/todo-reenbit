@@ -1,8 +1,15 @@
-import { FC } from "react";
-import { format, parse } from "date-fns";
+import {
+  FC,
+  MouseEvent,
+  KeyboardEvent,
+  FormEvent,
+  ChangeEvent,
+  useState,
+} from "react";
+import { format, parse, isToday, addMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 
-import CustomButton from "../../UI/CustomButton";
+import CustomButton from "@/components/UI/CustomButton";
 import { ITodoItem } from "@/types/todoItemDto";
 import { TodoType } from "@/types/todoItemDto";
 import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
@@ -13,6 +20,9 @@ import { isValid } from "@/helpers/isValid";
 import { editTodo, addTodo } from "@/redux/actions/todoActions";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
+import { ERROR_MESSAGES } from "@/consts/Messages";
+import { KEYS } from "@/consts/keys";
+import { ButtonTypes, ButtonVariants } from "@/types/buttonTypes";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
@@ -42,28 +52,51 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { switchCompletedFilter } = useSwitchCompletedFilter();
-  
+
+  const [isTodayDateSet, setIsTodayDateSet] = useState<boolean>(false);
+
+  const handleDateChange = (selectedDate: Date | null) => {
+    if (selectedDate && isToday(selectedDate) && !isTodayDateSet) {
+      selectedDate = addMinutes(new Date(), 5); // Setting the current time + 5min only on the first click on today's date
+      setIsTodayDateSet(true);
+    } 
+    else if (selectedDate && !isToday(selectedDate)) {
+      setIsTodayDateSet(false);
+    }
+
+    if (selectedDate) {
+      const formattedDate = format(selectedDate, DATE_FORMAT);
+      updateTodo({
+        endDate: formattedDate,
+      });
+    } else {
+      updateTodo({
+        endDate: "",
+      });
+    }
+  };
+
   const expirationDate = todo.endDate
     ? parse(todo.endDate, DATE_FORMAT, new Date())
     : null;
 
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
-  const handleModalClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleModalClick = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
   };
 
-  const preventKeyDownSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+  const preventKeyDownSubmit = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === KEYS.ENTER) {
       e.preventDefault();
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (modalTitle.trim()) {
       handleSave();
     } else {
-      setModalValidationMessage("Title cannot be empty or contain only spaces");
+      setModalValidationMessage(ERROR_MESSAGES.EMPTY_TITLE);
     }
   };
 
@@ -85,7 +118,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
       onClose();
       resetData();
     } else {
-      setModalValidationMessage("No special symbols allowed");
+      setModalValidationMessage(ERROR_MESSAGES.INVALID_SYMBOLS);
     }
   };
 
@@ -95,7 +128,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   };
 
   // preventing data entry from the keyboard
-  const handleRawChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRawChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
   };
 
@@ -128,12 +161,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             className="modal__input"
             showIcon
             selected={expirationDate}
-            onChange={(date) =>
-              updateTodo({
-                endDate: date ? format(date, DATE_FORMAT) : "",
-              })
-            }
-            todayButton="Today"
+            onChange={handleDateChange}
             timeFormat={TIME_FORMAT}
             dateFormat={DATE_FORMAT}
             timeIntervals={TIME_INTERVAL}
@@ -146,10 +174,10 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             required
           />
           <div className="modal__buttons">
-            <CustomButton variant="secondary" onClick={handleModalClose}>
+            <CustomButton variant={ButtonVariants.SECONDARY} onClick={handleModalClose}>
               Cancel
             </CustomButton>
-            <CustomButton variant="primary" type="submit">
+            <CustomButton variant={ButtonVariants.PRIMARY} type={ButtonTypes.SUBMIT}>
               Save
             </CustomButton>
           </div>

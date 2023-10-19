@@ -6,20 +6,37 @@
   font-size: 14px;
   border-radius: 5px;
   border: none;
+  transition: .2s linear;
   cursor: pointer;
 }
 
 .custom-button--primary {
   background: var(--button-primary);
   color: $black;
+
+  &:hover {
+    background: var(--button-primary-hover);
+  }
+
 }
 
 .custom-button--secondary {
   background: var(--button-secondary);
   color: $black;
+  
+  &:hover {
+    background: var(--button-secondary-hover);
+  }
+
 }
 
 .custom-button--disabled {
   background: var(--button-active);
   opacity: 0.7;
+  cursor: initial;
+
+  &:hover {
+    background: var(--button-active);
+  }
+
 }
