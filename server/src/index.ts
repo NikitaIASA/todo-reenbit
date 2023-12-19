@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
+import userRoutes from './routes/userRoutes';
+
 dotenv.config();
 
 const { DB_URL, PORT = 8000 } = process.env;
@@ -24,6 +26,7 @@ app.use(cors());
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello world');
 });
+app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server OK, running on port ${PORT}`);
