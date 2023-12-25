@@ -1,7 +1,7 @@
+import { loginRequest, loginSuccess, loginFailure } from "@/redux/actions/authActions";
 import { Dispatch } from 'redux';
 
 import api from "@/core/api";
-import { loginRequest, loginSuccess, loginFailure } from "@/redux/actions/authActions";
 
 export const login = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
@@ -18,7 +18,7 @@ export const login = (email: string, password: string) => {
       dispatch(loginSuccess(data));
     } catch (error: any) {
       dispatch(loginFailure(error.response?.data || 'Unknown error'));
-      throw error; 
+      throw error;
     }
   };
 };

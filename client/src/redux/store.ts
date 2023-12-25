@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
-import thunk from 'redux-thunk';
+import thunk, {ThunkDispatch} from 'redux-thunk';
 import storage from 'redux-persist/lib/storage';
 
 import todoReducer from './reducers/todoReducer';
@@ -28,5 +28,6 @@ export const store = createStore(
 
 export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+type AppAction = ReturnType<typeof store.dispatch>;
+export type AppDispatch = ThunkDispatch<RootState, unknown, AppAction>;
 export type GetRootState = typeof store.getState;

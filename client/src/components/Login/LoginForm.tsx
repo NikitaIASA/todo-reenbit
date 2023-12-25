@@ -27,7 +27,7 @@ export const LoginForm = () => {
   } = useForm<ILoginForm>({
     resolver: yupResolver(signInSchema),
   });
-
+  
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     await dispatch(login(data.email, data.password));
     navigate(ROUTE_PATHS.HOME);
