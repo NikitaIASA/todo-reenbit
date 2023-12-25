@@ -1,5 +1,7 @@
+import { getToken } from "@/helpers/tokenHelpers";
+
 export const useAuth = () => {
-    const token = localStorage.getItem('token');
+    const token = getToken();
 
     const isAuth = !!token;
 

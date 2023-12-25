@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { HomePage } from '@/pages/HomePage';
-import { Loginpage } from '@/pages/LoginPage';
+import { LoginPage } from '@/pages/LoginPage';
 import { ROUTE_PATHS } from '@/consts/routePaths';
 
 interface RouteItem {
@@ -18,6 +18,6 @@ export const routes: RouteItem[] = [
     },
     {
         path: ROUTE_PATHS.SIGN_IN,
-        Element: Loginpage,
+        Element: LoginPage,
     },
 ];

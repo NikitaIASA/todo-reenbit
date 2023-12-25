@@ -1,5 +1,7 @@
-import { loginRequest, loginSuccess, loginFailure } from "@/redux/actions/authActions";
 import { Dispatch } from 'redux';
+
+import { loginRequest, loginSuccess, loginFailure } from "@/redux/actions/authActions";
+import { setToken } from "@/helpers/tokenHelpers";
 
 import api from "@/core/api";
 
@@ -14,7 +16,7 @@ export const login = (email: string, password: string) => {
         throw new Error('No token received');
       }
 
-      localStorage.setItem('token', token);
+      setToken(token);
       dispatch(loginSuccess(data));
     } catch (error: any) {
       dispatch(loginFailure(error.response?.data || 'Unknown error'));

@@ -9,6 +9,7 @@ import { ROUTE_PATHS } from "@/consts/routePaths";
 import { useModal } from "@/hooks/useModal";
 import ConfirmationModal from "../ConfirmationModal";
 import { ButtonVariants } from "@/types/buttonTypes";
+import { removeToken } from "@/helpers/tokenHelpers";
 
 import logo from "@/assets/images/logo.svg";
 
@@ -21,7 +22,7 @@ export const Header: FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    removeToken();
     dispatch(logoutSuccess());
     closeModal();
     navigate(ROUTE_PATHS.SIGN_IN);

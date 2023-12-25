@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import LoginForm from "@/components/Login";
 import { ROUTE_PATHS } from "@/consts/routePaths";
 
-export const Loginpage: FC = () => {
+export const LoginPage: FC = () => {
   const navigate = useNavigate();
   const { isAuth } = useAuth();
 

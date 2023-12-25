@@ -1,14 +1,11 @@
 import { FC, useState } from "react";
 
-// import Container from "../Container";
-// import Header from "../Header";
 import TodoInput from "../TodoComponents/TodoInput";
 import ToDoDashboard from "../TodoComponents/TodoDashboard";
 import AddTodoButton from "../TodoComponents/AddTodoButton";
 import AddTodoModal from "../TodoComponents/AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
-// import ThemeSwitcher from "../ThemeSwitcher";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
 import { useAppSelector } from "@/hooks/useAppSelector";
