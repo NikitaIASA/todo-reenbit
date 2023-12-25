@@ -12,21 +12,15 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
         const user = await User.findOne({ email });
 
-        if (!user) {
-            res.status(401).json({ message: "Email/Password mismatch" });
+        if (!user || !await bcrypt.compare(password, user.password)) {
+            res.status(401).send("Email/Password mismatch");
             return;
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            res.status(401).json({ message: "Email/Password mismatch" });
-            return;
-        }
-
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET as string, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user._id }, "secretcode111", { expiresIn: '30d' });
 
         res.status(200).json({ token, userId: user._id });
     } catch (error) {
-        res.status(500).json({ message: "Something went wrong...", error });
+        res.status(500).send("Something went wrong...");
     }
 };

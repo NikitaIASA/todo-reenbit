@@ -11,21 +11,26 @@
     padding: 40px 0;
   }
 
-}
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+    @include onMobile {
+      flex-direction: column;
+    }
+  }
 
   &__text {
     font-size: 40px;
     font-weight: 400;
   }
 
-  @include onMobile {
-    flex-direction: column;
+  &__logout {
+    position: absolute;
+    top: 20px;
+    right: 100px;
   }
-  
+
 }
