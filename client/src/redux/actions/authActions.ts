@@ -1,5 +1,5 @@
 import { actionTypes } from '@/types/actionTypes';
-import { ILoginFailureAction, ILoginRequestAction, ILoginSuccessAction, IUser } from '@/types/authActionsTypes';
+import { ILoginFailureAction, ILoginRequestAction, ILoginSuccessAction, ILogoutSuccessAction, IUser } from '@/types/authActionsTypes';
 
 export const loginRequest = (): ILoginRequestAction => ({
     type: actionTypes.LOGIN_REQUEST,
@@ -15,6 +15,6 @@ export const loginFailure = (error: string): ILoginFailureAction => ({
     payload: error,
 });
 
-export const logoutSuccess = () => ({
+export const logoutSuccess = (): ILogoutSuccessAction => ({
     type: actionTypes.LOGOUT_SUCCESS,
 });
