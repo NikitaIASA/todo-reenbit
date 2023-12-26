@@ -1,11 +1,16 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 
 import { Task } from '../models/task';
+import { AuthRequest } from '../types/tasksTypes';
 
-export const getUserTasks = async (req: Request, res: Response) => {
+export const getUserTasks = async (req: AuthRequest, res: Response) => {
     try {
-        const userId = req.body.userId;
-        const tasks = await Task.find({ userId });
+        if (!req.user || !req.user.userId) {
+            return res.status(400).json({ message: "User ID is missing" });
+        }
+
+        const userId = req.user.userId; 
+        const tasks = await Task.find({ userId }); 
 
         res.status(200).json(tasks);
     } catch (error) {
