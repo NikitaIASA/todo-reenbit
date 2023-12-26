@@ -9,7 +9,10 @@ import { ILoginForm } from "@/types/authTypes";
 import { login } from "@/redux/thunks/auth";
 import CustomButton from "@/components/UI/CustomButton";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectAuthError } from "@/redux/selectors/authSelectors";
+import {
+  selectAuthError,
+  selectAuthLoading,
+} from "@/redux/selectors/authSelectors";
 import { ROUTE_PATHS } from "@/consts/routePaths";
 import { AUTH_INPUT_FIELDS } from "@/consts/authInputs";
 
@@ -19,6 +22,7 @@ export const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authError = useAppSelector(selectAuthError);
+  const isLoading = useAppSelector(selectAuthLoading);
 
   const {
     register,
@@ -27,7 +31,7 @@ export const LoginForm = () => {
   } = useForm<ILoginForm>({
     resolver: yupResolver(signInSchema),
   });
-  
+
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
     await dispatch(login(data.email, data.password));
     navigate(ROUTE_PATHS.HOME);
@@ -55,7 +59,9 @@ export const LoginForm = () => {
             />
             <p className="login__error">{errors.password?.message}</p>
           </div>
-          <CustomButton type={ButtonTypes.SUBMIT}>Login</CustomButton>
+          <CustomButton type={ButtonTypes.SUBMIT} isDisabled={isLoading}>
+            {isLoading ? "Loading..." : "Login"}
+          </CustomButton>
           {authError && <p className="login__error">{authError}</p>}
         </form>
       </div>
