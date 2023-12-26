@@ -67,17 +67,17 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     if (selectedDate) {
       const formattedDate = format(selectedDate, DATE_FORMAT);
       updateTodo({
-        endDate: formattedDate,
+        expiredDate: formattedDate,
       });
     } else {
       updateTodo({
-        endDate: "",
+        expiredDate: "",
       });
     }
   };
 
-  const expirationDate = todo.endDate
-    ? parse(todo.endDate, DATE_FORMAT, new Date())
+  const expirationDate = todo.expiredDate
+    ? parse(todo.expiredDate, DATE_FORMAT, new Date())
     : null;
 
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
@@ -103,11 +103,11 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   const handleSave = () => {
     if (isValid(modalTitle)) {
       const newTodo = {
-        id: editItem ? editItem.id : getUniqueId(),
+        _id: editItem ? editItem._id : getUniqueId(),
         title: modalTitle,
-        startDate: todo.startDate,
-        endDate: todo.endDate,
-        done: false,
+        createdDate: todo.createdDate,
+        expiredDate: todo.expiredDate,
+        completed: false,
       };
       if (editItem) {
         dispatch(editTodo(newTodo));
@@ -153,7 +153,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
           <input
             className="modal__input"
             type="text"
-            value={todo.startDate}
+            value={todo.createdDate}
             readOnly
           />
           <label className="modal__label">Expiration date</label>

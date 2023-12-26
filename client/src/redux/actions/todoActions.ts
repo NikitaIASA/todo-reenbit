@@ -25,3 +25,17 @@ export const editTodo = (todo: ITodoItem): IEditItemAction => ({
 export const deleteCompletedTodos = (): IDeleteCoompletedAction => ({
     type: actionTypes.DELETE_COMPLETED
 });
+
+export const fetchTasksRequest = () => ({
+    type: actionTypes.FETCH_TASKS_REQUEST,
+});
+
+export const fetchTasksSuccess = (tasks: ITodoItem[]) => ({
+    type: actionTypes.FETCH_TASKS_SUCCESS,
+    payload: tasks,
+});
+
+export const fetchTasksFailure = (error: string) => ({
+    type: actionTypes.FETCH_TASKS_FAILURE,
+    payload: error,
+});

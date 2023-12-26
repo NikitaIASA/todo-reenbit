@@ -20,7 +20,7 @@ export interface TodoItemProps {
 }
 
 export const TodoItem: FC<TodoItemProps> = ({
-  item: { id, title, startDate, endDate, done },
+  item: { _id, title, createdDate, expiredDate, completed },
   handleOpenEditModal,
 }) => {
   const dispatch = useAppDispatch();
@@ -28,22 +28,22 @@ export const TodoItem: FC<TodoItemProps> = ({
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const handleToggleDone = () => {
-    dispatch(toggleDone(id));
+    dispatch(toggleDone(_id));
   };
 
   const handleConfirmDelete = () => {
-    dispatch(deleteToDo(id));
+    dispatch(deleteToDo(_id));
     closeModal();
   };
 
-  const endDateParsed = parse(endDate, DATE_FORMAT, new Date());
+  const endDateParsed = parse(expiredDate, DATE_FORMAT, new Date());
 
-  const titleClass = clsx("todo-item__title", { done });
-  const dateClass = clsx("todo-item__date", { done });
+  const titleClass = clsx("todo-item__title", { completed });
+  const dateClass = clsx("todo-item__date", { completed });
   const todoItemClass = clsx("todo-item", {
-    expired: !done && endDateParsed < new Date(),
+    expired: !completed && endDateParsed < new Date(),
   });
-  const editButtonClass = clsx("todo-item__button", { disabled: done });
+  const editButtonClass = clsx("todo-item__button", { disabled: completed });
 
   return (
     <>
@@ -51,22 +51,22 @@ export const TodoItem: FC<TodoItemProps> = ({
         <div className="todo-item__title-container">
           <input
             type="checkbox"
-            checked={done}
+            checked={completed}
             onChange={handleToggleDone}
             className="todo-item__checkbox"
           />
           <h3 className={titleClass}>{title}</h3>
         </div>
         <p className="todo-item__dates">
-          <span className={dateClass}>{startDate}</span>-
-          <span className={dateClass}>{endDate}</span>
+          <span className={dateClass}>{createdDate}</span>-
+          <span className={dateClass}>{expiredDate}</span>
         </p>
         <div className="todo-item__buttons">
           <button
             className={editButtonClass}
-            disabled={done}
+            disabled={completed}
             onClick={() =>
-              handleOpenEditModal({ id, title, startDate, endDate, done })
+              handleOpenEditModal({ _id, title, createdDate, expiredDate, completed })
             }
           >
             <EditIcon className="todo-item__button-image" />

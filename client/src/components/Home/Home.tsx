@@ -21,14 +21,16 @@ export const Home: FC = () => {
   const { query, setQuery } = useSearch();
   const [todo, setTodo] = useState<TodoType>({
     title: "",
-    startDate: getCurrentDate(),
-    endDate: getEndDate(),
+    createdDate: getCurrentDate(),
+    expiredDate: getEndDate(),
   });
   const [modalTitle, setModalTitle] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
   const [modalValidationMessage, setModalValidationMessage] = useState("");
   const [editItem, setEditItem] = useState<ITodoItem | null>(null);
   const todoItems = useAppSelector(selectTodoItems);
+
+  console.log(todoItems);
 
   const updateTodo = (updates: Partial<typeof todo>) => {
     setTodo((prevState) => ({ ...prevState, ...updates }));
@@ -37,8 +39,8 @@ export const Home: FC = () => {
   const resetData = () => {
     updateTodo({
       title: "",
-      startDate: getCurrentDate(),
-      endDate: getEndDate(),
+      createdDate: getCurrentDate(),
+      expiredDate: getEndDate(),
     });
     setModalTitle("");
     setValidationMessage("");
@@ -49,8 +51,8 @@ export const Home: FC = () => {
     setEditItem(null);
     openModal();
     updateTodo({
-      startDate: getCurrentDate(),
-      endDate: "",
+      createdDate: getCurrentDate(),
+      expiredDate: "",
     });
     setModalTitle(todo.title);
   };
@@ -59,8 +61,8 @@ export const Home: FC = () => {
     setEditItem(item);
     openModal();
     updateTodo({
-      startDate: item.startDate,
-      endDate: item.endDate,
+      createdDate: item.createdDate,
+      expiredDate: item.expiredDate,
     });
     setModalTitle(item.title);
   };

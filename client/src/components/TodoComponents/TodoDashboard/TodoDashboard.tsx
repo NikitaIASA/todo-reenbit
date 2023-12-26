@@ -23,7 +23,7 @@ export const ToDoDashboard: FC<ToDoDashboardProps> = ({
   return (
     <ul className="todo-dashboard">
       {filteredItems?.map((item) => (
-        <li key={item.id}>
+        <li key={item._id}>
           <TodoItem item={item} handleOpenEditModal={handleOpenEditModal} />
         </li>
       ))}
