@@ -1,14 +1,11 @@
 import { FC, useState } from "react";
 
-import Container from "../Container";
-import Header from "../Header";
 import TodoInput from "../TodoComponents/TodoInput";
 import ToDoDashboard from "../TodoComponents/TodoDashboard";
 import AddTodoButton from "../TodoComponents/AddTodoButton";
 import AddTodoModal from "../TodoComponents/AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
-import ThemeSwitcher from "../ThemeSwitcher";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
 import { useAppSelector } from "@/hooks/useAppSelector";
@@ -69,32 +66,28 @@ export const Home: FC = () => {
   };
 
   return (
-    <Container>
-      <ThemeSwitcher />
-      <Header />
-      <main className="main">
-        <div className="enter-block">
-          <div className="input-container">
-            <TodoInput
-              todo={todo}
-              updateTodo={updateTodo}
-              setValidationMessage={setValidationMessage}
-              resetData={resetData}
-            />
-            <AddTodoButton onAddTodoButtonClick={handleModalOpen} />
-          </div>
-          {validationMessage && (
-            <p className="validation-message">{validationMessage}</p>
-          )}
-          <SearchInput onChange={setQuery} />
-          <FilterButtons />
+    <>
+      <div className="enter-block">
+        <div className="input-container">
+          <TodoInput
+            todo={todo}
+            updateTodo={updateTodo}
+            setValidationMessage={setValidationMessage}
+            resetData={resetData}
+          />
+          <AddTodoButton onAddTodoButtonClick={handleModalOpen} />
         </div>
-        <ToDoDashboard
-          searchQuery={query}
-          items={todoItems}
-          handleOpenEditModal={handleOpenEditModal}
-        />
-      </main>
+        {validationMessage && (
+          <p className="validation-message">{validationMessage}</p>
+        )}
+        <SearchInput onChange={setQuery} />
+        <FilterButtons />
+      </div>
+      <ToDoDashboard
+        searchQuery={query}
+        items={todoItems}
+        handleOpenEditModal={handleOpenEditModal}
+      />
       {isModalOpen && (
         <AddTodoModal
           onClose={closeModal}
@@ -108,6 +101,6 @@ export const Home: FC = () => {
           resetData={resetData}
         />
       )}
-    </Container>
+    </>
   );
 };
