@@ -1,8 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
-import { ThunkDispatch } from 'redux-thunk';
-import thunk from 'redux-thunk';
-
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import storage from 'redux-persist/lib/storage';
 
 import todoReducer from './reducers/todoReducer';

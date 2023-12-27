@@ -33,11 +33,11 @@ export const TodoInput: FC<TodoInputProps> = ({
       if (isValid(todo.title)) {
         dispatch(
           addTodo({
-            id: getUniqueId(),
+            _id: getUniqueId(),
             title: todo.title,
-            startDate: todo.startDate,
-            endDate: todo.endDate,
-            done: false,
+            createdDate: todo.createdDate,
+            expiredDate: todo.expiredDate,
+            completed: false,
           })
         );
         switchCompletedFilter();

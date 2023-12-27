@@ -2,16 +2,16 @@ import { actionTypes } from "./actionTypes";
 
 export interface TodoType {
     title: string;
-    startDate: string;
-    endDate: string;
+    createdDate: string;
+    expiredDate: string;
 }
 
 export interface ITodoItem {
-    id: string;
+    _id: string;
     title: string;
-    startDate: string;
-    endDate: string;
-    done: boolean;
+    createdDate: string;
+    expiredDate: string;
+    completed: boolean;
 }
 
 export interface IAddItemAction {
@@ -38,4 +38,18 @@ export interface IDeleteCoompletedAction {
     type: actionTypes.DELETE_COMPLETED;
 }
 
-export type ITodoListAction = IAddItemAction | IToggleDoneAction | IDeleteItemAction | IEditItemAction | IDeleteCoompletedAction;
+export interface IFetchTasksRequestAction {
+    type: actionTypes.FETCH_TASKS_REQUEST;
+}
+
+export interface IFetchTasksSuccessAction {
+    type: actionTypes.FETCH_TASKS_SUCCESS;
+    payload: ITodoItem[];
+}
+
+export interface IFetchTasksFailureAction {
+    type: actionTypes.FETCH_TASKS_FAILURE;
+    payload: string;
+}
+
+export type ITodoListAction = IAddItemAction | IToggleDoneAction | IDeleteItemAction | IEditItemAction | IDeleteCoompletedAction | IFetchTasksRequestAction | IFetchTasksSuccessAction | IFetchTasksFailureAction;

@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 import userRoutes from './routes/userRoutes';
+import tasksRoutes from './routes/taskRoutes';
 
 dotenv.config();
 
@@ -27,7 +28,9 @@ app.use(express.json());
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello world');
 });
+
 app.use('/api/users', userRoutes);
+app.use('/api/tasks', tasksRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server OK, running on port ${PORT}`);

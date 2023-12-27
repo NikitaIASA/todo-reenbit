@@ -7,33 +7,31 @@ import PrivateRoute from "./components/PrivateRoute";
 
 export const App: FC = () => {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          {routes.map((route) => {
-            if (route.private) {
-              return (
-                <Route
-                  key={`route-${route.path}`}
-                  path={route.path}
-                  element={
-                    <PrivateRoute>
-                      <route.Element />
-                    </PrivateRoute>
-                  }
-                />
-              );
-            }
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {routes.map((route) => {
+          if (route.private) {
             return (
               <Route
                 key={`route-${route.path}`}
                 path={route.path}
-                element={<route.Element />}
+                element={
+                  <PrivateRoute>
+                    <route.Element />
+                  </PrivateRoute>
+                }
               />
             );
-          })}
-        </Route>
-      </Routes>
-    </>
+          }
+          return (
+            <Route
+              key={`route-${route.path}`}
+              path={route.path}
+              element={<route.Element />}
+            />
+          );
+        })}
+      </Route>
+    </Routes>
   );
 };
