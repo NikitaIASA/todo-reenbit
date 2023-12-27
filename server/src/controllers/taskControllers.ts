@@ -9,8 +9,8 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
             return res.status(400).json({ message: "User ID is missing" });
         }
 
-        const userId = req.user.userId; 
-        const tasks = await Task.find({ userId }); 
+        const userId = req.user.userId;
+        const tasks = await Task.find({ userId }).select('-userId'); 
 
         res.status(200).json(tasks);
     } catch (error) {
