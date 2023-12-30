@@ -17,3 +17,16 @@ export interface AuthAddRequest extends Request {
         expiredDate: string;
     };
 }
+
+export interface EditTaskRequest extends Request {
+    user?: UserPayload; 
+    body: {
+        title?: string;
+        createdDate?: string;
+        expiredDate?: string;
+        completed?: boolean;
+    };
+    params: {
+        taskId: string; 
+    };
+}
