@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { fetchTasksRequest, fetchTasksSuccess, fetchTasksFailure, addTaskFailure, addTaskRequest, addTaskSuccess, editTaskRequest, editTaskSuccess, editTaskFailure } from "@/redux/actions/todoActions";
+import { fetchTasksRequest, fetchTasksSuccess, fetchTasksFailure, addTaskFailure, addTaskRequest, addTaskSuccess, editTaskRequest, editTaskSuccess, editTaskFailure, deleteTaskRequest, deleteTaskSuccess, deleteTaskFailure } from "@/redux/actions/todoActions";
 import api from "@/core/api";
 
 export const fetchUserTasks = () => {
@@ -36,6 +36,18 @@ export const editTask = (taskId: string, taskData: { title?: string; createdDate
             dispatch(editTaskSuccess(data));
         } catch (error) {
             dispatch(editTaskFailure(error.response?.data || 'Error editing task'));
+        }
+    };
+};
+
+export const deleteTask = (taskId: string) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(deleteTaskRequest());
+        try {
+            await api.delete(`/tasks/${taskId}`);
+            dispatch(deleteTaskSuccess(taskId));
+        } catch (error) {
+            dispatch(deleteTaskFailure(error.response?.data || 'Error deleting task'));
         }
     };
 };
