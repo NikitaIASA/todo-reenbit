@@ -1,7 +1,7 @@
 import { Response } from 'express';
 
 import { Task } from '../models/task';
-import { AddTaskRequest, AuthRequest, DeleteTaskRequest, EditTaskRequest } from '../types/tasksTypes';
+import { AddTaskRequest, AuthRequest, DeleteCompletedTasksRequest, DeleteTaskRequest, EditTaskRequest } from '../types/tasksTypes';
 
 export const getUserTasks = async (req: AuthRequest, res: Response) => {
     try {
@@ -98,5 +98,22 @@ export const deleteUserTask = async (req: DeleteTaskRequest, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to delete task" });
+    }
+};
+
+export const deleteUserCompletedTasks = async (req: DeleteCompletedTasksRequest, res: Response) => {
+    try {
+        if (!req.user || !req.user.userId) {
+            return res.status(400).json({ message: "User ID is missing" });
+        }
+
+        const userId = req.user.userId;
+
+        await Task.deleteMany({ userId, completed: true });
+
+        res.status(200).json({ message: "Completed tasks successfully deleted" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete completed tasks" });
     }
 };

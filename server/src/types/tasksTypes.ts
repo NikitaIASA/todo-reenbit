@@ -37,3 +37,7 @@ export interface DeleteTaskRequest extends Request {
         taskId: string;
     };
 }
+
+export interface DeleteCompletedTasksRequest extends Request {
+    user?: UserPayload; 
+}
