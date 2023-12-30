@@ -60,3 +60,16 @@ export const deleteTaskFailure = (error: string) => ({
     type: actionTypes.DELETE_TASK_FAILURE,
     payload: error
 });
+
+export const deleteCompletedTasksRequest = () => ({
+    type: actionTypes.DELETE_COMPLETED_TASKS_REQUEST
+});
+
+export const deleteCompletedTasksSuccess = () => ({
+    type: actionTypes.DELETE_COMPLETED_TASKS_SUCCESS
+});
+
+export const deleteCompletedTasksFailure = (error: string) => ({
+    type: actionTypes.DELETE_COMPLETED_TASKS_FAILURE,
+    payload: error
+});

@@ -74,6 +74,19 @@ export interface IDeleteTaskFailureAction {
     payload: string;
 }
 
+export interface IDeleteCompletedTasksRequestAction {
+    type: actionTypes.DELETE_COMPLETED_TASKS_REQUEST;
+}
+
+export interface IDeleteCompletedTasksSuccessAction {
+    type: actionTypes.DELETE_COMPLETED_TASKS_SUCCESS;
+}
+
+export interface IDeleteCompletedTasksFailureAction {
+    type: actionTypes.DELETE_COMPLETED_TASKS_FAILURE;
+    payload: string;
+}
+
 export type ITodoListAction = IDeleteCoompletedAction | IFetchTasksRequestAction | IFetchTasksSuccessAction | IFetchTasksFailureAction
     | IAddTaskRequestAction | IAddTaskSuccessAction | IAddTaskFailureAction | IEditTaskRequestAction | IEditTaskSuccessAction | IEditTaskFailureAction |
-    IDeleteTaskRequestAction | IDeleteTaskSuccessAction | IDeleteTaskFailureAction;
+    IDeleteTaskRequestAction | IDeleteTaskSuccessAction | IDeleteTaskFailureAction | IDeleteCompletedTasksRequestAction | IDeleteCompletedTasksSuccessAction | IDeleteCompletedTasksFailureAction;

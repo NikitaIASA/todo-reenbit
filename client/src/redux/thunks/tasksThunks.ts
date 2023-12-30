@@ -1,6 +1,13 @@
 import { Dispatch } from 'redux';
 
-import { fetchTasksRequest, fetchTasksSuccess, fetchTasksFailure, addTaskFailure, addTaskRequest, addTaskSuccess, editTaskRequest, editTaskSuccess, editTaskFailure, deleteTaskRequest, deleteTaskSuccess, deleteTaskFailure } from "@/redux/actions/todoActions";
+import {
+    fetchTasksRequest, fetchTasksSuccess,
+    fetchTasksFailure, addTaskFailure, addTaskRequest,
+    addTaskSuccess, editTaskRequest, editTaskSuccess,
+    editTaskFailure, deleteTaskRequest, deleteTaskSuccess,
+    deleteTaskFailure, deleteCompletedTasksRequest,
+    deleteCompletedTasksSuccess, deleteCompletedTasksFailure
+} from "@/redux/actions/todoActions";
 import api from "@/core/api";
 
 export const fetchUserTasks = () => {
@@ -48,6 +55,18 @@ export const deleteTask = (taskId: string) => {
             dispatch(deleteTaskSuccess(taskId));
         } catch (error) {
             dispatch(deleteTaskFailure(error.response?.data || 'Error deleting task'));
+        }
+    };
+};
+
+export const deleteCompletedTasks = () => {
+    return async (dispatch: Dispatch) => {
+        dispatch(deleteCompletedTasksRequest());
+        try {
+            await api.delete('/tasks/completed');
+            dispatch(deleteCompletedTasksSuccess());
+        } catch (error) {
+            dispatch(deleteCompletedTasksFailure(error.response?.data || 'Error deleting completed tasks'));
         }
     };
 };
