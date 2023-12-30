@@ -16,13 +16,12 @@ import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
 import { isValid } from "@/helpers/isValid";
-import { editTodo } from "@/redux/actions/todoActions";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 import { ERROR_MESSAGES } from "@/consts/Messages";
 import { KEYS } from "@/consts/keys";
 import { ButtonTypes, ButtonVariants } from "@/types/buttonTypes";
-import { addUserTask } from "@/redux/thunks/tasksThunks";
+import { addUserTask, editTask } from "@/redux/thunks/tasksThunks";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
@@ -101,20 +100,14 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 
   const handleSave = () => {
     if (isValid(modalTitle)) {
-      const newEditTodo = { // temporarily logic
-        _id: editItem ? editItem._id : "",
-        title: modalTitle,
-        createdDate: todo.createdDate,
-        expiredDate: todo.expiredDate,
-        completed: false,
-      };
       const newAddTodo = {
         title: modalTitle,
         createdDate: todo.createdDate,
         expiredDate: todo.expiredDate,
+        completed: false
       };
       if (editItem) {
-        dispatch(editTodo(newEditTodo));
+        dispatch(editTask(editItem._id, newAddTodo));
       } else {
         dispatch(addUserTask(newAddTodo));
       }
