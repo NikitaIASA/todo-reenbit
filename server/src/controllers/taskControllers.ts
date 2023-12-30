@@ -1,7 +1,7 @@
 import { Response } from 'express';
 
 import { Task } from '../models/task';
-import { AuthAddRequest, AuthRequest, EditTaskRequest } from '../types/tasksTypes';
+import { AddTaskRequest, AuthRequest, DeleteTaskRequest, EditTaskRequest } from '../types/tasksTypes';
 
 export const getUserTasks = async (req: AuthRequest, res: Response) => {
     try {
@@ -19,7 +19,7 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
     }
 };
 
-export const createUserTask = async (req: AuthAddRequest, res: Response) => {
+export const createUserTask = async (req: AddTaskRequest, res: Response) => {
     try {
         
         if (!req.user || !req.user.userId) {
@@ -76,5 +76,27 @@ export const editUserTask = async (req: EditTaskRequest, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to edit task" });
+    }
+};
+
+export const deleteUserTask = async (req: DeleteTaskRequest, res: Response) => {
+    try {
+        if (!req.user || !req.user.userId) {
+            return res.status(400).json({ message: "User ID is missing" });
+        }
+
+        const userId = req.user.userId;
+        const taskId = req.params.taskId;
+
+        const task = await Task.findOneAndDelete({ _id: taskId, userId });
+
+        if (!task) {
+            return res.status(404).json({ message: "Task not found or user unauthorized to delete" });
+        }
+
+        res.status(200).json({ message: "Task successfully deleted" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete task" });
     }
 };
