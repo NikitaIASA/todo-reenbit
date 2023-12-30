@@ -14,10 +14,6 @@ export interface ITodoItem {
     completed: boolean;
 }
 
-export interface IAddItemAction {
-    type: actionTypes.ADD_ITEM;
-    payload: ITodoItem;
-}
 
 export interface IToggleDoneAction {
     type: actionTypes.TOGGLE_DONE;
@@ -52,4 +48,19 @@ export interface IFetchTasksFailureAction {
     payload: string;
 }
 
-export type ITodoListAction = IAddItemAction | IToggleDoneAction | IDeleteItemAction | IEditItemAction | IDeleteCoompletedAction | IFetchTasksRequestAction | IFetchTasksSuccessAction | IFetchTasksFailureAction;
+export interface IAddTaskRequestAction {
+    type: actionTypes.ADD_TASK_REQUEST;
+}
+
+export interface IAddTaskSuccessAction {
+    type: actionTypes.ADD_TASK_SUCCESS;
+    payload: ITodoItem;
+}
+
+export interface IAddTaskFailureAction {
+    type: actionTypes.ADD_TASK_FAILURE;
+    payload: string;
+}
+
+export type ITodoListAction = IToggleDoneAction | IDeleteItemAction | IEditItemAction | IDeleteCoompletedAction | IFetchTasksRequestAction | IFetchTasksSuccessAction | IFetchTasksFailureAction
+    | IAddTaskRequestAction | IAddTaskSuccessAction | IAddTaskFailureAction;

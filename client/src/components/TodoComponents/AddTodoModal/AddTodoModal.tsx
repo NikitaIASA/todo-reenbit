@@ -15,14 +15,14 @@ import { TodoType } from "@/types/todoItemDto";
 import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
-import { getUniqueId } from "@/helpers/getUniqueId";
 import { isValid } from "@/helpers/isValid";
-import { editTodo, addTodo } from "@/redux/actions/todoActions";
+import { editTodo } from "@/redux/actions/todoActions";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 import { ERROR_MESSAGES } from "@/consts/Messages";
 import { KEYS } from "@/consts/keys";
 import { ButtonTypes, ButtonVariants } from "@/types/buttonTypes";
+import { addUserTask } from "@/redux/thunks/tasksThunks";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
@@ -59,8 +59,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     if (selectedDate && isToday(selectedDate) && !isTodayDateSet) {
       selectedDate = addMinutes(new Date(), 5); // Setting the current time + 5min only on the first click on today's date
       setIsTodayDateSet(true);
-    } 
-    else if (selectedDate && !isToday(selectedDate)) {
+    } else if (selectedDate && !isToday(selectedDate)) {
       setIsTodayDateSet(false);
     }
 
@@ -102,17 +101,22 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 
   const handleSave = () => {
     if (isValid(modalTitle)) {
-      const newTodo = {
-        _id: editItem ? editItem._id : getUniqueId(),
+      const newEditTodo = { // temporarily logic
+        _id: editItem ? editItem._id : "",
         title: modalTitle,
         createdDate: todo.createdDate,
         expiredDate: todo.expiredDate,
         completed: false,
       };
+      const newAddTodo = {
+        title: modalTitle,
+        createdDate: todo.createdDate,
+        expiredDate: todo.expiredDate,
+      };
       if (editItem) {
-        dispatch(editTodo(newTodo));
+        dispatch(editTodo(newEditTodo));
       } else {
-        dispatch(addTodo(newTodo));
+        dispatch(addUserTask(newAddTodo));
       }
       switchCompletedFilter();
       onClose();
@@ -174,10 +178,16 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
             required
           />
           <div className="modal__buttons">
-            <CustomButton variant={ButtonVariants.SECONDARY} onClick={handleModalClose}>
+            <CustomButton
+              variant={ButtonVariants.SECONDARY}
+              onClick={handleModalClose}
+            >
               Cancel
             </CustomButton>
-            <CustomButton variant={ButtonVariants.PRIMARY} type={ButtonTypes.SUBMIT}>
+            <CustomButton
+              variant={ButtonVariants.PRIMARY}
+              type={ButtonTypes.SUBMIT}
+            >
               Save
             </CustomButton>
           </div>

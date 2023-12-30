@@ -30,8 +30,6 @@ export const Home: FC = () => {
   const [editItem, setEditItem] = useState<ITodoItem | null>(null);
   const todoItems = useAppSelector(selectTodoItems);
 
-  console.log(todoItems);
-
   const updateTodo = (updates: Partial<typeof todo>) => {
     setTodo((prevState) => ({ ...prevState, ...updates }));
   };

@@ -4,11 +4,10 @@ import { TodoType } from "@/types/todoItemDto";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
-import { addTodo } from "@/redux/actions/todoActions";
-import { getUniqueId } from "@/helpers/getUniqueId";
 import { isValid } from "@/helpers/isValid";
 import { ERROR_MESSAGES } from "@/consts/Messages";
 import { KEYS } from "@/consts/keys";
+import { addUserTask } from "@/redux/thunks/tasksThunks";
 
 import "./TodoInput.scss";
 
@@ -32,12 +31,10 @@ export const TodoInput: FC<TodoInputProps> = ({
     if (e.key === KEYS.ENTER && todo.title.trim()) {
       if (isValid(todo.title)) {
         dispatch(
-          addTodo({
-            _id: getUniqueId(),
+          addUserTask({
             title: todo.title,
             createdDate: todo.createdDate,
             expiredDate: todo.expiredDate,
-            completed: false,
           })
         );
         switchCompletedFilter();

@@ -8,3 +8,12 @@ export interface UserPayload extends JwtPayload {
 export interface AuthRequest extends Request {
     user?: UserPayload;
 }
+
+export interface AuthAddRequest extends Request {
+    user?: UserPayload;
+    body: {
+        title: string;
+        createdDate: string;
+        expiredDate: string;
+    };
+}
