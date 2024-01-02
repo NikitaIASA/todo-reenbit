@@ -1,6 +1,7 @@
 import { FC } from "react";
 import clsx from "clsx";
 import parse from "date-fns/parse";
+import { useSearchParams } from "react-router-dom";
 
 import ConfirmationModal from "../../ConfirmationModal";
 import { ITodoItem } from "@/types/todoItemDto";
@@ -10,7 +11,12 @@ import { useModal } from "@/hooks/useModal";
 import TrashIcon from "@/assets/images/trash.svg?react";
 import EditIcon from "@/assets/images/edit.svg?react";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
-import { deleteTask, editTask } from "@/redux/thunks/tasksThunks";
+import {
+  deleteTask,
+  editTask,
+  fetchUserTasks,
+} from "@/redux/thunks/tasksThunks";
+import { SEARCH_PARAM_KEYS, TASK_FILTER_VALUES } from "@/consts/searchParams";
 
 import "./TodoItem.scss";
 
@@ -24,11 +30,16 @@ export const TodoItem: FC<TodoItemProps> = ({
   handleOpenEditModal,
 }) => {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get(SEARCH_PARAM_KEYS.SEARCH) || "";
+  const currentFilter = searchParams.get(SEARCH_PARAM_KEYS.FILTER) || TASK_FILTER_VALUES.ALL;
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const handleToggleDone = () => {
-    dispatch(editTask(_id, { completed: !completed }));
+    dispatch(editTask(_id, { completed: !completed })).then(() => {
+      dispatch(fetchUserTasks(searchQuery, currentFilter));
+    });
   };
 
   const handleConfirmDelete = () => {

@@ -10,12 +10,12 @@ import {
 } from "@/redux/actions/todoActions";
 import api from "@/core/api";
 
-export const fetchUserTasks = (searchQuery = '') => {
+export const fetchUserTasks = (search = '', status = '') => {
     return async (dispatch: Dispatch) => {
         dispatch(fetchTasksRequest());
         try {
-            const { data } = await api.get(`/tasks?search=${searchQuery}`);
-            dispatch(fetchTasksSuccess(data));
+            const response = await api.get(`/tasks?search=${search}&status=${status}`);
+            dispatch(fetchTasksSuccess(response.data));
         } catch (error) {
             dispatch(fetchTasksFailure(error.response?.data || 'Error fetching tasks'));
         }

@@ -1,7 +1,7 @@
 export enum FILTER_OPTIONS {
-    ALL = "ALL",
-    ACTIVE = "ACTIVE",
-    COMPLETED = "COMPLETED"
+    ALL = "all",
+    ACTIVE = "active",
+    COMPLETED = "completed"
 }
 
 export const FILTER_TYPES = [

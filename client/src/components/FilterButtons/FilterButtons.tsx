@@ -4,10 +4,10 @@ import ConfirmationModal from "../ConfirmationModal";
 import CustomButton from "../UI/CustomButton";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectFilter } from "@/redux/selectors/filterSelectors";
-import { setFilter } from "@/redux/actions/filterActions";
 import { FILTER_TYPES } from "@/consts/filterOptions";
-import { deleteCompletedTasks } from "@/redux/thunks/tasksThunks";
+import {
+  deleteCompletedTasks,
+} from "@/redux/thunks/tasksThunks";
 import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
@@ -15,17 +15,16 @@ import { ButtonVariants } from "@/types/buttonTypes";
 
 import "./FilterButtons.scss";
 
-export const FilterButtons: FC = () => {
+interface FilterButtonsProps {
+  currentFilter: string;
+  onFilterChange: (filterValue: string) => void;
+}
+
+export const FilterButtons: FC<FilterButtonsProps> = ({ currentFilter, onFilterChange }) => {
   const dispatch = useAppDispatch();
   const { isModalOpen, openModal, closeModal } = useModal();
-
-  const currentFilter = useAppSelector(selectFilter);
   const completedTasks = useAppSelector(selectCompletedTodos);
-
-  const handleFilterClick = (filterType: string) => {
-    dispatch(setFilter(filterType));
-  };
-
+  
   const handleConfirmDelete = () => {
     dispatch(deleteCompletedTasks());
     closeModal();
@@ -39,7 +38,7 @@ export const FilterButtons: FC = () => {
             <CustomButton
               key={key}
               variant={ButtonVariants.PRIMARY}
-              onClick={() => handleFilterClick(key)}
+              onClick={() => onFilterChange(key)}
               isDisabled={currentFilter === key}
             >
               {label}
