@@ -10,15 +10,13 @@ import { selectTodoItems } from "@/redux/selectors/todoSelectors";
 import { getCurrentDate, getEndDate } from "@/helpers/getDate";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { ITodoItem } from "@/types/todoItemDto";
-import { useSearch } from "@/hooks/useSearch";
 import { useModal } from "@/hooks/useModal";
 import { TodoType } from "@/types/todoItemDto";
 
 import "./Home.scss";
 
-export const Home: FC = () => {
+export const Home: FC<{ searchQuery: string; onSearchChange: (searchValue: string) => void }> = ({searchQuery, onSearchChange}) => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { query, setQuery } = useSearch();
   const [todo, setTodo] = useState<TodoType>({
     title: "",
     createdDate: getCurrentDate(),
@@ -80,11 +78,11 @@ export const Home: FC = () => {
         {validationMessage && (
           <p className="validation-message">{validationMessage}</p>
         )}
-        <SearchInput onChange={setQuery} />
+        <SearchInput onChange={onSearchChange} searchQuery={searchQuery} />
         <FilterButtons />
       </div>
       <ToDoDashboard
-        searchQuery={query}
+        searchQuery={searchQuery}
         items={todoItems}
         handleOpenEditModal={handleOpenEditModal}
       />
