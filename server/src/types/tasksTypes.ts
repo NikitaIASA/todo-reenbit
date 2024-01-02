@@ -48,4 +48,5 @@ export interface TaskQuery {
         $regex: string;
         $options: string;
     };
+    completed?: boolean;
 }

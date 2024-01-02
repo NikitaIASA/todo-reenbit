@@ -17,12 +17,21 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
         }
 
         const userId = req.user.userId;
-
         const search = req.query.search as string | undefined;
+        const status = req.query.status as string | undefined;
+
         let query: TaskQuery = { userId };
 
         if (search) {
             query.title = { $regex: search, $options: 'i' };
+        }
+
+        if (status) {
+            if (status === 'active') {
+                query.completed = false;
+            } else if (status === 'completed') {
+                query.completed = true;
+            }
         }
 
         const tasks = await Task.find(query).sort({ _id: -1 });
