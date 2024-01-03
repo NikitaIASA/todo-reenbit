@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 
 import { fetchTasksRequest, fetchTasksSuccess, fetchTasksFailure, addTaskFailure, addTaskRequest, addTaskSuccess, editTaskRequest, editTaskSuccess, editTaskFailure } from "@/redux/actions/todoActions";
 import api from "@/core/api";
+import { handleAxiosError } from '@/helpers/handleAxiosError';
 
 export const fetchUserTasks = () => {
     return async (dispatch: Dispatch) => {
@@ -10,8 +11,9 @@ export const fetchUserTasks = () => {
             const { data } = await api.get('/tasks');
             const tasks = data;
             dispatch(fetchTasksSuccess(tasks));
-        } catch (error: any) {
-            dispatch(fetchTasksFailure(error.response?.data || 'Unknown error'));
+        } catch (error) {
+            const errorMessage = handleAxiosError(error);
+            dispatch(fetchTasksFailure(errorMessage));
         }
     };
 };
@@ -22,8 +24,9 @@ export const addUserTask = (taskData: { title: string; createdDate: string; expi
         try {
             const { data } = await api.post('/tasks', taskData);
             dispatch(addTaskSuccess(data));
-        } catch (error: any) {
-            dispatch(addTaskFailure(error.response?.data || 'Unknown error'));
+        } catch (error) {
+            const errorMessage = handleAxiosError(error);
+            dispatch(addTaskFailure(errorMessage));
         }
     };
 };
@@ -35,7 +38,8 @@ export const editTask = (taskId: string, taskData: { title?: string; createdDate
             const { data } = await api.put(`/tasks/${taskId}`, taskData);
             dispatch(editTaskSuccess(data));
         } catch (error) {
-            dispatch(editTaskFailure(error.response?.data || 'Error editing task'));
+            const errorMessage = handleAxiosError(error);
+            dispatch(editTaskFailure(errorMessage));
         }
     };
 };
