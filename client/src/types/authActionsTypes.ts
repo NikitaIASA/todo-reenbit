@@ -28,6 +28,4 @@ export interface ILogoutSuccessAction {
     type: typeof actionTypes.LOGOUT_SUCCESS
 }
 
-
-
 export type IAuthActionList = ILoginSuccessAction | ILoginFailureAction | ILoginRequestAction | ILogoutSuccessAction;

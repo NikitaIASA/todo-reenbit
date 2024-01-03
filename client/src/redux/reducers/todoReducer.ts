@@ -15,11 +15,6 @@ const initialState: TodoState = {
 
 const todoReducer = (state = initialState, action: ITodoListAction): TodoState => {
     switch (action.type) {
-        case actionTypes.ADD_ITEM:
-            return {
-                ...state,
-                todos: [action.payload, ...state.todos],
-            };
         case actionTypes.TOGGLE_DONE:
             return {
                 ...state,
@@ -57,6 +52,24 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
                 loading: false
             };
         case actionTypes.FETCH_TASKS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        case actionTypes.ADD_TASK_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                error: null
+            };
+        case actionTypes.ADD_TASK_SUCCESS:
+            return {
+                ...state,
+                todos: [action.payload, ...state.todos],
+                loading: false
+            };
+        case actionTypes.ADD_TASK_FAILURE:
             return {
                 ...state,
                 loading: false,
