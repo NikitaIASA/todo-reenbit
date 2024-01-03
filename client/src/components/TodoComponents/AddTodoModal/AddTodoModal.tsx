@@ -102,7 +102,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   const handleSave = () => {
     if (isValid(modalTitle)) {
       const newAddTodo = {
-        title: modalTitle,
+        title: modalTitle.trim(),
         createdDate: todo.createdDate,
         expiredDate: todo.expiredDate,
         completed: false
