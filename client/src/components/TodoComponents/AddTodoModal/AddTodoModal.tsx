@@ -6,7 +6,7 @@ import {
   ChangeEvent,
   useState,
 } from "react";
-import { format, parse, isToday, addMinutes } from "date-fns";
+import { isToday, addMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 
 import CustomButton from "@/components/UI/CustomButton";
@@ -22,6 +22,7 @@ import { ERROR_MESSAGES } from "@/consts/Messages";
 import { KEYS } from "@/consts/keys";
 import { ButtonTypes, ButtonVariants } from "@/types/buttonTypes";
 import { addUserTask, editTask } from "@/redux/thunks/tasksThunks";
+import { formatDate } from "@/helpers/getDate";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
@@ -63,9 +64,9 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     }
 
     if (selectedDate) {
-      const formattedDate = format(selectedDate, DATE_FORMAT);
+      const isoDate = selectedDate.toISOString();
       updateTodo({
-        expiredDate: formattedDate,
+        expiredDate: isoDate,
       });
     } else {
       updateTodo({
@@ -75,8 +76,8 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   };
 
   const expirationDate = todo.expiredDate
-    ? parse(todo.expiredDate, DATE_FORMAT, new Date())
-    : null;
+  ? new Date(todo.expiredDate)
+  : null;
 
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
   const handleModalClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -150,7 +151,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
           <input
             className="modal__input"
             type="text"
-            value={todo.createdDate}
+            value={formatDate(todo.createdDate)}
             readOnly
           />
           <label className="modal__label">Expiration date</label>
