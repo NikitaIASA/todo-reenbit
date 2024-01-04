@@ -2,6 +2,7 @@ import { Dispatch } from 'redux';
 
 import { loginRequest, loginSuccess, loginFailure } from "@/redux/actions/authActions";
 import { setToken } from "@/helpers/tokenHelpers";
+import { handleAxiosError } from '@/helpers/handleAxiosError';
 
 import api from "@/core/api";
 
@@ -18,9 +19,9 @@ export const login = (email: string, password: string) => {
 
       setToken(token);
       dispatch(loginSuccess(data));
-    } catch (error: any) {
-      dispatch(loginFailure(error.response?.data || 'Unknown error'));
-      throw error;
+    } catch (error) {
+      const errorMessage = handleAxiosError(error);
+      dispatch(loginFailure(errorMessage));
     }
   };
 };

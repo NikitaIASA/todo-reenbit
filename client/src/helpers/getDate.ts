@@ -1,17 +1,22 @@
-import { format, addHours, addMinutes, startOfDay, isSameDay, addDays, endOfDay } from "date-fns";
+import { format, addHours, addMinutes, startOfDay, isSameDay, addDays, endOfDay, formatISO, parseISO } from "date-fns";
 import { DATE_FORMAT } from "@/consts/dateFormats";
 import { ONE_DAY, FIVE_MINUTES, TWENTY_FOUR_HOURS } from "@/consts/timeFrames";
 
-export const getCurrentDate = () => {
+export const getCurrentDateISO = () => {
     const currentDate = new Date();
-    return format(currentDate, DATE_FORMAT);
+    return formatISO(currentDate);
 }
 
-export const getEndDate = () => {
+export const getEndDateISO = () => {
     const currentDate = new Date();
     const endDate = addHours(currentDate, TWENTY_FOUR_HOURS);
-    return format(endDate, DATE_FORMAT);
+    return formatISO(endDate);
 }
+
+export const formatDate = (dateString: string) => {
+    const parsedDate = parseISO(dateString);
+    return format(parsedDate, DATE_FORMAT);
+};
 
 export const getMinDate = (date: Date | null): Date => {
     const currentDate = new Date();
