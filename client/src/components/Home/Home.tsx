@@ -7,7 +7,7 @@ import AddTodoModal from "../TodoComponents/AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
-import { getCurrentDate, getEndDate } from "@/helpers/getDate";
+import { getCurrentDateISO, getEndDateISO } from "@/helpers/getDate";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useModal } from "@/hooks/useModal";
@@ -19,8 +19,8 @@ export const Home: FC<{ searchQuery: string; onSearchChange: (searchValue: strin
   const { isModalOpen, openModal, closeModal } = useModal();
   const [todo, setTodo] = useState<TodoType>({
     title: "",
-    createdDate: getCurrentDate(),
-    expiredDate: getEndDate(),
+    createdDate: getCurrentDateISO(),
+    expiredDate: getEndDateISO(),
   });
   const [modalTitle, setModalTitle] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
@@ -35,8 +35,8 @@ export const Home: FC<{ searchQuery: string; onSearchChange: (searchValue: strin
   const resetData = () => {
     updateTodo({
       title: "",
-      createdDate: getCurrentDate(),
-      expiredDate: getEndDate(),
+      createdDate: getCurrentDateISO(),
+      expiredDate: getEndDateISO(),
     });
     setModalTitle("");
     setValidationMessage("");
@@ -47,7 +47,7 @@ export const Home: FC<{ searchQuery: string; onSearchChange: (searchValue: strin
     setEditItem(null);
     openModal();
     updateTodo({
-      createdDate: getCurrentDate(),
+      createdDate: getCurrentDateISO(),
       expiredDate: "",
     });
     setModalTitle(todo.title);

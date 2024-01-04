@@ -9,15 +9,18 @@ import {
     deleteCompletedTasksSuccess, deleteCompletedTasksFailure
 } from "@/redux/actions/todoActions";
 import api from "@/core/api";
+import { handleAxiosError } from '@/helpers/handleAxiosError';
 
 export const fetchUserTasks = (searchQuery = '') => {
     return async (dispatch: Dispatch) => {
         dispatch(fetchTasksRequest());
         try {
             const { data } = await api.get(`/tasks?search=${searchQuery}`);
-            dispatch(fetchTasksSuccess(data));
+            const tasks = data;
+            dispatch(fetchTasksSuccess(tasks));
         } catch (error) {
-            dispatch(fetchTasksFailure(error.response?.data || 'Error fetching tasks'));
+            const errorMessage = handleAxiosError(error);
+            dispatch(fetchTasksFailure(errorMessage));
         }
     };
 };
@@ -28,8 +31,9 @@ export const addUserTask = (taskData: { title: string; createdDate: string; expi
         try {
             const { data } = await api.post('/tasks', taskData);
             dispatch(addTaskSuccess(data));
-        } catch (error: any) {
-            dispatch(addTaskFailure(error.response?.data || 'Unknown error'));
+        } catch (error) {
+            const errorMessage = handleAxiosError(error);
+            dispatch(addTaskFailure(errorMessage));
         }
     };
 };
@@ -41,7 +45,8 @@ export const editTask = (taskId: string, taskData: { title?: string; createdDate
             const { data } = await api.put(`/tasks/${taskId}`, taskData);
             dispatch(editTaskSuccess(data));
         } catch (error) {
-            dispatch(editTaskFailure(error.response?.data || 'Error editing task'));
+            const errorMessage = handleAxiosError(error);
+            dispatch(editTaskFailure(errorMessage));
         }
     };
 };
@@ -53,7 +58,8 @@ export const deleteTask = (taskId: string) => {
             await api.delete(`/tasks/${taskId}`);
             dispatch(deleteTaskSuccess(taskId));
         } catch (error) {
-            dispatch(deleteTaskFailure(error.response?.data || 'Error deleting task'));
+            const errorMessage = handleAxiosError(error);
+            dispatch(deleteTaskFailure(errorMessage));
         }
     };
 };
@@ -65,7 +71,8 @@ export const deleteCompletedTasks = () => {
             await api.delete('/tasks/completed');
             dispatch(deleteCompletedTasksSuccess());
         } catch (error) {
-            dispatch(deleteCompletedTasksFailure(error.response?.data || 'Error deleting completed tasks'));
+            const errorMessage = handleAxiosError(error);
+            dispatch(deleteCompletedTasksFailure(errorMessage));
         }
     };
 };
