@@ -1,6 +1,13 @@
 import { Dispatch } from 'redux';
 
-import { fetchTasksRequest, fetchTasksSuccess, fetchTasksFailure, addTaskFailure, addTaskRequest, addTaskSuccess, editTaskRequest, editTaskSuccess, editTaskFailure } from "@/redux/actions/todoActions";
+import {
+    fetchTasksRequest, fetchTasksSuccess,
+    fetchTasksFailure, addTaskFailure, addTaskRequest,
+    addTaskSuccess, editTaskRequest, editTaskSuccess,
+    editTaskFailure, deleteTaskRequest, deleteTaskSuccess,
+    deleteTaskFailure, deleteCompletedTasksRequest,
+    deleteCompletedTasksSuccess, deleteCompletedTasksFailure
+} from "@/redux/actions/todoActions";
 import api from "@/core/api";
 import { handleAxiosError } from '@/helpers/handleAxiosError';
 
@@ -40,6 +47,32 @@ export const editTask = (taskId: string, taskData: { title?: string; createdDate
         } catch (error) {
             const errorMessage = handleAxiosError(error);
             dispatch(editTaskFailure(errorMessage));
+        }
+    };
+};
+
+export const deleteTask = (taskId: string) => {
+    return async (dispatch: Dispatch) => {
+        dispatch(deleteTaskRequest());
+        try {
+            await api.delete(`/tasks/${taskId}`);
+            dispatch(deleteTaskSuccess(taskId));
+        } catch (error) {
+            const errorMessage = handleAxiosError(error);
+            dispatch(deleteTaskFailure(errorMessage));
+        }
+    };
+};
+
+export const deleteCompletedTasks = () => {
+    return async (dispatch: Dispatch) => {
+        dispatch(deleteCompletedTasksRequest());
+        try {
+            await api.delete('/tasks/completed');
+            dispatch(deleteCompletedTasksSuccess());
+        } catch (error) {
+            const errorMessage = handleAxiosError(error);
+            dispatch(deleteCompletedTasksFailure(errorMessage));
         }
     };
 };

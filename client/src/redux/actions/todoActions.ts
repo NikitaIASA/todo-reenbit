@@ -1,11 +1,5 @@
 import { IDeleteCoompletedAction, ITodoItem } from "@/types/todoItemDto";
 import { actionTypes } from "@/types/actionTypes";
-import { IDeleteItemAction } from "@/types/todoItemDto";
-
-export const deleteToDo = (todoId: string): IDeleteItemAction => ({
-    type: actionTypes.DELETE_ITEM,
-    payload: todoId,
-});
 
 export const deleteCompletedTodos = (): IDeleteCoompletedAction => ({
     type: actionTypes.DELETE_COMPLETED
@@ -50,5 +44,32 @@ export const editTaskSuccess = (task: ITodoItem) => ({
 
 export const editTaskFailure = (error: string) => ({
     type: actionTypes.EDIT_TASK_FAILURE,
+    payload: error
+});
+
+export const deleteTaskRequest = () => ({
+    type: actionTypes.DELETE_TASK_REQUEST
+});
+
+export const deleteTaskSuccess = (taskId: string) => ({
+    type: actionTypes.DELETE_TASK_SUCCESS,
+    payload: taskId
+});
+
+export const deleteTaskFailure = (error: string) => ({
+    type: actionTypes.DELETE_TASK_FAILURE,
+    payload: error
+});
+
+export const deleteCompletedTasksRequest = () => ({
+    type: actionTypes.DELETE_COMPLETED_TASKS_REQUEST
+});
+
+export const deleteCompletedTasksSuccess = () => ({
+    type: actionTypes.DELETE_COMPLETED_TASKS_SUCCESS
+});
+
+export const deleteCompletedTasksFailure = (error: string) => ({
+    type: actionTypes.DELETE_COMPLETED_TASKS_FAILURE,
     payload: error
 });

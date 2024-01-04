@@ -7,7 +7,7 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import { selectFilter } from "@/redux/selectors/filterSelectors";
 import { setFilter } from "@/redux/actions/filterActions";
 import { FILTER_TYPES } from "@/consts/filterOptions";
-import { deleteCompletedTodos } from "@/redux/actions/todoActions";
+import { deleteCompletedTasks } from "@/redux/thunks/tasksThunks";
 import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
@@ -27,7 +27,7 @@ export const FilterButtons: FC = () => {
   };
 
   const handleConfirmDelete = () => {
-    dispatch(deleteCompletedTodos());
+    dispatch(deleteCompletedTasks());
     closeModal();
   };
 

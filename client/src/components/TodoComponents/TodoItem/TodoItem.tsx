@@ -5,13 +5,12 @@ import parse from "date-fns/parse";
 import ConfirmationModal from "../../ConfirmationModal";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { deleteToDo } from "@/redux/actions/todoActions";
 import { DATE_FORMAT } from "@/consts/dateFormats";
 import { useModal } from "@/hooks/useModal";
 import TrashIcon from "@/assets/images/trash.svg?react";
 import EditIcon from "@/assets/images/edit.svg?react";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
-import { editTask } from "@/redux/thunks/tasksThunks";
+import { deleteTask, editTask } from "@/redux/thunks/tasksThunks";
 import { formatDate } from "@/helpers/getDate";
 
 import "./TodoItem.scss";
@@ -34,7 +33,7 @@ export const TodoItem: FC<TodoItemProps> = ({
   };
 
   const handleConfirmDelete = () => {
-    dispatch(deleteToDo(_id));
+    dispatch(deleteTask(_id));
     closeModal();
   };
 

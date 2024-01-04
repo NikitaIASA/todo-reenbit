@@ -15,16 +15,6 @@ const initialState: TodoState = {
 
 const todoReducer = (state = initialState, action: ITodoListAction): TodoState => {
     switch (action.type) {
-        case actionTypes.DELETE_ITEM:
-            return {
-                ...state,
-                todos: state.todos.filter((todo: ITodoItem) => todo._id !== action.payload),
-            };
-        case actionTypes.DELETE_COMPLETED:
-            return {
-                ...state,
-                todos: state.todos.filter(todo => !todo.completed),
-            };
         case actionTypes.FETCH_TASKS_REQUEST:
             return {
                 ...state,
@@ -75,6 +65,40 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
                 loading: false
             };
         case actionTypes.EDIT_TASK_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                loading: false
+            };
+        case actionTypes.DELETE_TASK_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case actionTypes.DELETE_TASK_SUCCESS:
+            return {
+                ...state,
+                todos: state.todos.filter((todo) => todo._id !== action.payload),
+                loading: false
+            };
+        case actionTypes.DELETE_TASK_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                loading: false
+            };
+        case actionTypes.DELETE_COMPLETED_TASKS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case actionTypes.DELETE_COMPLETED_TASKS_SUCCESS:
+            return {
+                ...state,
+                todos: state.todos.filter((todo) => !todo.completed),
+                loading: false
+            };
+        case actionTypes.DELETE_COMPLETED_TASKS_FAILURE:
             return {
                 ...state,
                 error: action.payload,
