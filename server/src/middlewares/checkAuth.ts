@@ -13,10 +13,13 @@ export const checkAuth = (req: AuthRequest, res: Response, next: NextFunction) =
     }
 
     try {
-        const decoded = jwt.verify(token, "secretcode111" || '') as JwtPayload;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secretcode111') as JwtPayload;
         req.user = decoded;
         next();
     } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+            return res.status(401).json({ message: "Token has expired" });
+        }
         res.status(401).json({ message: "Invalid or expired token" });
     }
 };
