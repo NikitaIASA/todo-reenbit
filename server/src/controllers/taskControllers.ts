@@ -1,7 +1,7 @@
 import { Response } from 'express';
 
 import { Task } from '../models/task';
-import { AuthAddRequest, AuthRequest } from '../types/tasksTypes';
+import { AuthAddRequest, AuthRequest, EditTaskRequest } from '../types/tasksTypes';
 
 export const getUserTasks = async (req: AuthRequest, res: Response) => {
     try {
@@ -46,5 +46,35 @@ export const createUserTask = async (req: AuthAddRequest, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to add a task" });
+    }
+};
+
+export const editUserTask = async (req: EditTaskRequest, res: Response) => {
+    try {
+        if (!req.user || !req.user.userId) {
+            return res.status(400).json({ message: "User ID is missing" });
+        }
+
+        const userId = req.user.userId;
+        const taskId = req.params.taskId;
+        const { title, createdDate, expiredDate, completed } = req.body;
+
+        const updatedTask = await Task.findOneAndUpdate(
+            { _id: taskId, userId },
+            { title, createdDate, expiredDate, completed },
+            { new: true, runValidators: true } 
+        );
+
+        if (!updatedTask) {
+            return res.status(404).json({ message: "Task not found or user unauthorized to edit" });
+        }
+
+        const taskObject = updatedTask.toObject();
+        delete taskObject.userId;
+
+        res.status(200).json(taskObject);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to edit task" });
     }
 };

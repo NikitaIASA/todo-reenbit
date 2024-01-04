@@ -6,7 +6,7 @@ import {
   ChangeEvent,
   useState,
 } from "react";
-import { format, parse, isToday, addMinutes } from "date-fns";
+import { isToday, addMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 
 import CustomButton from "@/components/UI/CustomButton";
@@ -16,13 +16,13 @@ import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
 import { isValid } from "@/helpers/isValid";
-import { editTodo } from "@/redux/actions/todoActions";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 import { ERROR_MESSAGES } from "@/consts/Messages";
 import { KEYS } from "@/consts/keys";
 import { ButtonTypes, ButtonVariants } from "@/types/buttonTypes";
-import { addUserTask } from "@/redux/thunks/tasksThunks";
+import { addUserTask, editTask } from "@/redux/thunks/tasksThunks";
+import { formatDate } from "@/helpers/getDate";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
@@ -64,9 +64,9 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     }
 
     if (selectedDate) {
-      const formattedDate = format(selectedDate, DATE_FORMAT);
+      const isoDate = selectedDate.toISOString();
       updateTodo({
-        expiredDate: formattedDate,
+        expiredDate: isoDate,
       });
     } else {
       updateTodo({
@@ -76,8 +76,8 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
   };
 
   const expirationDate = todo.expiredDate
-    ? parse(todo.expiredDate, DATE_FORMAT, new Date())
-    : null;
+  ? new Date(todo.expiredDate)
+  : null;
 
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
   const handleModalClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -101,20 +101,14 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 
   const handleSave = () => {
     if (isValid(modalTitle)) {
-      const newEditTodo = { // temporarily logic
-        _id: editItem ? editItem._id : "",
-        title: modalTitle,
-        createdDate: todo.createdDate,
-        expiredDate: todo.expiredDate,
-        completed: false,
-      };
       const newAddTodo = {
-        title: modalTitle,
+        title: modalTitle.trim(),
         createdDate: todo.createdDate,
         expiredDate: todo.expiredDate,
+        completed: false
       };
       if (editItem) {
-        dispatch(editTodo(newEditTodo));
+        dispatch(editTask(editItem._id, newAddTodo));
       } else {
         dispatch(addUserTask(newAddTodo));
       }
@@ -157,7 +151,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
           <input
             className="modal__input"
             type="text"
-            value={todo.createdDate}
+            value={formatDate(todo.createdDate)}
             readOnly
           />
           <label className="modal__label">Expiration date</label>

@@ -5,12 +5,14 @@ import parse from "date-fns/parse";
 import ConfirmationModal from "../../ConfirmationModal";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { toggleDone, deleteToDo } from "@/redux/actions/todoActions";
+import { deleteToDo } from "@/redux/actions/todoActions";
 import { DATE_FORMAT } from "@/consts/dateFormats";
 import { useModal } from "@/hooks/useModal";
 import TrashIcon from "@/assets/images/trash.svg?react";
 import EditIcon from "@/assets/images/edit.svg?react";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
+import { editTask } from "@/redux/thunks/tasksThunks";
+import { formatDate } from "@/helpers/getDate";
 
 import "./TodoItem.scss";
 
@@ -28,7 +30,7 @@ export const TodoItem: FC<TodoItemProps> = ({
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const handleToggleDone = () => {
-    dispatch(toggleDone(_id));
+    dispatch(editTask(_id, { completed: !completed }));
   };
 
   const handleConfirmDelete = () => {
@@ -58,15 +60,21 @@ export const TodoItem: FC<TodoItemProps> = ({
           <h3 className={titleClass}>{title}</h3>
         </div>
         <p className="todo-item__dates">
-          <span className={dateClass}>{createdDate}</span>-
-          <span className={dateClass}>{expiredDate}</span>
+        <span className={dateClass}>{formatDate(createdDate)}</span>-
+          <span className={dateClass}>{formatDate(expiredDate)}</span>
         </p>
         <div className="todo-item__buttons">
           <button
             className={editButtonClass}
             disabled={completed}
             onClick={() =>
-              handleOpenEditModal({ _id, title, createdDate, expiredDate, completed })
+              handleOpenEditModal({
+                _id,
+                title,
+                createdDate,
+                expiredDate,
+                completed,
+              })
             }
           >
             <EditIcon className="todo-item__button-image" />

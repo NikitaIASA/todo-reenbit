@@ -7,7 +7,7 @@ import AddTodoModal from "../TodoComponents/AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
-import { getCurrentDate, getEndDate } from "@/helpers/getDate";
+import { getCurrentDateISO, getEndDateISO } from "@/helpers/getDate";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useSearch } from "@/hooks/useSearch";
@@ -21,8 +21,8 @@ export const Home: FC = () => {
   const { query, setQuery } = useSearch();
   const [todo, setTodo] = useState<TodoType>({
     title: "",
-    createdDate: getCurrentDate(),
-    expiredDate: getEndDate(),
+    createdDate: getCurrentDateISO(),
+    expiredDate: getEndDateISO(),
   });
   const [modalTitle, setModalTitle] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
@@ -37,8 +37,8 @@ export const Home: FC = () => {
   const resetData = () => {
     updateTodo({
       title: "",
-      createdDate: getCurrentDate(),
-      expiredDate: getEndDate(),
+      createdDate: getCurrentDateISO(),
+      expiredDate: getEndDateISO(),
     });
     setModalTitle("");
     setValidationMessage("");
@@ -49,7 +49,7 @@ export const Home: FC = () => {
     setEditItem(null);
     openModal();
     updateTodo({
-      createdDate: getCurrentDate(),
+      createdDate: getCurrentDateISO(),
       expiredDate: "",
     });
     setModalTitle(todo.title);

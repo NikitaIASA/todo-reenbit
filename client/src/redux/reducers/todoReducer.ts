@@ -15,24 +15,10 @@ const initialState: TodoState = {
 
 const todoReducer = (state = initialState, action: ITodoListAction): TodoState => {
     switch (action.type) {
-        case actionTypes.TOGGLE_DONE:
-            return {
-                ...state,
-                todos: state.todos.map((todo: ITodoItem) => (
-                    todo._id === action.payload ? { ...todo, completed: !todo.completed } : todo
-                )),
-            };
         case actionTypes.DELETE_ITEM:
             return {
                 ...state,
                 todos: state.todos.filter((todo: ITodoItem) => todo._id !== action.payload),
-            };
-        case actionTypes.EDIT_ITEM:
-            return {
-                ...state,
-                todos: state.todos.map((todo: ITodoItem) =>
-                    todo._id === action.payload._id ? { ...todo, ...action.payload } : todo
-                ),
             };
         case actionTypes.DELETE_COMPLETED:
             return {
@@ -74,6 +60,25 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
                 ...state,
                 loading: false,
                 error: action.payload
+            };
+        case actionTypes.EDIT_TASK_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case actionTypes.EDIT_TASK_SUCCESS:
+            return {
+                ...state,
+                todos: state.todos.map((todo) =>
+                    todo._id === action.payload._id ? action.payload : todo
+                ),
+                loading: false
+            };
+        case actionTypes.EDIT_TASK_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                loading: false
             };
         default:
             return state;
