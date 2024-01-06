@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 
 import { loginRequest, loginSuccess, loginFailure } from "@/redux/actions/authActions";
-import { setToken } from "@/helpers/tokenHelpers";
+import { setRefreshToken, setToken } from "@/helpers/tokenHelpers";
 
 import api from "@/core/api";
 
@@ -10,13 +10,15 @@ export const login = (email: string, password: string) => {
     dispatch(loginRequest());
     try {
       const { data } = await api.post('/users/login', { email, password });
-      const token = data?.token;
+      const accessToken = data?.accessToken;
+      const refreshToken = data?.refreshToken;
 
-      if (!token) {
-        throw new Error('No token received');
+      if (!accessToken || !refreshToken) {
+        throw new Error('No tokens received');
       }
 
-      setToken(token);
+      setToken(accessToken);
+      setRefreshToken(refreshToken);
       dispatch(loginSuccess(data));
     } catch (error: any) {
       dispatch(loginFailure(error.response?.data || 'Unknown error'));
