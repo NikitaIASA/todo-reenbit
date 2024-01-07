@@ -11,11 +11,11 @@ import {
 import api from "@/core/api";
 import { handleAxiosError } from '@/helpers/handleAxiosError';
 
-export const fetchUserTasks = () => {
+export const fetchUserTasks = (searchQuery = '') => {
     return async (dispatch: Dispatch) => {
         dispatch(fetchTasksRequest());
         try {
-            const { data } = await api.get('/tasks');
+            const { data } = await api.get(`/tasks?search=${searchQuery}`);
             const tasks = data;
             dispatch(fetchTasksSuccess(tasks));
         } catch (error) {

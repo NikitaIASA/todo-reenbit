@@ -39,5 +39,13 @@ export interface DeleteTaskRequest extends Request {
 }
 
 export interface DeleteCompletedTasksRequest extends Request {
-    user?: UserPayload; 
+    user?: UserPayload;
+}
+
+export interface TaskQuery {
+    userId: string;
+    title?: {
+        $regex: string;
+        $options: string;
+    };
 }

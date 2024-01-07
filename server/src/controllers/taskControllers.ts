@@ -1,7 +1,14 @@
 import { Response } from 'express';
 
 import { Task } from '../models/task';
-import { AddTaskRequest, AuthRequest, DeleteCompletedTasksRequest, DeleteTaskRequest, EditTaskRequest } from '../types/tasksTypes';
+import {
+    AddTaskRequest,
+    AuthRequest,
+    DeleteCompletedTasksRequest,
+    DeleteTaskRequest,
+    EditTaskRequest,
+    TaskQuery
+} from '../types/tasksTypes';
 
 export const getUserTasks = async (req: AuthRequest, res: Response) => {
     try {
@@ -10,7 +17,15 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
         }
 
         const userId = req.user.userId;
-        const tasks = await Task.find({ userId }).sort({ _id: -1 });
+
+        const search = req.query.search as string | undefined;
+        let query: TaskQuery = { userId };
+
+        if (search) {
+            query.title = { $regex: search, $options: 'i' };
+        }
+
+        const tasks = await Task.find(query).sort({ _id: -1 });
 
         res.status(200).json(tasks);
     } catch (error) {
@@ -21,7 +36,7 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
 
 export const createUserTask = async (req: AddTaskRequest, res: Response) => {
     try {
-        
+
         if (!req.user || !req.user.userId) {
             return res.status(400).json({ message: "User ID is missing" });
         }
@@ -38,7 +53,7 @@ export const createUserTask = async (req: AddTaskRequest, res: Response) => {
         });
 
         await newTask.save();
-        
+
         const taskObject = newTask.toObject();
         delete taskObject.userId;
 
@@ -62,11 +77,11 @@ export const editUserTask = async (req: EditTaskRequest, res: Response) => {
         const updatedTask = await Task.findOneAndUpdate(
             { _id: taskId, userId },
             { title, createdDate, expiredDate, completed },
-            { new: true, runValidators: true } 
+            { new: true, runValidators: true }
         );
 
         if (!updatedTask) {
-            return res.status(404).json({ message: "Task not found or user unauthorized to edit" });
+            return res.status(404).json({ message: "Task not found" });
         }
 
         const taskObject = updatedTask.toObject();
