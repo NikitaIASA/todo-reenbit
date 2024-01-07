@@ -7,6 +7,48 @@ import { User } from '../models/user';
 
 const { JWT_SECRET } = process.env;
 
+export const register = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { username, email, password, confirmPassword } = req.body;
+
+        if (password !== confirmPassword) {
+            res.status(400).send("Passwords do not match");
+            return;
+        }
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            res.status(400).send("Email already in use");
+            return;
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const newUser = new User({
+            username,
+            email,
+            password: hashedPassword,
+        });
+
+        const accessToken = jwt.sign({ userId: newUser._id }, "secretcode111", { expiresIn: '1m' });
+        const refreshToken = jwt.sign({ userId: newUser._id }, "secretcode111", { expiresIn: '2m' });
+
+        newUser.refreshToken = refreshToken;
+        await newUser.save();
+
+        res.status(201).json({
+            username: newUser.username,
+            email: newUser.email,
+            accessToken,
+            refreshToken
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Something went wrong...");
+    }
+};
+
 export const login = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password } = req.body;
