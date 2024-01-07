@@ -90,7 +90,7 @@ export const editUserTask = async (req: EditTaskRequest, res: Response) => {
         );
 
         if (!updatedTask) {
-            return res.status(404).json({ message: "Task not found or user unauthorized to edit" });
+            return res.status(404).json({ message: "Task not found" });
         }
 
         const taskObject = updatedTask.toObject();
@@ -115,7 +115,7 @@ export const deleteUserTask = async (req: DeleteTaskRequest, res: Response) => {
         const task = await Task.findOneAndDelete({ _id: taskId, userId });
 
         if (!task) {
-            return res.status(404).json({ message: "Task not found or user unauthorized to delete" });
+            return res.status(404).json({ message: "Task not found" });
         }
 
         res.status(200).json({ message: "Task successfully deleted" });

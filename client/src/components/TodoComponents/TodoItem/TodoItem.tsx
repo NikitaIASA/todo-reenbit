@@ -17,6 +17,7 @@ import {
   fetchUserTasks,
 } from "@/redux/thunks/tasksThunks";
 import { SEARCH_PARAM_KEYS, TASK_FILTER_VALUES } from "@/consts/searchParams";
+import { formatDate } from "@/helpers/getDate";
 
 import "./TodoItem.scss";
 
@@ -69,8 +70,8 @@ export const TodoItem: FC<TodoItemProps> = ({
           <h3 className={titleClass}>{title}</h3>
         </div>
         <p className="todo-item__dates">
-          <span className={dateClass}>{createdDate}</span>-
-          <span className={dateClass}>{expiredDate}</span>
+        <span className={dateClass}>{formatDate(createdDate)}</span>-
+          <span className={dateClass}>{formatDate(expiredDate)}</span>
         </p>
         <div className="todo-item__buttons">
           <button
