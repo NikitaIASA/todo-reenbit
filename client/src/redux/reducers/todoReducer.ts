@@ -54,7 +54,7 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
         case actionTypes.EDIT_TASK_REQUEST:
             return {
                 ...state,
-                loading: false
+                loading: true
             };
         case actionTypes.EDIT_TASK_SUCCESS:
             return {
