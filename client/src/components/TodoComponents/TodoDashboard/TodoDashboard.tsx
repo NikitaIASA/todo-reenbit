@@ -21,8 +21,6 @@ export const ToDoDashboard: FC<ToDoDashboardProps> = ({
 }) => {
   const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
-
-  if (isLoading) return <div className="todo-dashboard">Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -34,7 +32,7 @@ export const ToDoDashboard: FC<ToDoDashboardProps> = ({
           </li>
         ))}
       </ul>
-      {!items.length &&
+      {!isLoading && !items.length &&
         (searchQuery ? (
           <p className="nothing-found-message">
             Nothing found for "{searchQuery}"

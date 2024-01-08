@@ -1,7 +1,8 @@
-import { FC, useState, useEffect, useRef, useCallback } from "react";
+import { FC, useState, useEffect, useRef, useCallback, ChangeEvent} from "react";
 
 import { debounce } from "@/helpers/debounce";
 import { SEARCH_DELAY } from "@/consts/debounceDelays";
+import { VALID_INPUT_REGEX } from "@/consts/searchRegex";
 import ClearIcon from "@/assets/images/clearIcon.svg?react";
 
 import "./SearchInput.scss";
@@ -26,10 +27,13 @@ export const SearchInput: FC<SearchInputProps> = ({ searchQuery, onChange }) => 
     []
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInternalValue(e.target.value);
-    updateSearchValue(e.target.value);
-  };
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const filteredValue = value.replace(VALID_INPUT_REGEX, "");
+
+    setInternalValue(filteredValue);
+    updateSearchValue(filteredValue);
+};
 
   const onClear = () => {
     setInternalValue("");

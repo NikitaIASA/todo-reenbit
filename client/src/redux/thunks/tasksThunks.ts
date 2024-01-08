@@ -15,7 +15,7 @@ export const fetchUserTasks = (search = '', status = '') => {
     return async (dispatch: Dispatch) => {
         dispatch(fetchTasksRequest());
         try {
-            const { data } = await api.get(`/tasks?search=${search}&status=${status}`);
+            const { data } = await api.get(`/tasks?status=${status}&search=${search}`);
             dispatch(fetchTasksSuccess(data));
         } catch (error) {
             const errorMessage = handleAxiosError(error);
