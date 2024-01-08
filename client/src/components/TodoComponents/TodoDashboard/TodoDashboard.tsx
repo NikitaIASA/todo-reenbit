@@ -20,7 +20,7 @@ export const ToDoDashboard: FC<ToDoDashboardProps> = ({
   items,
   handleOpenEditModal,
 }) => {
-  const filteredItems = useFilteredItems(items, searchQuery);
+  const filteredItems = useFilteredItems(items);
   const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
   if (error) return <div>Error: {error}</div>;
