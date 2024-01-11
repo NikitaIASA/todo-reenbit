@@ -1,5 +1,6 @@
 import { ITodoItem, ITodoListAction } from "@/types/todoItemDto";
 import { actionTypes } from "@/types/actionTypes";
+import { FILTER_OPTIONS } from "@/consts/filterOptions";
 
 interface TodoState {
     todos: ITodoItem[];
@@ -24,7 +25,7 @@ const initialState: TodoState = {
     loading: false,
     error: null,
     searchQuery: '',
-    filter: 'all',
+    filter: FILTER_OPTIONS.ALL,
 };
 
 const todoReducer = (state = initialState, action: ITodoListAction): TodoState => {
@@ -57,10 +58,10 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
         case actionTypes.ADD_TASK_SUCCESS: {
             let shouldAddTask = true;
 
-            if (state.filter === 'completed' && !action.payload.completed) {
+            if (state.filter === FILTER_OPTIONS.COMPLETED && !action.payload.completed) {
                 shouldAddTask = false;
             }
-            if (state.filter === 'active' && action.payload.completed) {
+            if (state.filter === FILTER_OPTIONS.ACTIVE && action.payload.completed) {
                 shouldAddTask = false;
             }
 
