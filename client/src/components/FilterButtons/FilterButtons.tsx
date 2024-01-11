@@ -8,7 +8,7 @@ import { FILTER_TYPES } from "@/consts/filterOptions";
 import {
   deleteCompletedTasks,
 } from "@/redux/thunks/tasksThunks";
-import { selectCompletedTodos, selectFilter } from "@/redux/selectors/todoSelectors";
+import { selectCompletedCount, selectCompletedTodos, selectFilter } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
 import { ButtonVariants } from "@/types/buttonTypes";
@@ -25,7 +25,7 @@ export const FilterButtons: FC = () => {
   };
 
   const { isModalOpen, openModal, closeModal } = useModal();
-  const completedTasks = useAppSelector(selectCompletedTodos);
+  const completedTasksCount = useAppSelector(selectCompletedCount);
   
   const handleConfirmDelete = () => {
     dispatch(deleteCompletedTasks());
@@ -51,7 +51,7 @@ export const FilterButtons: FC = () => {
           <CustomButton
             onClick={openModal}
             variant={ButtonVariants.SECONDARY}
-            isDisabled={!completedTasks.length}
+            isDisabled={!completedTasksCount}
           >
             Clear сompleted
           </CustomButton>
