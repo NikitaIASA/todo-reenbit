@@ -20,23 +20,34 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
         const search = req.query.search as string | undefined;
         const status = req.query.status as string | undefined;
 
-        let query: TaskQuery = { userId };
+        let baseQuery: TaskQuery = { userId };
+        let currentQuery: TaskQuery = { ...baseQuery };
 
         if (search) {
-            query.title = { $regex: search, $options: 'i' };
+            currentQuery.title = { $regex: search, $options: 'i' };
         }
 
         if (status) {
-            if (status === 'active') {
-                query.completed = false;
-            } else if (status === 'completed') {
-                query.completed = true;
+            if (status === TASK_STATUS.ACTIVE) {
+                currentQuery.completed = false;
+            } else if (status === TASK_STATUS.COMPLETED) {
+                currentQuery.completed = true;
             }
         }
 
-        const tasks = await Task.find(query).sort({ _id: -1 });
+        const totalTasks = await Task.countDocuments(baseQuery);
+        const completedTasks = await Task.countDocuments({ ...baseQuery, completed: true });
+        const activeTasks = await Task.countDocuments({ ...baseQuery, completed: false });
+        const tasks = await Task.find(currentQuery).sort({ _id: -1 });
 
-        res.status(200).json(tasks);
+        res.status(200).json({
+            tasks,
+            totals: {
+                all: totalTasks,
+                completed: completedTasks,
+                active: activeTasks
+            }
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to get user's tasks" });

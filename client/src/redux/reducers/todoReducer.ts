@@ -3,14 +3,28 @@ import { actionTypes } from "@/types/actionTypes";
 
 interface TodoState {
     todos: ITodoItem[];
+    totals: {
+        all: number;
+        completed: number;
+        active: number;
+    };
     loading: boolean;
     error: string | null;
+    searchQuery: string;
+    filter: string;
 }
 
 const initialState: TodoState = {
     todos: [],
+    totals: {
+        all: 0,
+        completed: 0,
+        active: 0
+    },
     loading: false,
     error: null,
+    searchQuery: '',
+    filter: 'all',
 };
 
 const todoReducer = (state = initialState, action: ITodoListAction): TodoState => {
@@ -24,7 +38,8 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
         case actionTypes.FETCH_TASKS_SUCCESS:
             return {
                 ...state,
-                todos: action.payload,
+                todos: action.payload.tasks,
+                totals: action.payload.totals,
                 loading: false
             };
         case actionTypes.FETCH_TASKS_FAILURE:
@@ -39,12 +54,22 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
                 loading: true,
                 error: null
             };
-        case actionTypes.ADD_TASK_SUCCESS:
+        case actionTypes.ADD_TASK_SUCCESS: {
+            let shouldAddTask = true;
+
+            if (state.filter === 'completed' && !action.payload.completed) {
+                shouldAddTask = false;
+            }
+            if (state.filter === 'active' && action.payload.completed) {
+                shouldAddTask = false;
+            }
+
             return {
                 ...state,
-                todos: [action.payload, ...state.todos],
+                todos: shouldAddTask ? [action.payload, ...state.todos] : state.todos,
                 loading: false
             };
+        }
         case actionTypes.ADD_TASK_FAILURE:
             return {
                 ...state,
@@ -103,6 +128,17 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
                 ...state,
                 error: action.payload,
                 loading: false
+            };
+        case actionTypes.SET_SEARCH_QUERY:
+            return {
+                ...state,
+                searchQuery: action.payload
+            };
+
+        case actionTypes.SET_FILTER:
+            return {
+                ...state,
+                filter: action.payload
             };
         default:
             return state;

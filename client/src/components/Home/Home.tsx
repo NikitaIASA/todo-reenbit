@@ -15,14 +15,7 @@ import { TodoType } from "@/types/todoItemDto";
 
 import "./Home.scss";
 
-interface HomeProps {
-  searchQuery: string;
-  currentFilter: string;
-  onSearchChange: (searchValue: string) => void;
-  onFilterChange: (filterValue: string) => void;
-}
-
-export const Home: FC<HomeProps> = ({searchQuery, currentFilter, onSearchChange, onFilterChange}) => {
+export const Home: FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [todo, setTodo] = useState<TodoType>({
     title: "",
@@ -85,11 +78,10 @@ export const Home: FC<HomeProps> = ({searchQuery, currentFilter, onSearchChange,
         {validationMessage && (
           <p className="validation-message">{validationMessage}</p>
         )}
-        <SearchInput onChange={onSearchChange} searchQuery={searchQuery} />
-        <FilterButtons currentFilter={currentFilter} onFilterChange={onFilterChange}/>
+        <SearchInput/>
+        <FilterButtons/>
       </div>
       <ToDoDashboard
-        searchQuery={searchQuery}
         items={todoItems}
         handleOpenEditModal={handleOpenEditModal}
       />

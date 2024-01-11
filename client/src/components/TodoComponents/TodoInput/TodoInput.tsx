@@ -36,7 +36,7 @@ export const TodoInput: FC<TodoInputProps> = ({
             createdDate: todo.createdDate,
             expiredDate: todo.expiredDate,
           })
-        );
+        )
         switchCompletedFilter();
         resetData();
       } else {

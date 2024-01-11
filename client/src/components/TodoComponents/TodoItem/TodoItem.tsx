@@ -1,7 +1,6 @@
 import { FC } from "react";
 import clsx from "clsx";
 import parse from "date-fns/parse";
-import { useSearchParams } from "react-router-dom";
 
 import ConfirmationModal from "../../ConfirmationModal";
 import { ITodoItem } from "@/types/todoItemDto";
@@ -16,10 +15,12 @@ import {
   editTask,
   fetchUserTasks,
 } from "@/redux/thunks/tasksThunks";
-import { SEARCH_PARAM_KEYS, TASK_FILTER_VALUES } from "@/consts/searchParams";
 import { formatDate } from "@/helpers/getDate";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { selectFilter, selectSearchQuery } from "@/redux/selectors/todoSelectors";
 
 import "./TodoItem.scss";
+
 
 export interface TodoItemProps {
   item: ITodoItem;
@@ -31,9 +32,8 @@ export const TodoItem: FC<TodoItemProps> = ({
   handleOpenEditModal,
 }) => {
   const dispatch = useAppDispatch();
-  const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get(SEARCH_PARAM_KEYS.SEARCH) || "";
-  const currentFilter = searchParams.get(SEARCH_PARAM_KEYS.FILTER) || TASK_FILTER_VALUES.ALL;
+  const searchQuery = useAppSelector(selectSearchQuery);
+  const currentFilter = useAppSelector(selectFilter);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -44,7 +44,9 @@ export const TodoItem: FC<TodoItemProps> = ({
   };
 
   const handleConfirmDelete = () => {
-    dispatch(deleteTask(_id));
+    dispatch(deleteTask(_id)).then(() => {
+      dispatch(fetchUserTasks(searchQuery, currentFilter));
+    });
     closeModal();
   };
 
@@ -70,7 +72,7 @@ export const TodoItem: FC<TodoItemProps> = ({
           <h3 className={titleClass}>{title}</h3>
         </div>
         <p className="todo-item__dates">
-        <span className={dateClass}>{formatDate(createdDate)}</span>-
+          <span className={dateClass}>{formatDate(createdDate)}</span>-
           <span className={dateClass}>{formatDate(expiredDate)}</span>
         </p>
         <div className="todo-item__buttons">

@@ -6,15 +6,20 @@ import { VALID_INPUT_REGEX } from "@/consts/searchRegex";
 import ClearIcon from "@/assets/images/clearIcon.svg?react";
 
 import "./SearchInput.scss";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { setSearchQuery } from "@/redux/actions/todoActions";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { selectSearchQuery } from "@/redux/selectors/todoSelectors";
 
-interface SearchInputProps {
-  searchQuery: string;
-  onChange: (value: string) => void;
-}
-
-export const SearchInput: FC<SearchInputProps> = ({ searchQuery, onChange }) => {
+export const SearchInput: FC = () => {
+  const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const searchQuery = useAppSelector(selectSearchQuery);
   const [internalValue, setInternalValue] = useState(searchQuery);
+
+  const onChange = (value: string) => {
+    dispatch(setSearchQuery(value));
+  };
 
   useEffect(() => {
     setInternalValue(searchQuery);

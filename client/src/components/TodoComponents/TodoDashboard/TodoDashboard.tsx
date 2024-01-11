@@ -4,24 +4,30 @@ import TodoItem from "../TodoItem";
 import NoTodoFound from "../NoTodoFound";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectError, selectIsLoading } from "@/redux/selectors/todoSelectors";
+import { selectError, selectIsLoading, selectSearchQuery } from "@/redux/selectors/todoSelectors";
 
 import "./TodoDashboard.scss";
 
 interface ToDoDashboardProps {
-  searchQuery: string;
   items: ITodoItem[];
   handleOpenEditModal: (item: ITodoItem) => void;
 }
 
 export const ToDoDashboard: FC<ToDoDashboardProps> = ({
-  searchQuery,
   items,
   handleOpenEditModal,
 }) => {
+  const searchQuery = useAppSelector(selectSearchQuery);
   const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
-  if (error) return <div>Error: {error}</div>;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <>
@@ -32,7 +38,8 @@ export const ToDoDashboard: FC<ToDoDashboardProps> = ({
           </li>
         ))}
       </ul>
-      {!isLoading && !items.length &&
+      {!isLoading &&
+        !items.length &&
         (searchQuery ? (
           <p className="nothing-found-message">
             Nothing found for "{searchQuery}"
