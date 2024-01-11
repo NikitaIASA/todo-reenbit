@@ -9,6 +9,7 @@ import {
     EditTaskRequest,
     TaskQuery
 } from '../types/tasksTypes';
+import { TASK_STATUSES } from '../constants/filterStatuses';
 
 export const getUserTasks = async (req: AuthRequest, res: Response) => {
     try {
@@ -28,9 +29,9 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
         }
 
         if (status) {
-            if (status === TASK_STATUS.ACTIVE) {
+            if (status === TASK_STATUSES.ACTIVE) {
                 currentQuery.completed = false;
-            } else if (status === TASK_STATUS.COMPLETED) {
+            } else if (status === TASK_STATUSES.COMPLETED) {
                 currentQuery.completed = true;
             }
         }
