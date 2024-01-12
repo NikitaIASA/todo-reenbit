@@ -8,22 +8,24 @@ import { FILTER_TYPES } from "@/consts/filterOptions";
 import {
   deleteCompletedTasks,
 } from "@/redux/thunks/tasksThunks";
-import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
+import { selectCompletedCount, selectFilter } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
 import { ButtonVariants } from "@/types/buttonTypes";
+import { setFilter } from "@/redux/actions/todoActions";
 
 import "./FilterButtons.scss";
 
-interface FilterButtonsProps {
-  currentFilter: string;
-  onFilterChange: (filterValue: string) => void;
-}
-
-export const FilterButtons: FC<FilterButtonsProps> = ({ currentFilter, onFilterChange }) => {
+export const FilterButtons: FC = () => {
   const dispatch = useAppDispatch();
+  const currentFilter = useAppSelector(selectFilter)
+
+  const handleFilterChange = (filterValue: string) => {
+    dispatch(setFilter(filterValue));
+  };
+
   const { isModalOpen, openModal, closeModal } = useModal();
-  const completedTasks = useAppSelector(selectCompletedTodos);
+  const completedTasksCount = useAppSelector(selectCompletedCount);
   
   const handleConfirmDelete = () => {
     dispatch(deleteCompletedTasks());
@@ -38,7 +40,7 @@ export const FilterButtons: FC<FilterButtonsProps> = ({ currentFilter, onFilterC
             <CustomButton
               key={key}
               variant={ButtonVariants.PRIMARY}
-              onClick={() => onFilterChange(key)}
+              onClick={() => handleFilterChange(key)}
               isDisabled={currentFilter === key}
             >
               {label}
@@ -49,7 +51,7 @@ export const FilterButtons: FC<FilterButtonsProps> = ({ currentFilter, onFilterC
           <CustomButton
             onClick={openModal}
             variant={ButtonVariants.SECONDARY}
-            isDisabled={!completedTasks.length}
+            isDisabled={!completedTasksCount}
           >
             Clear сompleted
           </CustomButton>

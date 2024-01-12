@@ -6,7 +6,7 @@ import { logoutSuccess } from '@/redux/actions/authActions';
 import { ROUTE_PATHS } from '@/consts/routePaths';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://daily-planner-k6kz.onrender.com/api',
 });
 
 api.interceptors.request.use((config) => {
