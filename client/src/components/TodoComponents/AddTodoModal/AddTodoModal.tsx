@@ -75,9 +75,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     }
   };
 
-  const expirationDate = todo.expiredDate
-  ? new Date(todo.expiredDate)
-  : null;
+  const expirationDate = todo.expiredDate ? new Date(todo.expiredDate) : null;
 
   // Prevent click propagation within the modal (to close modal when user clicks outside it)
   const handleModalClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -105,12 +103,12 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
         title: modalTitle.trim(),
         createdDate: todo.createdDate,
         expiredDate: todo.expiredDate,
-        completed: false
+        completed: false,
       };
       if (editItem) {
         dispatch(editTask(editItem._id, newAddTodo));
       } else {
-        dispatch(addUserTask(newAddTodo));
+        dispatch(addUserTask(newAddTodo))
       }
       switchCompletedFilter();
       onClose();

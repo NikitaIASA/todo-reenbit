@@ -11,13 +11,12 @@ import {
 import api from "@/core/api";
 import { handleAxiosError } from '@/helpers/handleAxiosError';
 
-export const fetchUserTasks = (searchQuery = '') => {
+export const fetchUserTasks = (search = '', status = '') => {
     return async (dispatch: Dispatch) => {
         dispatch(fetchTasksRequest());
         try {
-            const { data } = await api.get(`/tasks?search=${searchQuery}`);
-            const tasks = data;
-            dispatch(fetchTasksSuccess(tasks));
+            const { data } = await api.get(`/tasks?status=${status}&search=${search}`);
+            dispatch(fetchTasksSuccess(data));
         } catch (error) {
             const errorMessage = handleAxiosError(error);
             dispatch(fetchTasksFailure(errorMessage));

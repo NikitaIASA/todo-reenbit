@@ -4,28 +4,29 @@ import ConfirmationModal from "../ConfirmationModal";
 import CustomButton from "../UI/CustomButton";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectFilter } from "@/redux/selectors/filterSelectors";
-import { setFilter } from "@/redux/actions/filterActions";
 import { FILTER_TYPES } from "@/consts/filterOptions";
-import { deleteCompletedTasks } from "@/redux/thunks/tasksThunks";
-import { selectCompletedTodos } from "@/redux/selectors/todoSelectors";
+import {
+  deleteCompletedTasks,
+} from "@/redux/thunks/tasksThunks";
+import { selectCompletedCount, selectFilter } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
 import { ButtonVariants } from "@/types/buttonTypes";
+import { setFilter } from "@/redux/actions/todoActions";
 
 import "./FilterButtons.scss";
 
 export const FilterButtons: FC = () => {
   const dispatch = useAppDispatch();
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const currentFilter = useAppSelector(selectFilter)
 
-  const currentFilter = useAppSelector(selectFilter);
-  const completedTasks = useAppSelector(selectCompletedTodos);
-
-  const handleFilterClick = (filterType: string) => {
-    dispatch(setFilter(filterType));
+  const handleFilterChange = (filterValue: string) => {
+    dispatch(setFilter(filterValue));
   };
 
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const completedTasksCount = useAppSelector(selectCompletedCount);
+  
   const handleConfirmDelete = () => {
     dispatch(deleteCompletedTasks());
     closeModal();
@@ -39,7 +40,7 @@ export const FilterButtons: FC = () => {
             <CustomButton
               key={key}
               variant={ButtonVariants.PRIMARY}
-              onClick={() => handleFilterClick(key)}
+              onClick={() => handleFilterChange(key)}
               isDisabled={currentFilter === key}
             >
               {label}
@@ -50,7 +51,7 @@ export const FilterButtons: FC = () => {
           <CustomButton
             onClick={openModal}
             variant={ButtonVariants.SECONDARY}
-            isDisabled={!completedTasks.length}
+            isDisabled={!completedTasksCount}
           >
             Clear сompleted
           </CustomButton>

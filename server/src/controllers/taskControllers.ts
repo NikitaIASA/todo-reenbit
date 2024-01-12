@@ -9,6 +9,7 @@ import {
     EditTaskRequest,
     TaskQuery
 } from '../types/tasksTypes';
+import { TASK_STATUSES } from '../constants/filterStatuses';
 
 export const getUserTasks = async (req: AuthRequest, res: Response) => {
     try {
@@ -17,17 +18,37 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
         }
 
         const userId = req.user.userId;
-
         const search = req.query.search as string | undefined;
-        let query: TaskQuery = { userId };
+        const status = req.query.status as string | undefined;
+
+        let baseQuery: TaskQuery = { userId };
+        let currentQuery: TaskQuery = { ...baseQuery };
 
         if (search) {
-            query.title = { $regex: search, $options: 'i' };
+            currentQuery.title = { $regex: search, $options: 'i' };
         }
 
-        const tasks = await Task.find(query).sort({ _id: -1 });
+        if (status) {
+            if (status === TASK_STATUSES.ACTIVE) {
+                currentQuery.completed = false;
+            } else if (status === TASK_STATUSES.COMPLETED) {
+                currentQuery.completed = true;
+            }
+        }
 
-        res.status(200).json(tasks);
+        const totalTasks = await Task.countDocuments(baseQuery);
+        const completedTasks = await Task.countDocuments({ ...baseQuery, completed: true });
+        const activeTasks = await Task.countDocuments({ ...baseQuery, completed: false });
+        const tasks = await Task.find(currentQuery).sort({ _id: -1 });
+
+        res.status(200).json({
+            tasks,
+            totals: {
+                all: totalTasks,
+                completed: completedTasks,
+                active: activeTasks
+            }
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to get user's tasks" });

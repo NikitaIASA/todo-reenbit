@@ -3,45 +3,67 @@ import { FC } from "react";
 import TodoItem from "../TodoItem";
 import NoTodoFound from "../NoTodoFound";
 import { ITodoItem } from "@/types/todoItemDto";
-import { useFilteredItems } from "@/hooks/useFilteredTodos";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectError, selectIsLoading } from "@/redux/selectors/todoSelectors";
+import {
+  selectError,
+  selectIsLoading,
+  selectSearchQuery,
+} from "@/redux/selectors/todoSelectors";
 
 import "./TodoDashboard.scss";
 
 interface ToDoDashboardProps {
-  searchQuery: string;
   items: ITodoItem[];
   handleOpenEditModal: (item: ITodoItem) => void;
 }
 
 export const ToDoDashboard: FC<ToDoDashboardProps> = ({
-  searchQuery,
   items,
   handleOpenEditModal,
 }) => {
-  const filteredItems = useFilteredItems(items);
+  const searchQuery = useAppSelector(selectSearchQuery);
   const isLoading = useAppSelector(selectIsLoading);
   const error = useAppSelector(selectError);
-  if (error) return <div>Error: {error}</div>;
 
-  return (
-    <>
-      <ul className="todo-dashboard">
-        {filteredItems?.map((item) => (
-          <li key={item._id}>
-            <TodoItem item={item} handleOpenEditModal={handleOpenEditModal} />
-          </li>
-        ))}
-      </ul>
-      {!isLoading && !filteredItems.length &&
-        (searchQuery ? (
+  if (isLoading) {
+    return (
+      <div className="todo-dashboard">
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="todo-dashboard">
+        <div>Error: {error}</div>
+      </div>
+    );
+  }
+
+  if (!isLoading && !items.length) {
+    return (
+      <div className="todo-dashboard">
+        {searchQuery ? (
           <p className="nothing-found-message">
             Nothing found for "{searchQuery}"
           </p>
         ) : (
           <NoTodoFound />
+        )}
+      </div>
+    );
+  }
+  
+  return (
+    <div className="todo-dashboard">
+      <ul className="todo-dashboard__list">
+        {items?.map((item) => (
+          <li key={item._id}>
+            <TodoItem item={item} handleOpenEditModal={handleOpenEditModal} />
+          </li>
         ))}
-    </>
+      </ul>
+    </div>
   );
 };

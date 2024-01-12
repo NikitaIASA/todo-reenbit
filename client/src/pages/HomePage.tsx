@@ -1,29 +1,20 @@
-import { FC, useEffect, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
-
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { fetchUserTasks } from "@/redux/thunks/tasksThunks";
-import Home from "@/components/Home";
+import { FC, useEffect } from 'react';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { fetchUserTasks } from '@/redux/thunks/tasksThunks';
+import Home from '@/components/Home';
+import { selectFilter, selectSearchQuery } from '@/redux/selectors/todoSelectors';
 
 export const HomePage: FC = () => {
   const dispatch = useAppDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const searchQuery = searchParams.get("search") || "";
+  const searchQuery = useAppSelector(selectSearchQuery);
+  const currentFilter = useAppSelector(selectFilter);
 
   useEffect(() => {
-    dispatch(fetchUserTasks(searchQuery));
-  }, [searchQuery, dispatch]);
+    dispatch(fetchUserTasks(searchQuery, currentFilter));
+  }, [searchQuery, currentFilter, dispatch]);
 
-  const handleSearchChange = useCallback(
-    (searchValue: string) => {
-      const newSearchParams = new URLSearchParams();
-      if (searchValue) {
-        newSearchParams.set("search", searchValue);
-      }
-      setSearchParams(newSearchParams);
-    },
-    [setSearchParams]
+  return (
+    <Home/>
   );
-
-  return <Home searchQuery={searchQuery} onSearchChange={handleSearchChange} />;
 };
