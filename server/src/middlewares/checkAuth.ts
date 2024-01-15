@@ -5,6 +5,8 @@ interface AuthRequest extends Request {
     user?: JwtPayload | string;
 }
 
+const { JWT_SECRET } = process.env;
+
 export const checkAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(' ')[1];
 
@@ -13,7 +15,7 @@ export const checkAuth = (req: AuthRequest, res: Response, next: NextFunction) =
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secretcode111') as JwtPayload;
+        const decoded = jwt.verify(token, JWT_SECRET || 'secretcode111') as JwtPayload;
         req.user = decoded;
         next();
     } catch (error) {
