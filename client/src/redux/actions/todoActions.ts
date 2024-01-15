@@ -1,4 +1,4 @@
-import { ISetFilterAction, ISetSearchQueryAction, ITodoItem } from "@/types/todoItemDto";
+import { IResetTodoStateAction, ISetFilterAction, ISetSearchQueryAction, ITodoItem } from "@/types/todoItemDto";
 import { actionTypes } from "@/types/actionTypes";
 
 export const deleteCompletedTodos = () => ({
@@ -82,4 +82,8 @@ export const setSearchQuery = (query: string): ISetSearchQueryAction => ({
 export const setFilter = (filter: string): ISetFilterAction => ({
     type: actionTypes.SET_FILTER,
     payload: filter
+});
+
+export const resetTodoState = (): IResetTodoStateAction => ({
+    type: actionTypes.RESET_TODO_STATE,
 });

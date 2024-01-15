@@ -141,6 +141,8 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
                 ...state,
                 filter: action.payload
             };
+        case actionTypes.RESET_TODO_STATE:
+            return initialState;
         default:
             return state;
     }

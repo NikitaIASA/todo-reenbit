@@ -4,6 +4,7 @@ import { getToken, removeToken, setToken, getRefreshToken, removeRefreshToken } 
 import { store } from '@/redux/store';
 import { logoutSuccess } from '@/redux/actions/authActions';
 import { ROUTE_PATHS } from '@/consts/routePaths';
+import { resetTodoState } from '@/redux/actions/todoActions';
 
 const api = axios.create({
     baseURL: 'https://daily-planner-k6kz.onrender.com/api',
@@ -51,6 +52,7 @@ api.interceptors.response.use(
                 removeToken();
                 removeRefreshToken();
                 store.dispatch(logoutSuccess());
+                store.dispatch(resetTodoState());
                 return Promise.reject(refreshError);
             }
         }
