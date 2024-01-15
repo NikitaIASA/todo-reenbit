@@ -13,13 +13,13 @@ const api = axios.create({
 async function refreshAccessToken() {
     try {
         const refreshToken = getRefreshToken();
-        const response = await api.post('users/refresh', { refreshToken });
-        const { accessToken } = response.data;
-        setToken(accessToken); 
+        const { data } = await api.post('users/refresh', { refreshToken });
+        const { accessToken } = data;
+        setToken(accessToken);
         return accessToken;
     } catch (error) {
         console.error("Failed to refresh token:", error);
-        removeToken(); 
+        removeToken();
         window.location.href = ROUTE_PATHS.SIGN_IN;
     }
 }
@@ -41,7 +41,7 @@ api.interceptors.response.use(
 
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
-            
+
             try {
                 const newAccessToken = await refreshAccessToken();
                 if (newAccessToken) {
