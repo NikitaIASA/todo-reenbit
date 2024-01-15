@@ -17,7 +17,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const token = jwt.sign({ userId: user._id }, "secretcode111", { expiresIn: '30d' });
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET || "secretcode111", { expiresIn: '1m' });
 
         res.status(200).json({ token, userId: user._id });
     } catch (error) {
