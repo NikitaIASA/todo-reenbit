@@ -20,6 +20,7 @@ async function refreshAccessToken() {
     } catch (error) {
         console.error("Failed to refresh token:", error);
         removeToken();
+        removeRefreshToken();
         window.location.href = ROUTE_PATHS.SIGN_IN;
     }
 }
@@ -49,8 +50,6 @@ api.interceptors.response.use(
                     return api(originalRequest);
                 }
             } catch (refreshError) {
-                removeToken();
-                removeRefreshToken();
                 store.dispatch(logoutSuccess());
                 store.dispatch(resetTodoState());
                 return Promise.reject(refreshError);
