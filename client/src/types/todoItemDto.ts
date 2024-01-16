@@ -24,7 +24,14 @@ export interface IFetchTasksRequestAction {
 
 export interface IFetchTasksSuccessAction {
     type: actionTypes.FETCH_TASKS_SUCCESS;
-    payload: ITodoItem[];
+    payload: {
+        tasks: ITodoItem[];
+        totals: {
+            all: number;
+            completed: number;
+            active: number;
+        };
+    };
 }
 
 export interface IFetchTasksFailureAction {
@@ -87,6 +94,37 @@ export interface IDeleteCompletedTasksFailureAction {
     payload: string;
 }
 
-export type ITodoListAction = IDeleteCoompletedAction | IFetchTasksRequestAction | IFetchTasksSuccessAction | IFetchTasksFailureAction
-    | IAddTaskRequestAction | IAddTaskSuccessAction | IAddTaskFailureAction | IEditTaskRequestAction | IEditTaskSuccessAction | IEditTaskFailureAction |
-    IDeleteTaskRequestAction | IDeleteTaskSuccessAction | IDeleteTaskFailureAction | IDeleteCompletedTasksRequestAction | IDeleteCompletedTasksSuccessAction | IDeleteCompletedTasksFailureAction;
+export interface ISetSearchQueryAction {
+    type: actionTypes.SET_SEARCH_QUERY;
+    payload: string;
+}
+
+export interface ISetFilterAction {
+    type: actionTypes.SET_FILTER;
+    payload: string;
+}
+
+export interface IResetTodoStateAction {
+    type: actionTypes.RESET_TODO_STATE;
+}
+
+export type ITodoListAction =
+    IDeleteCoompletedAction |
+    IFetchTasksRequestAction |
+    IFetchTasksSuccessAction |
+    IFetchTasksFailureAction |
+    IAddTaskRequestAction |
+    IAddTaskSuccessAction |
+    IAddTaskFailureAction |
+    IEditTaskRequestAction |
+    IEditTaskSuccessAction |
+    IEditTaskFailureAction |
+    IDeleteTaskRequestAction |
+    IDeleteTaskSuccessAction |
+    IDeleteTaskFailureAction |
+    IDeleteCompletedTasksRequestAction |
+    IDeleteCompletedTasksSuccessAction |
+    IDeleteCompletedTasksFailureAction |
+    ISetSearchQueryAction |
+    ISetFilterAction |
+    IResetTodoStateAction;

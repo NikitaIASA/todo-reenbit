@@ -32,11 +32,11 @@ export const TodoInput: FC<TodoInputProps> = ({
       if (isValid(todo.title)) {
         dispatch(
           addUserTask({
-            title: todo.title,
+            title: todo.title.trim(),
             createdDate: todo.createdDate,
             expiredDate: todo.expiredDate,
           })
-        );
+        )
         switchCompletedFilter();
         resetData();
       } else {

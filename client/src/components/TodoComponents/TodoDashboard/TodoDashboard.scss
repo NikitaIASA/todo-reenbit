@@ -1,20 +1,26 @@
 @import "@/scss/index.scss";
 
 .todo-dashboard {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 20px 0;
-  padding: 0 10px;
-  gap: 20px;
+  margin: 15px 0;
 
-  @include onBig-desktop {
-    justify-content: center;
-    align-items: center;
-  }
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 0;
+    padding: 0 10px;
+    gap: 20px;
 
-  @include onMobile {
-    flex-direction: column;
+    @include onBig-desktop {
+      justify-content: center;
+      align-items: center;
+    }
+
+    @include onMobile {
+      flex-direction: column;
+    }
+
   }
+  
 }
 
 .nothing-found-message {

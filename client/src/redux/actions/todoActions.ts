@@ -1,7 +1,7 @@
-import { IDeleteCoompletedAction, ITodoItem } from "@/types/todoItemDto";
+import { IResetTodoStateAction, ISetFilterAction, ISetSearchQueryAction, ITodoItem } from "@/types/todoItemDto";
 import { actionTypes } from "@/types/actionTypes";
 
-export const deleteCompletedTodos = (): IDeleteCoompletedAction => ({
+export const deleteCompletedTodos = () => ({
     type: actionTypes.DELETE_COMPLETED
 });
 
@@ -72,4 +72,18 @@ export const deleteCompletedTasksSuccess = () => ({
 export const deleteCompletedTasksFailure = (error: string) => ({
     type: actionTypes.DELETE_COMPLETED_TASKS_FAILURE,
     payload: error
+});
+
+export const setSearchQuery = (query: string): ISetSearchQueryAction => ({
+    type: actionTypes.SET_SEARCH_QUERY,
+    payload: query
+});
+
+export const setFilter = (filter: string): ISetFilterAction => ({
+    type: actionTypes.SET_FILTER,
+    payload: filter
+});
+
+export const resetTodoState = (): IResetTodoStateAction => ({
+    type: actionTypes.RESET_TODO_STATE,
 });

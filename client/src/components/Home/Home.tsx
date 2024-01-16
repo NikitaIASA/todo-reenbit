@@ -7,7 +7,7 @@ import AddTodoModal from "../TodoComponents/AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
 import { selectTodoItems } from "@/redux/selectors/todoSelectors";
-import { getCurrentDate, getEndDate } from "@/helpers/getDate";
+import { getCurrentDateISO, getEndDateISO } from "@/helpers/getDate";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { ITodoItem } from "@/types/todoItemDto";
 import { useModal } from "@/hooks/useModal";
@@ -15,19 +15,12 @@ import { TodoType } from "@/types/todoItemDto";
 
 import "./Home.scss";
 
-interface HomeProps {
-  searchQuery: string;
-  currentFilter: string;
-  onSearchChange: (searchValue: string) => void;
-  onFilterChange: (filterValue: string) => void;
-}
-
-export const Home: FC<HomeProps> = ({searchQuery, currentFilter, onSearchChange, onFilterChange}) => {
+export const Home: FC = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [todo, setTodo] = useState<TodoType>({
     title: "",
-    createdDate: getCurrentDate(),
-    expiredDate: getEndDate(),
+    createdDate: getCurrentDateISO(),
+    expiredDate: getEndDateISO(),
   });
   const [modalTitle, setModalTitle] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
@@ -42,8 +35,8 @@ export const Home: FC<HomeProps> = ({searchQuery, currentFilter, onSearchChange,
   const resetData = () => {
     updateTodo({
       title: "",
-      createdDate: getCurrentDate(),
-      expiredDate: getEndDate(),
+      createdDate: getCurrentDateISO(),
+      expiredDate: getEndDateISO(),
     });
     setModalTitle("");
     setValidationMessage("");
@@ -54,7 +47,7 @@ export const Home: FC<HomeProps> = ({searchQuery, currentFilter, onSearchChange,
     setEditItem(null);
     openModal();
     updateTodo({
-      createdDate: getCurrentDate(),
+      createdDate: getCurrentDateISO(),
       expiredDate: "",
     });
     setModalTitle(todo.title);
@@ -85,11 +78,10 @@ export const Home: FC<HomeProps> = ({searchQuery, currentFilter, onSearchChange,
         {validationMessage && (
           <p className="validation-message">{validationMessage}</p>
         )}
-        <SearchInput onChange={onSearchChange} searchQuery={searchQuery} />
-        <FilterButtons currentFilter={currentFilter} onFilterChange={onFilterChange}/>
+        <SearchInput/>
+        <FilterButtons/>
       </div>
       <ToDoDashboard
-        searchQuery={searchQuery}
         items={todoItems}
         handleOpenEditModal={handleOpenEditModal}
       />

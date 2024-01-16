@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import { loginRequest, loginSuccess, loginFailure, registerRequest, registerSuccess, registerFailure } from "@/redux/actions/authActions";
 import { setRefreshToken, setToken } from "@/helpers/tokenHelpers";
 import { ILoginForm, IRegisterForm } from '@/types/authTypes';
+import { handleAxiosError } from '@/helpers/handleAxiosError';
 
 import api from "@/core/api";
 
@@ -22,8 +23,9 @@ export const registerUser = (userData: IRegisterForm) => {
       setToken(accessToken);
       setRefreshToken(refreshToken);
       dispatch(registerSuccess(data));
-    } catch (error: any) {
-      dispatch(registerFailure(error.response?.data || 'Unknown error'));
+    } catch (error) {
+      const errorMessage = handleAxiosError(error);
+      dispatch(registerFailure(errorMessage));
       throw error;
     }
   };
@@ -45,9 +47,9 @@ export const login = (userData: ILoginForm) => {
       setToken(accessToken);
       setRefreshToken(refreshToken);
       dispatch(loginSuccess(data));
-    } catch (error: any) {
-      dispatch(loginFailure(error.response?.data || 'Unknown error'));
-      throw error;
+    } catch (error) {
+      const errorMessage = handleAxiosError(error);
+      dispatch(loginFailure(errorMessage));
     }
   };
 };

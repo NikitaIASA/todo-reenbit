@@ -2,10 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
-
 import { User } from '../models/user';
-
-const { JWT_SECRET } = process.env;
 
 export const register = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -89,7 +86,12 @@ export const refreshToken = async (req: Request, res: Response): Promise<void> =
         }
 
         const newAccessToken = jwt.sign({ userId: user._id }, "secretcode111", { expiresIn: '1m' });
-        res.status(200).json({ accessToken: newAccessToken });
+        const newRefreshToken = jwt.sign({ userId: user._id }, "secretcode111", { expiresIn: '2m' });
+
+        user.refreshToken = newRefreshToken;
+        await user.save();
+
+        res.status(200).json({ newAccessToken, newRefreshToken });
     } catch (error) {
         res.status(403).send("Invalid or expired refresh token");
     }
