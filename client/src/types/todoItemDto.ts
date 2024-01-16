@@ -104,6 +104,10 @@ export interface ISetFilterAction {
     payload: string;
 }
 
+export interface IResetTodoStateAction {
+    type: actionTypes.RESET_TODO_STATE;
+}
+
 export type ITodoListAction =
     IDeleteCoompletedAction |
     IFetchTasksRequestAction |
@@ -122,4 +126,5 @@ export type ITodoListAction =
     IDeleteCompletedTasksSuccessAction |
     IDeleteCompletedTasksFailureAction |
     ISetSearchQueryAction |
-    ISetFilterAction;
+    ISetFilterAction |
+    IResetTodoStateAction;
