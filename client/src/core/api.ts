@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { getToken, removeToken, setToken, getRefreshToken, removeRefreshToken } from '@/helpers/tokenHelpers';
+import { getToken, removeToken, setToken, getRefreshToken, removeRefreshToken, setRefreshToken } from '@/helpers/tokenHelpers';
 import { store } from '@/redux/store';
 import { logoutSuccess } from '@/redux/actions/authActions';
 import { ROUTE_PATHS } from '@/consts/routePaths';
@@ -14,9 +14,10 @@ async function refreshAccessToken() {
     try {
         const refreshToken = getRefreshToken();
         const { data } = await api.post('users/refresh', { refreshToken });
-        const { accessToken } = data;
-        setToken(accessToken);
-        return accessToken;
+        const { newAccessToken, newRefreshToken } = data;
+        setToken(newAccessToken);
+        setRefreshToken(newRefreshToken);
+        return newAccessToken;
     } catch (error) {
         console.error("Failed to refresh token:", error);
         removeToken();
