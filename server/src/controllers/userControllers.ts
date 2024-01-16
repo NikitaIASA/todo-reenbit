@@ -62,7 +62,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         user.refreshToken = refreshToken;
         await user.save();
 
-        res.status(200).json({ accessToken, refreshToken });
+        res.status(200).json({
+            username: user.username,
+            email: user.email,
+            accessToken,
+            refreshToken
+        });
     } catch (error) {
         res.status(500).send("Something went wrong...");
     }

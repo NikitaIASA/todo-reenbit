@@ -17,12 +17,6 @@ const initialState: authState = {
 
 const authReducer = (state = initialState, action: IAuthActionList) => {
     switch (action.type) {
-        case actionTypes.REGISTER_REQUEST:
-            return { ...state, loading: true, error: null };
-        case actionTypes.REGISTER_SUCCESS:
-            return { ...state, loading: false, user: action.payload, isAuth: true };
-        case actionTypes.REGISTER_FAILURE:
-            return { ...state, loading: false, error: action.payload, isAuth: false };
         case actionTypes.LOGIN_REQUEST:
             return { ...state, loading: true, error: null, isAuth: false };
         case actionTypes.LOGIN_SUCCESS:

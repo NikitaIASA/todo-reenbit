@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { loginRequest, loginSuccess, loginFailure, registerRequest, registerSuccess, registerFailure } from "@/redux/actions/authActions";
+import { loginRequest, loginSuccess, loginFailure } from "@/redux/actions/authActions";
 import { setRefreshToken, setToken } from "@/helpers/tokenHelpers";
 import { ILoginForm, IRegisterForm } from '@/types/authTypes';
 import { handleAxiosError } from '@/helpers/handleAxiosError';
@@ -10,11 +10,10 @@ import api from "@/core/api";
 export const registerUser = (userData: IRegisterForm) => {
   return async (dispatch: Dispatch) => {
     const { username, email, password, confirmPassword } = userData;
-    dispatch(registerRequest());
+    dispatch(loginRequest());
     try {
       const { data } = await api.post('/users/register', { username, email, password, confirmPassword });
-      const accessToken = data?.accessToken;
-      const refreshToken = data?.refreshToken;
+      const { accessToken, refreshToken, ...userData } = data;
 
       if (!accessToken || !refreshToken) {
         throw new Error('No tokens received');
@@ -22,10 +21,10 @@ export const registerUser = (userData: IRegisterForm) => {
 
       setToken(accessToken);
       setRefreshToken(refreshToken);
-      dispatch(registerSuccess(data));
+      dispatch(loginSuccess(userData));
     } catch (error) {
       const errorMessage = handleAxiosError(error);
-      dispatch(registerFailure(errorMessage));
+      dispatch(loginFailure(errorMessage));
       throw error;
     }
   };
@@ -37,8 +36,7 @@ export const login = (userData: ILoginForm) => {
     dispatch(loginRequest());
     try {
       const { data } = await api.post('/users/login', { email, password });
-      const accessToken = data?.accessToken;
-      const refreshToken = data?.refreshToken;
+      const { accessToken, refreshToken, ...userData } = data;
 
       if (!accessToken || !refreshToken) {
         throw new Error('No tokens received');
@@ -46,7 +44,7 @@ export const login = (userData: ILoginForm) => {
 
       setToken(accessToken);
       setRefreshToken(refreshToken);
-      dispatch(loginSuccess(data));
+      dispatch(loginSuccess(userData));
     } catch (error) {
       const errorMessage = handleAxiosError(error);
       dispatch(loginFailure(errorMessage));
