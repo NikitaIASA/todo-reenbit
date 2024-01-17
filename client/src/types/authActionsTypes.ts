@@ -28,9 +28,25 @@ export interface ILogoutSuccessAction {
     type: typeof actionTypes.LOGOUT_SUCCESS
 }
 
+export interface IGetUserProfileRequestAction {
+    type: typeof actionTypes.USER_PROFILE_REQUEST;
+}
+
+export interface IGetUserProfileSuccessAction {
+    type: typeof actionTypes.USER_PROFILE_SUCCESS;
+    payload: IUser;
+}
+
+export interface IGetUserProfileFailureAction {
+    type: typeof actionTypes.USER_PROFILE_FAILURE;
+    payload: string;
+}
 
 export type IAuthActionList =
     ILoginSuccessAction
     | ILoginFailureAction
     | ILoginRequestAction
-    | ILogoutSuccessAction;
+    | ILogoutSuccessAction
+    | IGetUserProfileRequestAction
+    | IGetUserProfileSuccessAction
+    | IGetUserProfileFailureAction;

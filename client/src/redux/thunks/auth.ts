@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { loginRequest, loginSuccess, loginFailure } from "@/redux/actions/authActions";
+import { loginRequest, loginSuccess, loginFailure, userProfileRequest, userProfileSuccess, userProfileFailure, changePasswordRequest, changePasswordSuccess, changePasswordFailure } from "@/redux/actions/authActions";
 import { setRefreshToken, setToken } from "@/helpers/tokenHelpers";
 import { ILoginForm, IRegisterForm } from '@/types/authTypes';
 import { handleAxiosError } from '@/helpers/handleAxiosError';
@@ -52,3 +52,28 @@ export const login = (userData: ILoginForm) => {
   };
 };
 
+export const fetchUserProfile = () => {
+  return async (dispatch: Dispatch) => {
+    dispatch(userProfileRequest());
+    try {
+      const { data } = await api.get('/users/profile');
+      dispatch(userProfileSuccess(data));
+    } catch (error) {
+      const errorMessage = handleAxiosError(error);
+      dispatch(userProfileFailure(errorMessage));
+    }
+  };
+};
+
+export const changeUserPassword = (currentPassword: string, newPassword: string) => {
+  return async (dispatch: Dispatch) => {
+    dispatch(changePasswordRequest());
+    try {
+      await api.post('/users/change-password', { currentPassword, newPassword });
+      dispatch(changePasswordSuccess());
+    } catch (error) {
+      const errorMessage = handleAxiosError(error);
+      dispatch(changePasswordFailure(errorMessage));
+    }
+  };
+}

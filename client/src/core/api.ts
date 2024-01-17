@@ -7,7 +7,7 @@ import { ROUTE_PATHS } from '@/consts/routePaths';
 import { resetTodoState } from '@/redux/actions/todoActions';
 
 const api = axios.create({
-    baseURL: 'https://daily-planner-k6kz.onrender.com/api',
+    baseURL: 'http://localhost:8000/api',
 });
 
 async function refreshAccessToken() {

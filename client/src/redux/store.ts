@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import todoReducer from './reducers/todoReducer';
 import authReducer from './reducers/authReducer';
@@ -11,7 +12,9 @@ const rootReducer = combineReducers({
 
 export const store = createStore(
     rootReducer,
-    applyMiddleware(thunk)
+    composeWithDevTools(
+        applyMiddleware(thunk)
+    )
 );
 
 export type RootState = ReturnType<typeof store.getState>;
