@@ -5,11 +5,6 @@ export interface IUser {
     email: string;
 }
 
-export interface ILoginCredentials {
-    email: string;
-    password: string;
-}
-
 export interface ILoginSuccessAction {
     type: typeof actionTypes.LOGIN_SUCCESS;
     payload: IUser;
