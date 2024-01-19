@@ -33,14 +33,14 @@ export const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
-    await dispatch(login(data.email, data.password));
+    await dispatch(login(data));
     navigate(ROUTE_PATHS.HOME);
   };
 
   return (
     <div className="login">
       <div className="login__container">
-        <h2 className="login__title">Sign in</h2>
+        <h2 className="login__title">Log in to your account</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="login__input-container">
             <input

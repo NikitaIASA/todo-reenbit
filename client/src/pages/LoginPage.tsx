@@ -2,8 +2,8 @@ import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";
-import LoginForm from "@/components/Login";
 import { ROUTE_PATHS } from "@/consts/routePaths";
+import { Auth } from "@/components/Auth/Auth";
 
 export const LoginPage: FC = () => {
   const navigate = useNavigate();
@@ -15,5 +15,5 @@ export const LoginPage: FC = () => {
     }
   }, [isAuth, navigate]);
 
-  return <LoginForm />;
+  return <Auth/>
 };

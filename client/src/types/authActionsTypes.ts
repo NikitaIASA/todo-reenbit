@@ -1,14 +1,9 @@
 import { actionTypes } from "./actionTypes";
 
 export interface IUser {
-    token: string;
-    userId: string;
-}
-
-export interface ILoginCredentials {
+    username: string;
     email: string;
-    password: string;
-  }
+}
 
 export interface ILoginSuccessAction {
     type: typeof actionTypes.LOGIN_SUCCESS;
@@ -28,4 +23,9 @@ export interface ILogoutSuccessAction {
     type: typeof actionTypes.LOGOUT_SUCCESS
 }
 
-export type IAuthActionList = ILoginSuccessAction | ILoginFailureAction | ILoginRequestAction | ILogoutSuccessAction;
+
+export type IAuthActionList =
+    ILoginSuccessAction
+    | ILoginFailureAction
+    | ILoginRequestAction
+    | ILogoutSuccessAction;

@@ -50,7 +50,6 @@ export const getUserTasks = async (req: AuthRequest, res: Response) => {
             }
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: "Failed to get user's tasks" });
     }
 };

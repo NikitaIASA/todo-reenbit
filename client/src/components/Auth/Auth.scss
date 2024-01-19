@@ -1,0 +1,30 @@
+.auth {
+  background: var(--background-secondary);
+
+  &__tab-buttons {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__button {
+    background: none;
+    border: none;
+    background: var(--button-secondary);
+    padding: 15px 60px;
+    margin: 15px 0;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s linear;
+
+    &:hover {
+      background: var(--button-secondary-hover);
+    }
+
+    &.active {
+      background: var(--button-primary);
+    }
+
+  }
+  
+}
