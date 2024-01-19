@@ -4,6 +4,7 @@
 @mixin light-theme {
     --background-primary: #{$green};
     --background-secondary: #{$linear-grey-gradient};
+    --background-active: #{$light-grey};
     --input-background: #{$light-blue};
     --border-primary: #{$light-grey};
     --button-primary: #{$green};
@@ -20,6 +21,7 @@
 @mixin dark-theme {
     --background-primary: #{$dark-grey};
     --background-secondary: #{$medium-grey};
+    --background-active: #{$green};
     --input-background: #{$medium-grey};
     --border-primary: #{$dark-grey};
     --button-primary: #{$green};

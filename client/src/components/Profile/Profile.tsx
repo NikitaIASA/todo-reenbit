@@ -1,24 +1,40 @@
-import { FC } from "react";
-
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { RootState } from "@/redux/store";
+import { useState, FC } from "react";
+import ChangePasswordBlock from "./ChangePasswordBlock";
+import ProfileBlock from "./ProfileBlock";
+import profileIcon from "@/assets/images/profile.svg";
+import lockIcon from "@/assets/images/lock.svg";
 
 import "./Profile.scss";
 
 export const Profile: FC = () => {
-  const user = useAppSelector((state: RootState) => state.auth.user);
+  const [activeTab, setActiveTab] = useState("Profile");
 
-  console.log(user);
   return (
     <div className="profile">
-      <h1>Profile</h1>
-      <div className="profile-info">
-        <p>
-          <strong>Username</strong> {user?.username}
-        </p>
-        <p>
-          <strong>Email</strong> {user?.email}
-        </p>
+      <ul className="profile__navigation">
+        <li
+          className={`profile__navigation-item ${
+            activeTab === "Profile" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("Profile")}
+        >
+          <img className="profile__icon" src={profileIcon} alt="Profile icon" />
+        </li>
+        <li
+          className={`profile__navigation-item ${
+            activeTab === "Security" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("Security")}
+        >
+          <img className="profile__icon" src={lockIcon} alt="Profile icon" />
+        </li>
+      </ul>
+      <div className="profile__tabs">
+        <h1 className="profile__title">{activeTab}</h1>
+        <div className="profile__info-block">
+          {activeTab === "Profile" && <ProfileBlock />}
+          {activeTab === "Security" && <ChangePasswordBlock />}
+        </div>
       </div>
     </div>
   );
