@@ -12,6 +12,7 @@ import { ButtonVariants } from "@/types/buttonTypes";
 import { removeRefreshToken, removeToken } from "@/helpers/tokenHelpers";
 import { resetTodoState } from "@/redux/actions/todoActions";
 import logo from "@/assets/images/logo.svg";
+import profileIcon from "@/assets/images/profile.svg";
 
 import "./Header.scss";
 
@@ -37,15 +38,24 @@ export const Header: FC = () => {
           <img className="header____logo" src={logo} alt="Reenbit logo" />
           <h1 className="header__text">Daily Planner</h1>
         </Link>
-        {isAuth && (
-          <CustomButton
-            variant={ButtonVariants.SECONDARY}
-            className="header__logout"
-            onClick={openModal}
-          >
-            Logout
-          </CustomButton>
-        )}
+        <div className="header__nav-block">
+          <Link className="header__title" to="/profile">
+            <img
+              className="header__img"
+              src={profileIcon}
+              alt="Profile icon link"
+            />
+          </Link>
+          {isAuth && (
+            <CustomButton
+              variant={ButtonVariants.SECONDARY}
+              className="header__logout"
+              onClick={openModal}
+            >
+              Logout
+            </CustomButton>
+          )}
+        </div>
       </header>
       {isModalOpen && (
         <ConfirmationModal
