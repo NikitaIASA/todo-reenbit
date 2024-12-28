@@ -18,3 +18,30 @@ export const loginFailure = (error: string): ILoginFailureAction => ({
 export const logoutSuccess = (): ILogoutSuccessAction => ({
     type: actionTypes.LOGOUT_SUCCESS,
 });
+
+export const userProfileRequest = () => ({
+    type: actionTypes.USER_PROFILE_REQUEST,
+});
+
+export const userProfileSuccess = (userData: IUser) => ({
+    type: actionTypes.USER_PROFILE_SUCCESS,
+    payload: userData,
+});
+
+export const userProfileFailure = (error: string) => ({
+    type: actionTypes.USER_PROFILE_FAILURE,
+    payload: error,
+});
+
+export const changePasswordRequest = () => ({
+    type: actionTypes.CHANGE_PASSWORD_REQUEST,
+});
+
+export const changePasswordSuccess = () => ({
+    type: actionTypes.CHANGE_PASSWORD_SUCCESS,
+});
+
+export const changePasswordFailure = (error: string) => ({
+    type: actionTypes.CHANGE_PASSWORD_FAILURE,
+    payload: error,
+});

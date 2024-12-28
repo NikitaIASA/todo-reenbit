@@ -80,7 +80,8 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
         case actionTypes.EDIT_TASK_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: null
             };
         case actionTypes.EDIT_TASK_SUCCESS:
             return {
@@ -99,7 +100,8 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
         case actionTypes.DELETE_TASK_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: null
             };
         case actionTypes.DELETE_TASK_SUCCESS:
             return {
@@ -116,7 +118,8 @@ const todoReducer = (state = initialState, action: ITodoListAction): TodoState =
         case actionTypes.DELETE_COMPLETED_TASKS_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: null
             };
         case actionTypes.DELETE_COMPLETED_TASKS_SUCCESS:
             return {

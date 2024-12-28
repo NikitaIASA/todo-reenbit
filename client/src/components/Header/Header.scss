@@ -27,10 +27,18 @@
     font-weight: 400;
   }
 
-  &__logout {
+  &__nav-block {
     position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 20px;
     top: 20px;
     right: 100px;
+  }
+
+  &__img {
+    width: 32px;
+    height: 32px;
   }
 
 }
