@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { getAxios } from '@/core/api';
-import { ITodoItem, IUserTasksResponse } from '@/types/todoItemDto';
+import { ITodoItem, IUserTasksResponse } from '@/core/api/todo-list/tasks/dto/task.dto';
 
 export class TasksApi {
     private axios: AxiosInstance;

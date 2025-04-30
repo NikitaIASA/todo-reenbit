@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { handleAxiosError } from '@/helpers/handleAxiosError';
-import { ITodoItem, IUserTasksResponse } from '@/types/todoItemDto';
+import { ITodoItem, IUserTasksResponse } from '@/core/api/todo-list/tasks/dto/task.dto';
 import todoListApi from '@/core/api/todo-list/todo-list-api';
 
 export const fetchUserTasks = createAsyncThunk<

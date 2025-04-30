@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ITodoItem } from '@/types/todoItemDto';
+import { ITodoItem } from '@/core/api/todo-list/tasks/dto/task.dto';
 import { FILTER_OPTIONS } from '@/consts/filterOptions';
 import { addUserTask, deleteCompletedTasks, deleteTask, editTask, fetchUserTasks } from '../thunks/tasks.thunks';
 

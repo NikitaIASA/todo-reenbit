@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import TodoItem from "../TodoItem";
 import NoTodoFound from "../NoTodoFound";
-import { ITodoItem } from "@/types/todoItemDto";
+import { ITodoItem } from "@/core/api/todo-list/tasks/dto/task.dto";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import {
   selectError,

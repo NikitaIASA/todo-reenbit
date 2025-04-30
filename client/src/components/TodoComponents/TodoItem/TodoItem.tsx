@@ -3,7 +3,7 @@ import clsx from "clsx";
 import parse from "date-fns/parse";
 
 import ConfirmationModal from "../../ConfirmationModal";
-import { ITodoItem } from "@/types/todoItemDto";
+import { ITodoItem } from "@/core/api/todo-list/tasks/dto/task.dto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { DATE_FORMAT } from "@/consts/dateFormats";
 import { useModal } from "@/hooks/useModal";

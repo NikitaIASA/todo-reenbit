@@ -1,4 +1,4 @@
-import { ITodoItem } from "@/types/todoItemDto";
+import { ITodoItem } from "@/core/api/todo-list/tasks/dto/task.dto";
 import { FILTER_OPTIONS} from '@/consts/filterOptions';
 
 export const FILTERS_MAP: Record<string, (items: ITodoItem[]) => ITodoItem[]> = {

@@ -1,6 +1,6 @@
 import { FC, KeyboardEvent } from "react";
 
-import { TodoType } from "@/types/todoItemDto";
+import { TodoType } from "@/core/api/todo-list/tasks/dto/task.dto";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";

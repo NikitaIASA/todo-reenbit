@@ -10,8 +10,8 @@ import { isToday, addMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 
 import CustomButton from "@/components/UI/CustomButton";
-import { ITodoItem } from "@/types/todoItemDto";
-import { TodoType } from "@/types/todoItemDto";
+import { ITodoItem } from "@/core/api/todo-list/tasks/dto/task.dto";
+import { TodoType } from "@/core/api/todo-list/tasks/dto/task.dto";
 import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
