@@ -3,24 +3,17 @@ import clsx from "clsx";
 import parse from "date-fns/parse";
 
 import ConfirmationModal from "../../ConfirmationModal";
-import { ITodoItem } from "@/types/todoItemDto";
+import { ITodoItem } from "@/core/api/todo-list/tasks/dto/task.dto";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { DATE_FORMAT } from "@/consts/dateFormats";
 import { useModal } from "@/hooks/useModal";
 import TrashIcon from "@/assets/images/trash.svg?react";
 import EditIcon from "@/assets/images/edit.svg?react";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
-import {
-  deleteTask,
-  editTask,
-  fetchUserTasks,
-} from "@/redux/thunks/tasksThunks";
+import { deleteTask, editTask } from "@/redux/thunks/tasks.thunks";
 import { formatDate } from "@/helpers/getDate";
-import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectFilter, selectSearchQuery } from "@/redux/selectors/todoSelectors";
 
 import "./TodoItem.scss";
-
 
 export interface TodoItemProps {
   item: ITodoItem;
@@ -32,21 +25,15 @@ export const TodoItem: FC<TodoItemProps> = ({
   handleOpenEditModal,
 }) => {
   const dispatch = useAppDispatch();
-  const searchQuery = useAppSelector(selectSearchQuery);
-  const currentFilter = useAppSelector(selectFilter);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const handleToggleDone = () => {
-    dispatch(editTask(_id, { completed: !completed })).then(() => {
-      dispatch(fetchUserTasks(searchQuery, currentFilter));
-    });
+    dispatch(editTask({ taskId: _id, taskData: { completed: !completed } }));
   };
 
   const handleConfirmDelete = () => {
-    dispatch(deleteTask(_id)).then(() => {
-      dispatch(fetchUserTasks(searchQuery, currentFilter));
-    });
+    dispatch(deleteTask(_id));
     closeModal();
   };
 

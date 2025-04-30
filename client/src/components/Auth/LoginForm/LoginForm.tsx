@@ -6,23 +6,25 @@ import { useAppDispatch } from "@/hooks/useAppDispatch";
 import { ButtonTypes } from "@/types/buttonTypes";
 import { signInSchema } from "@/schemas/authSchemas";
 import { ILoginForm } from "@/types/authTypes";
-import { login } from "@/redux/thunks/auth";
+import { login } from "@/redux/thunks/auth.thunks";
 import CustomButton from "@/components/UI/CustomButton";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import {
   selectAuthError,
-  selectAuthLoading,
-} from "@/redux/selectors/authSelectors";
+  selectAuthStatus,
+} from "@/redux/selectors/auth.selectors";
 import { ROUTE_PATHS } from "@/consts/routePaths";
 import { AUTH_INPUT_FIELDS } from "@/consts/authInputs";
 
 import "./Login.scss";
+import { LoadingStatus } from "@/types/loading-status";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const authError = useAppSelector(selectAuthError);
-  const isLoading = useAppSelector(selectAuthLoading);
+  const status = useAppSelector(selectAuthStatus);
+  const isLoading = status === LoadingStatus.PENDING;
 
   const {
     register,

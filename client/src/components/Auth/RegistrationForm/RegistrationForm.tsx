@@ -8,21 +8,24 @@ import CustomButton from "@/components/UI/CustomButton";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import {
   selectAuthError,
-  selectAuthLoading,
-} from "@/redux/selectors/authSelectors";
+  selectAuthStatus,
+} from "@/redux/selectors/auth.selectors";
 import { ROUTE_PATHS } from "@/consts/routePaths";
 import { AUTH_INPUT_FIELDS } from "@/consts/authInputs";
-import { registerUser } from "@/redux/thunks/auth";
+import { registerUser } from "@/redux/thunks/auth.thunks";
 import { signUpSchema } from "@/schemas/authSchemas";
 import { IRegisterForm } from "@/types/authTypes";
 
 import "./RegistrationForm.scss";
+import { LoadingStatus } from "@/types/loading-status";
 
 export const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const authError = useAppSelector(selectAuthError);
-  const isLoading = useAppSelector(selectAuthLoading);
+  const status = useAppSelector(selectAuthStatus);
   const navigate = useNavigate();
+
+  const isLoading = status === LoadingStatus.PENDING;
 
   const {
     register,

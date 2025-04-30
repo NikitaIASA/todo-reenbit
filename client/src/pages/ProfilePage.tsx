@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { fetchUserProfile } from "@/redux/thunks/auth";
+import { fetchUserProfile } from "@/redux/thunks/auth.thunks";
 import Profile from "@/components/Profile";
 
 export const ProfilePage: FC = () => {

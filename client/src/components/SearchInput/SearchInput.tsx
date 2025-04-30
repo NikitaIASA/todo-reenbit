@@ -7,9 +7,9 @@ import ClearIcon from "@/assets/images/clearIcon.svg?react";
 
 import "./SearchInput.scss";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { setSearchQuery } from "@/redux/actions/todoActions";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { selectSearchQuery } from "@/redux/selectors/todoSelectors";
+import { selectSearchQuery } from "@/redux/selectors/tasks.selectors";
+import { setSearchQuery } from "@/redux/reducers/tasks.reducer";
 
 export const SearchInput: FC = () => {
   const dispatch = useAppDispatch();

@@ -10,8 +10,8 @@ import { isToday, addMinutes } from "date-fns";
 import DatePicker from "react-datepicker";
 
 import CustomButton from "@/components/UI/CustomButton";
-import { ITodoItem } from "@/types/todoItemDto";
-import { TodoType } from "@/types/todoItemDto";
+import { ITodoItem } from "@/core/api/todo-list/tasks/dto/task.dto";
+import { TodoType } from "@/core/api/todo-list/tasks/dto/task.dto";
 import { DATE_FORMAT, TIME_FORMAT, TIME_INTERVAL } from "@/consts/dateFormats";
 import { MAX_INPUT_LENGTH } from "@/consts/inputLength";
 import { getMinDate, getMaxDate } from "@/helpers/getDate";
@@ -21,11 +21,11 @@ import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 import { ERROR_MESSAGES } from "@/consts/Messages";
 import { KEYS } from "@/consts/keys";
 import { ButtonTypes, ButtonVariants } from "@/types/buttonTypes";
-import { addUserTask, editTask } from "@/redux/thunks/tasksThunks";
 import { formatDate } from "@/helpers/getDate";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
+import { addUserTask, editTask } from "@/redux/thunks/tasks.thunks";
 
 interface AddTodoModalProps {
   todo: TodoType;
@@ -106,9 +106,9 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
         completed: false,
       };
       if (editItem) {
-        dispatch(editTask(editItem._id, newAddTodo));
+        dispatch(editTask({ taskId: editItem._id, taskData: newAddTodo }));
       } else {
-        dispatch(addUserTask(newAddTodo))
+        dispatch(addUserTask(newAddTodo));
       }
       switchCompletedFilter();
       onClose();

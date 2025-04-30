@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { changeUserPassword } from "@/redux/thunks/auth";
+import { changeUserPassword } from "@/redux/thunks/auth.thunks";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
 import CustomButton from "@/components/UI/CustomButton";
 import { ButtonTypes } from "@/types/buttonTypes";
@@ -32,7 +32,7 @@ export const ChangePasswordBlock = () => {
   const onSubmit = async (data: ChangePasswordFormData) => {
     const { currentPassword, newPassword } = data;
     try {
-      await dispatch(changeUserPassword(currentPassword, newPassword));
+      await dispatch(changeUserPassword({ currentPassword, newPassword }));
       setMessage("Password successfully changed.");
       reset();
     } catch (error) {

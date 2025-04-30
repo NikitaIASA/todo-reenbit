@@ -1,4 +1,4 @@
-import { actionTypes } from "./actionTypes";
+import { actionTypes } from "../../../../../types/actionTypes";
 
 export interface TodoType {
     title: string;
@@ -12,6 +12,15 @@ export interface ITodoItem {
     createdDate: string;
     expiredDate: string;
     completed: boolean;
+}
+
+export interface IUserTasksResponse {
+    tasks: ITodoItem[];
+    totals: {
+        all: number;
+        completed: number;
+        active: number;
+    };
 }
 
 export interface IDeleteCoompletedAction {

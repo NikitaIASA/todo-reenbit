@@ -1,20 +1,9 @@
-import { FC, useEffect } from 'react';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
-import { fetchUserTasks } from '@/redux/thunks/tasksThunks';
-import Home from '@/components/Home';
-import { selectFilter, selectSearchQuery } from '@/redux/selectors/todoSelectors';
+import { FC } from "react";
+import Home from "@/components/Home";
+import { useFetchUserTasks } from "@/hooks/use-fetch-user-tasks.hook";
 
 export const HomePage: FC = () => {
-  const dispatch = useAppDispatch();
-  const searchQuery = useAppSelector(selectSearchQuery);
-  const currentFilter = useAppSelector(selectFilter);
+  useFetchUserTasks();
 
-  useEffect(() => {
-    dispatch(fetchUserTasks(searchQuery, currentFilter));
-  }, [searchQuery, currentFilter, dispatch]);
-
-  return (
-    <Home/>
-  );
+  return <Home />;
 };
