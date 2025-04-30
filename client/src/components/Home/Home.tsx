@@ -6,7 +6,7 @@ import AddTodoButton from "../TodoComponents/AddTodoButton";
 import AddTodoModal from "../TodoComponents/AddTodoModal";
 import FilterButtons from "../FilterButtons";
 import SearchInput from "../SearchInput";
-import { selectTodoItems } from "@/redux/selectors/todoSelectors";
+import { selectTodoItems } from "@/redux/selectors/tasks.selectors";
 import { getCurrentDateISO, getEndDateISO } from "@/helpers/getDate";
 import { useAppSelector } from "@/hooks/useAppSelector";
 import { ITodoItem } from "@/core/api/todo-list/tasks/dto/task.dto";

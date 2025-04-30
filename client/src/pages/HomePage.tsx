@@ -6,7 +6,7 @@ import Home from "@/components/Home";
 import {
   selectFilter,
   selectSearchQuery,
-} from "@/redux/selectors/todoSelectors";
+} from "@/redux/selectors/tasks.selectors";
 
 export const HomePage: FC = () => {
   const dispatch = useAppDispatch();

@@ -8,7 +8,7 @@ import {
   selectError,
   selectIsLoading,
   selectSearchQuery,
-} from "@/redux/selectors/todoSelectors";
+} from "@/redux/selectors/tasks.selectors";
 
 import "./TodoDashboard.scss";
 

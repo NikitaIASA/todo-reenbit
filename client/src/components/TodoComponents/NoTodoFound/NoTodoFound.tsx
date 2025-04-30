@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import { NOT_FOUND_MESSAGES } from "@/consts/Messages";
 import { useAppSelector } from "@/hooks/useAppSelector";
-import { selectFilter } from "@/redux/selectors/todoSelectors";
+import { selectFilter } from "@/redux/selectors/tasks.selectors";
 import todoIcon from "@/assets/images/todo.png";
 
 import "./NoTodoFound.scss";

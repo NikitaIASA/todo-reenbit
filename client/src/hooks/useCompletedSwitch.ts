@@ -1,5 +1,5 @@
 import { useAppSelector } from "./useAppSelector";
-import { selectCompletedCount, selectFilter } from "@/redux/selectors/todoSelectors";
+import { selectCompletedCount, selectFilter } from "@/redux/selectors/tasks.selectors";
 import { FILTER_OPTIONS } from "@/consts/filterOptions";
 import { useAppDispatch } from "./useAppDispatch";
 import { setFilter } from "@/redux/reducers/tasks.reducer";

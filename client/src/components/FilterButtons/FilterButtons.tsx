@@ -8,7 +8,7 @@ import { FILTER_TYPES } from "@/consts/filterOptions";
 import {
   deleteCompletedTasks,
 } from "@/redux/thunks/tasks.thunks";
-import { selectCompletedCount, selectFilter } from "@/redux/selectors/todoSelectors";
+import { selectCompletedCount, selectFilter } from "@/redux/selectors/tasks.selectors";
 import { useModal } from "@/hooks/useModal";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
 import { ButtonVariants } from "@/types/buttonTypes";

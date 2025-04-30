@@ -9,7 +9,7 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import {
   selectAuthError,
   selectAuthStatus,
-} from "@/redux/selectors/authSelectors";
+} from "@/redux/selectors/auth.selectors";
 import { ROUTE_PATHS } from "@/consts/routePaths";
 import { AUTH_INPUT_FIELDS } from "@/consts/authInputs";
 import { registerUser } from "@/redux/thunks/auth.thunks";
