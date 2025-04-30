@@ -29,8 +29,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
             password: hashedPassword,
         });
 
-        const accessToken = jwt.sign({ userId: newUser._id }, "secretcode111", { expiresIn: '1m' });
-        const refreshToken = jwt.sign({ userId: newUser._id }, "secretcode111", { expiresIn: '2m' });
+        const accessToken = jwt.sign({ userId: newUser._id }, "secretcode111", { expiresIn: '30m' });
+        const refreshToken = jwt.sign({ userId: newUser._id }, "secretcode111", { expiresIn: '45m' });
 
         newUser.refreshToken = refreshToken;
         await newUser.save();

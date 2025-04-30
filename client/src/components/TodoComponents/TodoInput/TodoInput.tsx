@@ -7,7 +7,7 @@ import { useSwitchCompletedFilter } from "@/hooks/useCompletedSwitch";
 import { isValid } from "@/helpers/isValid";
 import { ERROR_MESSAGES } from "@/consts/Messages";
 import { KEYS } from "@/consts/keys";
-import { addUserTask } from "@/redux/thunks/tasksThunks";
+import { addUserTask } from "@/redux/thunks/tasks.thunks";
 
 import "./TodoInput.scss";
 

@@ -14,6 +14,15 @@ export interface ITodoItem {
     completed: boolean;
 }
 
+export interface IUserTasksResponse {
+    tasks: ITodoItem[];
+    totals: {
+        all: number;
+        completed: number;
+        active: number;
+    };
+}
+
 export interface IDeleteCoompletedAction {
     type: actionTypes.DELETE_COMPLETED;
 }

@@ -7,14 +7,14 @@ import { useAppSelector } from "@/hooks/useAppSelector";
 import { FILTER_TYPES } from "@/consts/filterOptions";
 import {
   deleteCompletedTasks,
-} from "@/redux/thunks/tasksThunks";
+} from "@/redux/thunks/tasks.thunks";
 import { selectCompletedCount, selectFilter } from "@/redux/selectors/todoSelectors";
 import { useModal } from "@/hooks/useModal";
 import { CONFIRMATION_MESSAGES } from "@/consts/Messages";
 import { ButtonVariants } from "@/types/buttonTypes";
-import { setFilter } from "@/redux/actions/todoActions";
 
 import "./FilterButtons.scss";
+import { setFilter } from "@/redux/reducers/tasks.reducer";
 
 export const FilterButtons: FC = () => {
   const dispatch = useAppDispatch();

@@ -1,8 +1,8 @@
 import { useAppSelector } from "./useAppSelector";
 import { selectCompletedCount, selectFilter } from "@/redux/selectors/todoSelectors";
 import { FILTER_OPTIONS } from "@/consts/filterOptions";
-import { setFilter } from "@/redux/actions/todoActions";
 import { useAppDispatch } from "./useAppDispatch";
+import { setFilter } from "@/redux/reducers/tasks.reducer";
 
 export const useSwitchCompletedFilter = () => {
     const dispatch = useAppDispatch();

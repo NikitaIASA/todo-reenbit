@@ -1,64 +1,75 @@
-import axios from 'axios';
-
-import { getToken, removeToken, setToken, getRefreshToken, removeRefreshToken, setRefreshToken } from '@/helpers/tokenHelpers';
-import { store } from '@/redux/store';
-import { logoutSuccess } from '@/redux/actions/authActions';
+import axios, { AxiosInstance } from 'axios';
+import {
+    getToken,
+    setToken,
+    getRefreshToken,
+    setRefreshToken,
+    removeToken,
+    removeRefreshToken,
+} from '@/helpers/tokenHelpers';
 import { ROUTE_PATHS } from '@/consts/routePaths';
-import { resetTodoState } from '@/redux/actions/todoActions';
 
-const api = axios.create({
-    baseURL: 'https://daily-planner-k6kz.onrender.com/api',
-});
+let onUnauthorized: (() => void) | null = null;
 
-async function refreshAccessToken() {
-    try {
-        const refreshToken = getRefreshToken();
-        const { data } = await api.post('users/refresh', { refreshToken });
-        const { newAccessToken, newRefreshToken } = data;
-        setToken(newAccessToken);
-        setRefreshToken(newRefreshToken);
-        return newAccessToken;
-    } catch (error) {
-        console.error("Failed to refresh token:", error);
-        removeToken();
-        removeRefreshToken();
-        window.location.href = ROUTE_PATHS.SIGN_IN;
-    }
-}
+export const setUnauthorizedHandler = (handler: () => void) => {
+    onUnauthorized = handler;
+};
 
-api.interceptors.request.use((config) => {
-    const token = getToken();
+export const getAxios = (): AxiosInstance => {
+    const instance = axios.create();
 
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+    instance.interceptors.request.use(
+        (config) => {
+            const token = getToken();
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        },
+        (error) => Promise.reject(error)
+    );
 
-    return config;
-})
+    const refreshAccessToken = async (): Promise<string | null> => {
+        try {
+            const refreshToken = getRefreshToken();
+            const { data } = await instance.post('users/refresh', { refreshToken });
+            const { newAccessToken, newRefreshToken } = data;
+            setToken(newAccessToken);
+            setRefreshToken(newRefreshToken);
+            return newAccessToken;
+        } catch (error) {
+            console.error('Failed to refresh token:', error);
+            removeToken();
+            removeRefreshToken();
+            window.location.href = ROUTE_PATHS.SIGN_IN;
+            return null;
+        }
+    };
 
-api.interceptors.response.use(
-    response => response,
-    async error => {
-        const originalRequest = error.config;
-
-        if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-
-            try {
+    instance.interceptors.response.use(
+        (response) => response,
+        async (error) => {
+            const originalRequest = error.config;
+            if (
+                error.response &&
+                error.response.status === 401 &&
+                !originalRequest._retry
+            ) {
+                originalRequest._retry = true;
                 const newAccessToken = await refreshAccessToken();
                 if (newAccessToken) {
-                    originalRequest.headers['Authorization'] = `Bearer + ${newAccessToken}`;
-                    return api(originalRequest);
+                    originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                    return instance(originalRequest);
+                } else {
+                    if (onUnauthorized) {
+                        onUnauthorized();
+                    }
+                    return Promise.reject(error);
                 }
-            } catch (refreshError) {
-                store.dispatch(logoutSuccess());
-                store.dispatch(resetTodoState());
-                return Promise.reject(refreshError);
             }
+            return Promise.reject(error);
         }
+    );
 
-        return Promise.reject(error);
-    }
-);
-
-export default api;
+    return instance;
+};

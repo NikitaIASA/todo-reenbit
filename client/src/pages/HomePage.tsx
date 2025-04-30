@@ -1,9 +1,12 @@
-import { FC, useEffect } from 'react';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
-import { fetchUserTasks } from '@/redux/thunks/tasksThunks';
-import Home from '@/components/Home';
-import { selectFilter, selectSearchQuery } from '@/redux/selectors/todoSelectors';
+import { FC, useEffect } from "react";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { fetchUserTasks } from "@/redux/thunks/tasks.thunks";
+import Home from "@/components/Home";
+import {
+  selectFilter,
+  selectSearchQuery,
+} from "@/redux/selectors/todoSelectors";
 
 export const HomePage: FC = () => {
   const dispatch = useAppDispatch();
@@ -11,10 +14,8 @@ export const HomePage: FC = () => {
   const currentFilter = useAppSelector(selectFilter);
 
   useEffect(() => {
-    dispatch(fetchUserTasks(searchQuery, currentFilter));
+    dispatch(fetchUserTasks({ search: searchQuery, status: currentFilter }));
   }, [searchQuery, currentFilter, dispatch]);
 
-  return (
-    <Home/>
-  );
+  return <Home />;
 };
