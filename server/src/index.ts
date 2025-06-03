@@ -1,3 +1,5 @@
+import './otel';
+
 import express, { Request, Response, Application } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';

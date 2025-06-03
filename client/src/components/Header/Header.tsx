@@ -35,7 +35,6 @@ export const Header: FC = () => {
     <>
       <header className="header">
         <Link className="header__title" to="/">
-          <img className="header____logo" src={logo} alt="Reenbit logo" />
           <h1 className="header__text">Daily Planner</h1>
         </Link>
         <div className="header__nav-block">
