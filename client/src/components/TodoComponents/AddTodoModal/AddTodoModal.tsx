@@ -26,10 +26,7 @@ import { formatDate } from "@/helpers/getDate";
 import "react-datepicker/dist/react-datepicker.css";
 import "./AddTodoModal.scss";
 import { addUserTask, editTask } from "@/redux/thunks/tasks.thunks";
-import reportOTELCustomMetric, {
-  OtelAppProductAttribute,
-  OtelAppProductMetric,
-} from "@/helpers/otel";
+import { FIVE_MINUTES } from "@/consts/timeFrames";
 
 interface AddTodoModalProps {
   todo: TodoType;
@@ -61,7 +58,7 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
 
   const handleDateChange = (selectedDate: Date | null) => {
     if (selectedDate && isToday(selectedDate) && !isTodayDateSet) {
-      selectedDate = addMinutes(new Date(), 5); // Setting the current time + 5min only on the first click on today's date
+      selectedDate = addMinutes(new Date(), FIVE_MINUTES); // Setting the current time + 5min only on the first click on today's date
       setIsTodayDateSet(true);
     } else if (selectedDate && !isToday(selectedDate)) {
       setIsTodayDateSet(false);
@@ -96,13 +93,6 @@ export const AddTodoModal: FC<AddTodoModalProps> = ({
     e.preventDefault();
     if (modalTitle.trim()) {
       handleSave();
-      reportOTELCustomMetric({
-        metricName: OtelAppProductMetric.USED_CREATED_TASK,
-        metricDescription: "Add task",
-        attributes: {
-          [OtelAppProductAttribute.COUNTRY]: "US",
-        },
-      });
     } else {
       setModalValidationMessage(ERROR_MESSAGES.EMPTY_TITLE);
     }

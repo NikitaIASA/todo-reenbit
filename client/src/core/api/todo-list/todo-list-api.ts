@@ -6,7 +6,7 @@ class TodoListApi {
     public tasks: TasksApi;
 
     constructor() {
-        const apiURL = 'http://localhost:4001/api';
+        const apiURL = 'http://localhost:4000/api';
         this.auth = new AuthApi(apiURL);
         this.tasks = new TasksApi(apiURL);
     }
